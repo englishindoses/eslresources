@@ -94,7 +94,7 @@
 
     <section class="explanation">
         <h2>Quick Grammar Explanation</h2>
-        <p>We use the <span class="highlight">Present Perfect</span> (have/has + past participle) when describing experiences or actions that connect the past to the present, or when the time is not specified. We also use it for unfinished time periods and recent actions with present relevance. We use the <span class="highlight">Simple Past</span> (verb + ed/irregular form) when describing completed actions at a specific time in the past.</p>
+        <p>We use the <span class="highlight">Present Perfect</span> (have/has + past participle) when describing experiences or actions that connect the past to the present, or when the time is not specific.</p>
         
         <div class="examples">
             <div class="example-box">
@@ -179,8 +179,31 @@
         </ol>
     </section>
 
+    <section>
+        <label for="answer">Your Answer:</label>
+        <input type="text" id="answer">
+        <button onclick="checkAnswer()">Check Answer</button>
+        <div id="feedback" class="feedback"></div>
+    </section>
+
     <footer>
-        <p class="note">This activity is designed to help intermediate students practice and differentiate between Present Perfect and Simple Past tenses in natural conversation, with special focus on unfinished time frames and professional contexts.</p>
+        <p class="note">This activity is designed to help intermediate students practice and differentiate between Present Perfect and Simple Past tenses in natural conversation, with special focus on common professional contexts.</p>
     </footer>
+
+    <script>
+        function checkAnswer() {
+            const correctAnswer = "your_correct_answer"; // Replace with the actual correct answer
+            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+            const feedbackElement = document.getElementById("feedback");
+
+            if (userAnswer === correctAnswer.toLowerCase()) {
+                feedbackElement.textContent = "Correct!";
+                feedbackElement.style.color = "green";
+            } else {
+                feedbackElement.textContent = "Wrong!";
+                feedbackElement.style.color = "red";
+            }
+        }
+    </script>
 </body>
 </html>
