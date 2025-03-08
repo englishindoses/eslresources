@@ -43,7 +43,7 @@
             margin-bottom: 20px;
         }
         .activity li, .conversation li {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         .note {
             font-style: italic;
@@ -84,6 +84,79 @@
             width: calc(50% - 15px);
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
+        input[type="text"] {
+            padding: 8px;
+            margin: 4px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .feedback {
+            margin-top: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .check-btn, .try-again-btn {
+            background-color: #4267B2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .try-again-btn {
+            background-color: #6c757d;
+        }
+        .check-btn:hover, .try-again-btn:hover {
+            opacity: 0.9;
+        }
+        .answer-row {
+            margin-bottom: 10px;
+        }
+        .question-buttons {
+            margin-top: 15px;
+        }
+        .progress {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #4267B2;
+        }
+        .submit-all-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .completion-message {
+            text-align: center;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +167,7 @@
 
     <section class="explanation">
         <h2>Quick Grammar Explanation</h2>
-        <p>We use the <span class="highlight">Present Perfect</span> (have/has + past participle) when describing experiences or actions that connect the past to the present, or when the time is not specific.</p>
+        <p>We use the <span class="highlight">Present Perfect</span> (have/has + past participle) when describing experiences or actions that connect the past to the present, or when the time is not specified. We also use it for unfinished time periods and recent actions with present relevance. We use the <span class="highlight">Simple Past</span> (verb + ed/irregular form) when describing completed actions at a specific time in the past.</p>
         
         <div class="examples">
             <div class="example-box">
@@ -142,29 +215,114 @@
 
     <section class="activity">
         <h2>Interactive Activity: Choose the Correct Tense</h2>
-        <p class="note">For each situation, decide whether to use Present Perfect or Simple Past. Explain your choice.</p>
-        <ol>
-            <li>
-                John: __________ (you / ever / eat) sushi?<br>
-                Mary: Yes, I __________ (try) it for the first time last month.
-            </li>
-            <li>
-                Manager: __________ (you / finish) the quarterly report yet?<br>
-                Employee: Yes, I __________ (complete) it this morning. I __________ (email) it to you an hour ago.
-            </li>
-            <li>
-                Tourist: __________ (you / visit) the Tower of London?<br>
-                Local: Yes, I __________ (go) there three times in my life. In fact, I __________ (take) my children there last weekend.
-            </li>
-            <li>
-                Interviewer: __________ (you / work) on any similar projects before?<br>
-                Candidate: Yes, I __________ (manage) a team of five developers at my previous company. We __________ (deliver) three major applications last year.
-            </li>
-            <li>
-                Colleague 1: __________ (you / have) lunch yet?<br>
-                Colleague 2: No, I __________ (not / have) time. I __________ (be) in meetings all morning, and I __________ (just / finish) the client proposal.
-            </li>
-        </ol>
+        <p class="note">Type the correct form (Present Perfect or Simple Past) for each blank. Click "Check" to see if you're right.</p>
+        
+        <div class="progress">Question: <span id="current-question">1</span> of 5</div>
+        
+        <div id="question-1" class="question">
+            <p>
+                John: <span class="answer-row">
+                    <input type="text" id="q1a1" placeholder="you/ever/eat"> 
+                </span> sushi?<br>
+                Mary: Yes, I <span class="answer-row">
+                    <input type="text" id="q1a2" placeholder="try">
+                </span> it for the first time last month.
+            </p>
+            <div class="feedback" id="feedback-q1a1"></div>
+            <div class="feedback" id="feedback-q1a2"></div>
+            <div class="question-buttons">
+                <button class="check-btn" onclick="checkQuestion(1)">Check</button>
+                <button class="try-again-btn" onclick="tryAgain(1)" style="display:none;">Try Again</button>
+            </div>
+        </div>
+        
+        <div id="question-2" class="question" style="display:none;">
+            <p>
+                Manager: <span class="answer-row">
+                    <input type="text" id="q2a1" placeholder="you/finish">
+                </span> the quarterly report yet?<br>
+                Employee: Yes, I <span class="answer-row">
+                    <input type="text" id="q2a2" placeholder="complete">
+                </span> it this morning. I <span class="answer-row">
+                    <input type="text" id="q2a3" placeholder="email">
+                </span> it to you an hour ago.
+            </p>
+            <div class="feedback" id="feedback-q2a1"></div>
+            <div class="feedback" id="feedback-q2a2"></div>
+            <div class="feedback" id="feedback-q2a3"></div>
+            <div class="question-buttons">
+                <button class="check-btn" onclick="checkQuestion(2)">Check</button>
+                <button class="try-again-btn" onclick="tryAgain(2)" style="display:none;">Try Again</button>
+            </div>
+        </div>
+        
+        <div id="question-3" class="question" style="display:none;">
+            <p>
+                Tourist: <span class="answer-row">
+                    <input type="text" id="q3a1" placeholder="you/visit">
+                </span> the Tower of London?<br>
+                Local: Yes, I <span class="answer-row">
+                    <input type="text" id="q3a2" placeholder="go">
+                </span> there three times in my life. In fact, I <span class="answer-row">
+                    <input type="text" id="q3a3" placeholder="take">
+                </span> my children there last weekend.
+            </p>
+            <div class="feedback" id="feedback-q3a1"></div>
+            <div class="feedback" id="feedback-q3a2"></div>
+            <div class="feedback" id="feedback-q3a3"></div>
+            <div class="question-buttons">
+                <button class="check-btn" onclick="checkQuestion(3)">Check</button>
+                <button class="try-again-btn" onclick="tryAgain(3)" style="display:none;">Try Again</button>
+            </div>
+        </div>
+        
+        <div id="question-4" class="question" style="display:none;">
+            <p>
+                Interviewer: <span class="answer-row">
+                    <input type="text" id="q4a1" placeholder="you/work">
+                </span> on any similar projects before?<br>
+                Candidate: Yes, I <span class="answer-row">
+                    <input type="text" id="q4a2" placeholder="manage">
+                </span> a team of five developers at my previous company. We <span class="answer-row">
+                    <input type="text" id="q4a3" placeholder="deliver">
+                </span> three major applications last year.
+            </p>
+            <div class="feedback" id="feedback-q4a1"></div>
+            <div class="feedback" id="feedback-q4a2"></div>
+            <div class="feedback" id="feedback-q4a3"></div>
+            <div class="question-buttons">
+                <button class="check-btn" onclick="checkQuestion(4)">Check</button>
+                <button class="try-again-btn" onclick="tryAgain(4)" style="display:none;">Try Again</button>
+            </div>
+        </div>
+        
+        <div id="question-5" class="question" style="display:none;">
+            <p>
+                Colleague 1: <span class="answer-row">
+                    <input type="text" id="q5a1" placeholder="you/have">
+                </span> lunch yet?<br>
+                Colleague 2: No, I <span class="answer-row">
+                    <input type="text" id="q5a2" placeholder="not/have">
+                </span> time. I <span class="answer-row">
+                    <input type="text" id="q5a3" placeholder="be">
+                </span> in meetings all morning, and I <span class="answer-row">
+                    <input type="text" id="q5a4" placeholder="just/finish">
+                </span> the client proposal.
+            </p>
+            <div class="feedback" id="feedback-q5a1"></div>
+            <div class="feedback" id="feedback-q5a2"></div>
+            <div class="feedback" id="feedback-q5a3"></div>
+            <div class="feedback" id="feedback-q5a4"></div>
+            <div class="question-buttons">
+                <button class="check-btn" onclick="checkQuestion(5)">Check</button>
+                <button class="try-again-btn" onclick="tryAgain(5)" style="display:none;">Try Again</button>
+            </div>
+        </div>
+        
+        <div class="completion-message" id="completion-message">
+            <h3>Well done! You've completed all the questions.</h3>
+            <p>Now let's move on to the conversation questions to practice using these tenses in natural speech.</p>
+        </div>
     </section>
 
     <section class="conversation">
@@ -179,30 +337,109 @@
         </ol>
     </section>
 
-    <section>
-        <label for="answer">Your Answer:</label>
-        <input type="text" id="answer">
-        <button onclick="checkAnswer()">Check Answer</button>
-        <div id="feedback" class="feedback"></div>
-    </section>
-
     <footer>
-        <p class="note">This activity is designed to help intermediate students practice and differentiate between Present Perfect and Simple Past tenses in natural conversation, with special focus on common professional contexts.</p>
+        <p class="note">This activity is designed to help intermediate students practice and differentiate between Present Perfect and Simple Past tenses in natural conversation, with special focus on unfinished time frames and professional contexts.</p>
     </footer>
 
     <script>
-        function checkAnswer() {
-            const correctAnswer = "your_correct_answer"; // Replace with the actual correct answer
-            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
-            const feedbackElement = document.getElementById("feedback");
+        // Define correct answers
+        const answers = {
+            "q1a1": ["have you ever eaten", "have you ever had"],
+            "q1a2": ["tried"],
+            "q2a1": ["have you finished"],
+            "q2a2": ["completed"],
+            "q2a3": ["emailed"],
+            "q3a1": ["have you visited", "have you ever visited"],
+            "q3a2": ["have gone", "have been"],
+            "q3a3": ["took"],
+            "q4a1": ["have you worked"],
+            "q4a2": ["managed"],
+            "q4a3": ["delivered"],
+            "q5a1": ["have you had"],
+            "q5a2": ["haven't had"],
+            "q5a3": ["have been", "was"],
+            "q5a4": ["have just finished", "just finished"]
+        };
 
-            if (userAnswer === correctAnswer.toLowerCase()) {
+        // Track progress
+        let currentQuestion = 1;
+        const totalQuestions = 5;
+        
+        // Check if the student's answer is correct
+        function checkAnswer(inputId) {
+            const studentAnswer = document.getElementById(inputId).value.toLowerCase().trim();
+            const correctAnswers = answers[inputId];
+            
+            const feedbackElement = document.getElementById("feedback-" + inputId);
+            
+            // Check if the answer is correct
+            if (correctAnswers.includes(studentAnswer)) {
                 feedbackElement.textContent = "Correct!";
-                feedbackElement.style.color = "green";
+                feedbackElement.className = "feedback correct";
+                feedbackElement.style.display = "block";
+                document.getElementById(inputId).style.backgroundColor = "#d4edda";
+                return true;
             } else {
-                feedbackElement.textContent = "Wrong!";
-                feedbackElement.style.color = "red";
+                feedbackElement.textContent = "Not quite right. Try again!";
+                feedbackElement.className = "feedback incorrect";
+                feedbackElement.style.display = "block";
+                return false;
             }
+        }
+        
+        // Check all answers for a question
+        function checkQuestion(questionNumber) {
+            let allCorrect = true;
+            
+            // Get all input elements for this question
+            const questionDiv = document.getElementById("question-" + questionNumber);
+            const inputs = questionDiv.querySelectorAll('input[type="text"]');
+            
+            // Check each answer
+            inputs.forEach(function(input) {
+                if (!checkAnswer(input.id)) {
+                    allCorrect = false;
+                }
+            });
+            
+            // If all answers are correct, show the next question
+            if (allCorrect) {
+                // Hide check button, show try again button
+                questionDiv.querySelector('.check-btn').style.display = "none";
+                questionDiv.querySelector('.try-again-btn').style.display = "inline-block";
+                
+                // If not the last question, prepare to show next question
+                if (questionNumber < totalQuestions) {
+                    setTimeout(function() {
+                        questionDiv.style.display = "none";
+                        currentQuestion++;
+                        document.getElementById("question-" + currentQuestion).style.display = "block";
+                        document.getElementById('current-question').textContent = currentQuestion;
+                    }, 1500);
+                } else {
+                    // If it's the last question, show completion message
+                    setTimeout(function() {
+                        document.getElementById('completion-message').style.display = "block";
+                    }, 1500);
+                }
+            }
+        }
+        
+        // Try again function - resets the current question
+        function tryAgain(questionNumber) {
+            const questionDiv = document.getElementById("question-" + questionNumber);
+            const inputs = questionDiv.querySelectorAll('input[type="text"]');
+            
+            // Reset each input and its feedback
+            inputs.forEach(function(input) {
+                input.value = "";
+                input.style.backgroundColor = "white";
+                document.getElementById("feedback-" + input.id).style.display = "none";
+            });
+            
+            // Show check button, hide try again button
+            questionDiv.querySelector('.check-btn').style.display = "inline-block";
+            questionDiv.querySelector('.try-again-btn').style.display = "none";
         }
     </script>
 </body>
