@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Beginner Exercises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Montserrat&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Open Sans', sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        h2, h3 { color: #2c3e50; font-family: 'Montserrat', sans-serif; }
+        h1 { background-color: #1B263B; font-family: 'Montserrat', sans-serif; color: white; padding: 20px; padding-left: 30px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .quiz-container { background-color: #f0f8ff; padding: 20px; border-radius: 5px; margin-top: 30px; display: none; }
+        .question { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #ddd; }
+        .options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .option { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
+        .option:hover { background-color: #e9f5fe; }
+        .feedback { margin-top: 15px; padding: 10px; border-radius: 4px; display: none; }
+        .correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .incorrect { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .show-result { display: block; }
+        .restart-btn { display: block; margin: 20px auto; padding: 10px 15px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .restart-btn:hover { background-color: #2980b9; }
+        input[type="text"] { padding: 5px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        .tab-container { margin-bottom: 20px; }
+        .tab-buttons { display: flex; gap: 5px; }
+        .tab-btn { padding: 10px 20px; background-color: #ddd; border: none; border-radius: 5px 5px 0 0; cursor: pointer; font-family: 'Montserrat', sans-serif; color: #333; transition: background-color 0.2s; }
+        .tab-btn:hover { background-color: #ccc; }
+        .tab-btn.active { background-color: #3498db; color: white; }
+        .quiz-container.active { display: block; }
+        /* Drag and Drop Styles */
+        .drag-container { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+        .draggable { padding: 8px 12px; background-color: #e9f5fe; border: 1px solid #3498db; border-radius: 4px; cursor: move; user-select: none; }
+        .dropzone { display: inline-block; width: 60px; height: 30px; border: 2px dashed #ddd; border-radius: 4px; margin: 5px; text-align: center; line-height: 30px; vertical-align: middle; }
+        .dropzone.filled { background-color: #d4edda; border-style: solid; }
+        /* Exercise 5 Matching Styles */
+        .match-container { display: flex; justify-content: space-between; }
+        .match-column { flex: 1; padding: 10px; }
+        .match-item { padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; cursor: move; background-color: #fff; }
+        .match-drop { padding: 8px; margin: 5px 0; border: 2px dashed #ddd; border-radius: 4px; min-height: 30px; }
+        .match-drop.filled { background-color: #d4edda; border-style: solid; }
+    </style>
+</head>
+<body>
+    <h1>ESL Beginner Exercises: Greetings & Basic Sentences</h1>
+
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="openTab(1)">Exercise 1</button>
+            <button class="tab-btn" onclick="openTab(2)">Exercise 2</button>
+            <button class="tab-btn" onclick="openTab(3)">Exercise 3</button>
+            <button class="tab-btn" onclick="openTab(4)">Exercise 4</button>
+            <button class="tab-btn" onclick="openTab(5)">Exercise 5</button>
+            <button class="tab-btn" onclick="openTab(6)">Exercise 6</button>
+        </div>
+
+        <!-- Exercise 1: Fill in the Blanks -->
+        <div class="quiz-container active" id="exercise1">
+            <h2>Exercise 1: Fill in the Blanks</h2>
+            <p>Complete each sentence with "am," "is," or "are."</p>
+            <div class="question">I <input type="text" id="q1-1"> happy.</div>
+            <div class="question">You <input type="text" id="q1-2"> my friend.</div>
+            <div class="question">He <input type="text" id="q1-3"> tired.</div>
+            <div class="question">She <input type="text" id="q1-4"> a teacher.</div>
+            <div class="question">It <input type="text" id="q1-5"> a book.</div>
+            <div class="question">They <input type="text" id="q1-6"> students.</div>
+            <div class="question">We <input type="text" id="q1-7"> in class.</div>
+            <div class="question">My name <input type="text" id="q1-8"> <input type="text" id="q1-9">.</div>
+            <div class="question">This <input type="text" id="q1-10"> my pen.</div>
+            <div class="question">That <input type="text" id="q1-11"> your bag.</div>
+            <button onclick="checkAnswers(1)">Submit</button>
+            <div class="feedback" id="feedback1"></div>
+            <button class="restart-btn" onclick="resetExercise(1)" style="display: none;">Try Again</button>
+        </div>
+
+        <!-- Exercise 2: Match the Questions and Answers -->
+        <div class="quiz-container" id="exercise2">
+            <h2>Exercise 2: Match the Questions and Answers</h2>
+            <p>Match each question with the correct answer.</p>
+            <div class="question" id="q2-1">What is your name?<div class="options"></div></div>
+            <div class="question" id="q2-2">How are you today?<div class="options"></div></div>
+            <div class="question" id="q2-3">Is this your book?<div class="options"></div></div>
+            <div class="question" id="q2-4">Are you hungry?<div class="options"></div></div>
+            <div class="question" id="q2-5">Is she thirsty?<div class="options"></div></div>
+            <button onclick="checkAnswers(2)">Submit</button>
+            <div class="feedback" id="feedback2"></div>
+            <button class="restart-btn" onclick="resetExercise(2)" style="display: none;">Try Again</button>
+        </div>
+
+        <!-- Exercise 3: Reorder the Words -->
+        <div class="quiz-container" id="exercise3">
+            <h2>Exercise 3: Reorder the Words</h2>
+            <p>Put the words in the correct order to make sentences.</p>
+            <div class="question">name / My / is / Anna<input type="text" id="q3-1"></div>
+            <div class="question">you / Are / tired / ?<input type="text" id="q3-2"></div>
+            <div class="question">am / I / not / hungry<input type="text" id="q3-3"></div>
+            <div class="question">book / This / my / is<input type="text" id="q3-4"></div>
+            <div class="question">thirsty / He / is<input type="text" id="q3-5"></div>
+            <div class="question">is / teacher / She / a / not<input type="text" id="q3-6"></div>
+            <div class="question">that / What / is / ?<input type="text" id="q3-7"></div>
+            <div class="question">happy / are / They<input type="text" id="q3-8"></div>
+            <div class="question">your / is / This / pen / not<input type="text" id="q3-9"></div>
+            <div class="question">friend / Are / my / you / ?<input type="text" id="q3-10"></div>
+            <button onclick="checkAnswers(3)">Submit</button>
+            <div class="feedback" id="feedback3"></div>
+            <button class="restart-btn" onclick="resetExercise(3)" style="display: none;">Try Again</button>
+        </div>
+
+        <!-- Exercise 4: Complete the Dialogue (Drag and Drop) -->
+        <div class="quiz-container" id="exercise4">
+            <h2>Exercise 4: Complete the Dialogue</h2>
+            <p>Drag the words from the box to complete this conversation. You can replace answers by dragging a new word.</p>
+            <div class="drag-container" id="word-bank4">
+                <div class="draggable" draggable="true">am</div>
+                <div class="draggable" draggable="true">are</div>
+                <div class="draggable" draggable="true">is</div>
+                <div class="draggable" draggable="true">my</div>
+                <div class="draggable" draggable="true">meet</div>
+                <div class="draggable" draggable="true">not</div>
+                <div class="draggable" draggable="true">your</div>
+                <div class="draggable" draggable="true">hello</div>
+                <div class="draggable" draggable="true">how</div>
+                <div class="draggable" draggable="true">thank</div>
+            </div>
+            <div class="question">A: <div class="dropzone" id="q4-1"></div>! <div class="dropzone" id="q4-2"></div> name is Maria.</div>
+            <div class="question">B: Nice to <div class="dropzone" id="q4-3"></div> you. I <div class="dropzone" id="q4-4"></div> John.</div>
+            <div class="question">A: <div class="dropzone" id="q4-5"></div> are you today?</div>
+            <div class="question">B: I <div class="dropzone" id="q4-6"></div> fine, thank you. Are you hungry?</div>
+            <div class="question">A: No, I <div class="dropzone" id="q4-7"></div> <div class="dropzone" id="q4-8"></div> hungry, but I am thirsty.</div>
+            <div class="question">B: This is <div class="dropzone" id="q4-9"></div> water. You can have it.</div>
+            <div class="question">A: <div class="dropzone" id="q4-10"></div> you! That is very kind.</div>
+            <button onclick="checkAnswers(4)">Submit</button>
+            <div class="feedback" id="feedback4"></div>
+            <button class="restart-btn" onclick="resetExercise(4)" style="display: none;">Try Again</button>
+        </div>
+
+        <!-- Exercise 5: My Things (Drag and Drop Matching) -->
+        <div class="quiz-container" id="exercise5">
+            <h2>Exercise 5: My Things</h2>
+            <p>Drag the possessive forms to match the pronouns. You can replace answers by dragging a new word.</p>
+            <div class="match-container">
+                <div class="match-column">
+                    <div class="match-item">I</div>
+                    <div class="match-item">you</div>
+                    <div class="match-item">he</div>
+                    <div class="match-item">she</div>
+                    <div class="match-item">they</div>
+                </div>
+                <div class="match-column" id="drop-column5">
+                    <div class="match-drop" id="q5-1"></div>
+                    <div class="match-drop" id="q5-2"></div>
+                    <div class="match-drop" id="q5-3"></div>
+                    <div class="match-drop" id="q5-4"></div>
+                    <div class="match-drop" id="q5-5"></div>
+                </div>
+                <div class="match-column" id="drag-column5">
+                    <div class="match-item draggable" draggable="true" data-value="my">my</div>
+                    <div class="match-item draggable" draggable="true" data-value="your">your</div>
+                    <div class="match-item draggable" draggable="true" data-value="his">his</div>
+                    <div class="match-item draggable" draggable="true" data-value="her">her</div>
+                    <div class="match-item draggable" draggable="true" data-value="their">their</div>
+                </div>
+            </div>
+            <button onclick="checkAnswers(5)">Submit</button>
+            <div class="feedback" id="feedback5"></div>
+            <button class="restart-btn" onclick="resetExercise(5)" style="display: none;">Try Again</button>
+        </div>
+
+        <!-- Exercise 6: Write About Yourself -->
+        <div class="quiz-container" id="exercise6">
+            <h2>Exercise 6: Write About Yourself</h2>
+            <p>Complete these sentences about yourself.</p>
+            <div class="question">My name is <input type="text" id="q6-1">.</div>
+            <div class="question">I am from <input type="text" id="q6-2">.</div>
+            <div class="question">I am <input type="text" id="q6-3"> years old.</div>
+            <div class="question">This is my <input type="text" id="q6-4">.</div>
+            <div class="question">That is my <input type="text" id="q6-5">.</div>
+            <div class="question">I am not <input type="text" id="q6-6">.</div>
+            <div class="question">My friend is <input type="text" id="q6-7">.</div>
+            <div class="question">His/Her name is <input type="text" id="q6-8">.</div>
+            <button onclick="checkAnswers(6)">Submit</button>
+            <div class="feedback" id="feedback6"></div>
+            <button class="restart-btn" onclick="resetExercise(6)" style="display: none;">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Answer keys
+        const answers1 = {
+            "q1-1": "am", "q1-2": "are", "q1-3": "is", "q1-4": "is", "q1-5": "is",
+            "q1-6": "are", "q1-7": "are", "q1-8": "is", "q1-9": "[your name]", "q1-10": "is", "q1-11": "is"
+        };
+
+        const answers2 = { "q2-1": "d", "q2-2": "b", "q2-3": "c", "q2-4": "a", "q2-5": "e" };
+        const options2 = [
+            "a. Yes, I am.", "b. I am fine, thank you.", "c. No, it is not my book.",
+            "d. My name is _____", "e. No, she is not."
+        ];
+
+        const answers3 = {
+            "q3-1": "My name is Anna", "q3-2": "Are you tired?", "q3-3": "I am not hungry",
+            "q3-4": "This is my book", "q3-5": "He is thirsty", "q3-6": "She is not a teacher",
+            "q3-7": "What is that?", "q3-8": "They are happy", "q3-9": "This is not your pen",
+            "q3-10": "Are you my friend?"
+        };
+
+        const answers4 = {
+            "q4-1": "hello", "q4-2": "my", "q4-3": "meet", "q4-4": "am", "q4-5": "how",
+            "q4-6": "am", "q4-7": "am", "q4-8": "not", "q4-9": "my", "q4-10": "thank"
+        };
+
+        const answers5 = { "q5-1": "my", "q5-2": "your", "q5-3": "his", "q5-4": "her", "q5-5": "their" };
+
+        const answers6 = { "q6-1": "", "q6-2": "", "q6-3": "", "q6-4": "", "q6-5": "", "q6-6": "", "q6-7": "", "q6-8": "" };
+
+        // Initialize Exercise 2 options
+        document.querySelectorAll('#exercise2 .question').forEach((q, index) => {
+            const opts = q.querySelector('.options');
+            options2.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerHTML = `<input type="radio" name="q2-${index + 1}" value="${opt[0]}">${opt}`;
+                opts.appendChild(div);
+            });
+        });
+
+        // Drag and Drop for Exercise 4
+        function setupDragAndDrop4() {
+            document.querySelectorAll('#exercise4 .draggable').forEach(item => {
+                item.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', item.textContent);
+                    item.style.opacity = '0.5';
+                });
+                item.addEventListener('dragend', () => {
+                    item.style.opacity = '1';
+                });
+            });
+
+            document.querySelectorAll('#exercise4 .dropzone').forEach(zone => {
+                zone.addEventListener('dragover', e => e.preventDefault());
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const data = e.dataTransfer.getData('text/plain');
+                    zone.textContent = data; // Replace existing content
+                    zone.classList.add('filled');
+                });
+            });
+        }
+
+        // Drag and Drop for Exercise 5
+        function setupDragAndDrop5() {
+            document.querySelectorAll('#exercise5 .draggable').forEach(item => {
+                item.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', item.dataset.value);
+                    item.style.opacity = '0.5';
+                });
+                item.addEventListener('dragend', () => {
+                    item.style.opacity = '1';
+                });
+            });
+
+            document.querySelectorAll('#exercise5 .match-drop').forEach(zone => {
+                zone.addEventListener('dragover', e => e.preventDefault());
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const data = e.dataTransfer.getData('text/plain');
+                    zone.textContent = data; // Replace existing content
+                    zone.classList.add('filled');
+                });
+            });
+        }
+
+        // Tab functionality
+        function openTab(tabNum) {
+            document.querySelectorAll('.quiz-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`exercise${tabNum}`).classList.add('active');
+            document.querySelector(`.tab-btn:nth-child(${tabNum})`).classList.add('active');
+        }
+
+        function checkAnswers(exerciseNum) {
+            let correct = 0;
+            let total = 0;
+            const feedback = document.getElementById(`feedback${exerciseNum}`);
+            feedback.innerHTML = '';
+            const answers = eval(`answers${exerciseNum}`);
+
+            if (exerciseNum === 1) {
+                total = Object.keys(answers).length;
+                for (let id in answers) {
+                    const input = document.getElementById(id);
+                    const userAnswer = input.value.trim().toLowerCase();
+                    const correctAnswer = answers[id].toLowerCase();
+                    if (userAnswer === correctAnswer || (id === "q1-9" && userAnswer !== "")) {
+                        correct++;
+                    }
+                }
+            } else if (exerciseNum === 2) {
+                total = Object.keys(answers).length;
+                document.querySelectorAll(`#exercise${exerciseNum} .question`).forEach((q, index) => {
+                    const selected = q.querySelector(`input[name="q${exerciseNum}-${index + 1}"]:checked`);
+                    if (selected && selected.value === answers[`q${exerciseNum}-${index + 1}`]) {
+                        correct++;
+                    }
+                });
+            } else if (exerciseNum === 3) {
+                total = Object.keys(answers).length;
+                for (let id in answers) {
+                    const input = document.getElementById(id);
+                    const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, ' ');
+                    const correctAnswer = answers[id].toLowerCase();
+                    if (userAnswer === correctAnswer) {
+                        correct++;
+                    }
+                }
+            } else if (exerciseNum === 4) {
+                total = Object.keys(answers).length;
+                for (let id in answers) {
+                    const zone = document.getElementById(id);
+                    const userAnswer = zone.textContent.trim().toLowerCase();
+                    const correctAnswer = answers[id].toLowerCase();
+                    if (userAnswer === correctAnswer) {
+                        correct++;
+                    }
+                }
+            } else if (exerciseNum === 5) {
+                total = Object.keys(answers).length;
+                for (let id in answers) {
+                    const zone = document.getElementById(id);
+                    const userAnswer = zone.textContent.trim().toLowerCase();
+                    const correctAnswer = answers[id].toLowerCase();
+                    if (userAnswer === correctAnswer) {
+                        correct++;
+                    }
+                }
+            } else if (exerciseNum === 6) {
+                total = Object.keys(answers).length;
+                correct = total; // All answers are correct if filled
+                for (let i = 1; i <= total; i++) {
+                    const input = document.getElementById(`q6-${i}`);
+                    if (!input.value.trim()) {
+                        correct--;
+                    }
+                }
+            }
+
+            feedback.className = `feedback ${correct === total ? 'correct' : 'incorrect'} show-result`;
+            feedback.innerHTML = `You got ${correct} out of ${total} correct! ${correct === total ? 'Great job!' : 'Check your answers.'}`;
+            document.querySelector(`#exercise${exerciseNum} .restart-btn`).style.display = 'block';
+        }
+
+        function resetExercise(exerciseNum) {
+            if ([1, 3, 6].includes(exerciseNum)) {
+                document.querySelectorAll(`#exercise${exerciseNum} input[type="text"]`).forEach(input => input.value = '');
+            } else if (exerciseNum === 2) {
+                document.querySelectorAll(`#exercise${exerciseNum} input[type="radio"]`).forEach(input => input.checked = false);
+            } else if (exerciseNum === 4) {
+                document.querySelectorAll('#exercise4 .dropzone').forEach(zone => {
+                    zone.textContent = '';
+                    zone.classList.remove('filled');
+                });
+                document.querySelector('#word-bank4').innerHTML = `
+                    <div class="draggable" draggable="true">am</div>
+                    <div class="draggable" draggable="true">are</div>
+                    <div class="draggable" draggable="true">is</div>
+                    <div class="draggable" draggable="true">my</div>
+                    <div class="draggable" draggable="true">meet</div>
+                    <div class="draggable" draggable="true">not</div>
+                    <div class="draggable" draggable="true">your</div>
+                    <div class="draggable" draggable="true">hello</div>
+                    <div class="draggable" draggable="true">how</div>
+                    <div class="draggable" draggable="true">thank</div>
+                `;
+                setupDragAndDrop4();
+            } else if (exerciseNum === 5) {
+                document.querySelectorAll('#exercise5 .match-drop').forEach(zone => {
+                    zone.textContent = '';
+                    zone.classList.remove('filled');
+                });
+                document.getElementById('drag-column5').innerHTML = `
+                    <div class="match-item draggable" draggable="true" data-value="my">my</div>
+                    <div class="match-item draggable" draggable="true" data-value="your">your</div>
+                    <div class="match-item draggable" draggable="true" data-value="his">his</div>
+                    <div class="match-item draggable" draggable="true" data-value="her">her</div>
+                    <div class="match-item draggable" draggable="true" data-value="their">their</div>
+                `;
+                setupDragAndDrop5();
+            }
+            const feedback = document.getElementById(`feedback${exerciseNum}`);
+            feedback.className = 'feedback';
+            feedback.innerHTML = '';
+            document.querySelector(`#exercise${exerciseNum} .restart-btn`).style.display = 'none';
+        }
+
+        // Initialize drag and drop
+        setupDragAndDrop4();
+        setupDragAndDrop5();
+    </script>
+</body>
+</html>
