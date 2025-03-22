@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Technology Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .progress-container {
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 10px;
+        }
+        
+        .progress {
+            background-color: #3498db;
+            height: 10px;
+            border-radius: 10px;
+            width: 20%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-container {
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #2980b9;
+        }
+        
+        .option.correct {
+            background-color: #2ecc71;
+        }
+        
+        .option.incorrect {
+            background-color: #e74c3c;
+        }
+        
+        .option.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+        }
+        
+        .feedback-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .feedback-buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        button.next, button.try-again, button.restart {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button.next {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        button.next:hover {
+            background-color: #2980b9;
+        }
+        
+        button.try-again {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        button.try-again:hover {
+            background-color: #d35400;
+        }
+        
+        button.restart {
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            padding: 12px 20px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .result-container {
+            text-align: center;
+            display: none;
+        }
+        
+        .result-score {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>AI Technology Quiz</h1>
+        
+        <div class="progress-container">
+            <div id="progress-text">Question 1 of 5</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <div class="questions">
+            <!-- Question 1 -->
+            <div class="question-container" id="q0">
+                <div class="question">Which of these is NOT a type of machine learning?</div>
+                <div class="options">
+                    <button class="option" onclick="selectOption(0, 0)">Supervised Learning</button>
+                    <button class="option" onclick="selectOption(0, 1)">Unsupervised Learning</button>
+                    <button class="option" onclick="selectOption(0, 2)">Reinforcement Learning</button>
+                    <button class="option" onclick="selectOption(0, 3)">Transcendental Learning</button>
+                </div>
+                <div class="feedback" id="feedback0">
+                    <div class="feedback-header" id="feedback-header0"></div>
+                    <div class="feedback-text">Transcendental Learning is not a recognized type of machine learning. The established types include Supervised Learning (training with labeled data), Unsupervised Learning (finding patterns in unlabeled data), and Reinforcement Learning (learning through rewards/penalties).</div>
+                    <div class="feedback-buttons">
+                        <button class="try-again" id="try-again0" onclick="tryAgain(0)">Try Again</button>
+                        <button class="next" onclick="nextQuestion()">Next Question</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="question-container" id="q1" style="display: none;">
+                <div class="question">What does the acronym 'GPT' stand for in AI models like GPT-4?</div>
+                <div class="options">
+                    <button class="option" onclick="selectOption(1, 0)">Global Processing Technology</button>
+                    <button class="option" onclick="selectOption(1, 1)">General Purpose Transformer</button>
+                    <button class="option" onclick="selectOption(1, 2)">Generative Pre-trained Transformer</button>
+                    <button class="option" onclick="selectOption(1, 3)">Graphics Processing Terminal</button>
+                </div>
+                <div class="feedback" id="feedback1">
+                    <div class="feedback-header" id="feedback-header1"></div>
+                    <div class="feedback-text">GPT stands for 'Generative Pre-trained Transformer.' It refers to a neural network architecture that's been pre-trained on vast amounts of text data and can generate human-like text based on the input it receives.</div>
+                    <div class="feedback-buttons">
+                        <button class="try-again" id="try-again1" onclick="tryAgain(1)">Try Again</button>
+                        <button class="next" onclick="nextQuestion()">Next Question</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="question-container" id="q2" style="display: none;">
+                <div class="question">Which company developed the deep learning system AlphaGo, which defeated the world champion at the board game Go?</div>
+                <div class="options">
+                    <button class="option" onclick="selectOption(2, 0)">OpenAI</button>
+                    <button class="option" onclick="selectOption(2, 1)">DeepMind (Google)</button>
+                    <button class="option" onclick="selectOption(2, 2)">Microsoft</button>
+                    <button class="option" onclick="selectOption(2, 3)">IBM</button>
+                </div>
+                <div class="feedback" id="feedback2">
+                    <div class="feedback-header" id="feedback-header2"></div>
+                    <div class="feedback-text">AlphaGo was developed by DeepMind, a company acquired by Google. In 2016, AlphaGo defeated Lee Sedol, the 18-time world champion, marking a significant milestone in AI development.</div>
+                    <div class="feedback-buttons">
+                        <button class="try-again" id="try-again2" onclick="tryAgain(2)">Try Again</button>
+                        <button class="next" onclick="nextQuestion()">Next Question</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 4 -->
+            <div class="question-container" id="q3" style="display: none;">
+                <div class="question">What is a neural network in AI designed to mimic?</div>
+                <div class="options">
+                    <button class="option" onclick="selectOption(3, 0)">The human nervous system</button>
+                    <button class="option" onclick="selectOption(3, 1)">Internet communication protocols</button>
+                    <button class="option" onclick="selectOption(3, 2)">Quantum computing processes</button>
+                    <button class="option" onclick="selectOption(3, 3)">Binary search algorithms</button>
+                </div>
+                <div class="feedback" id="feedback3">
+                    <div class="feedback-header" id="feedback-header3"></div>
+                    <div class="feedback-text">Neural networks are designed to mimic the human brain's network of neurons. They consist of interconnected nodes (artificial neurons) that process and transmit information, allowing the system to learn patterns and make decisions.</div>
+                    <div class="feedback-buttons">
+                        <button class="try-again" id="try-again3" onclick="tryAgain(3)">Try Again</button>
+                        <button class="next" onclick="nextQuestion()">Next Question</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 5 -->
+            <div class="question-container" id="q4" style="display: none;">
+                <div class="question">Which of these is a primary ethical concern related to AI development?</div>
+                <div class="options">
+                    <button class="option" onclick="selectOption(4, 0)">Too many programming languages to learn</button>
+                    <button class="option" onclick="selectOption(4, 1)">Algorithmic bias and fairness</button>
+                    <button class="option" onclick="selectOption(4, 2)">Excessive energy efficiency</button>
+                    <button class="option" onclick="selectOption(4, 3)">Overly transparent decision-making</button>
+                </div>
+                <div class="feedback" id="feedback4">
+                    <div class="feedback-header" id="feedback-header4"></div>
+                    <div class="feedback-text">Algorithmic bias is a major ethical concern in AI development. When AI systems are trained on biased data, they can perpetuate or amplify existing societal biases, leading to unfair outcomes for certain groups of people.</div>
+                    <div class="feedback-buttons">
+                        <button class="try-again" id="try-again4" onclick="tryAgain(4)">Try Again</button>
+                        <button class="next" onclick="finishQuiz()">Finish Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results -->
+        <div class="result-container" id="result">
+            <h2>Quiz Completed!</h2>
+            <div class="result-score" id="score-display">You answered 0 out of 5 questions correctly.</div>
+            <button class="restart" onclick="restartQuiz()">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                correctAnswer: 3,
+            },
+            {
+                correctAnswer: 2,
+            },
+            {
+                correctAnswer: 1,
+            },
+            {
+                correctAnswer: 0,
+            },
+            {
+                correctAnswer: 1,
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOptions = new Array(questions.length).fill(null);
+        
+        function updateProgressBar() {
+            document.getElementById('progress-text').textContent = `Question ${currentQuestion + 1} of 5`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / 5) * 100}%`;
+        }
+        
+        function selectOption(questionIndex, optionIndex) {
+            // Get all options for this question
+            const options = document.querySelectorAll(`#q${questionIndex} .option`);
+            const feedback = document.getElementById(`feedback${questionIndex}`);
+            const feedbackHeader = document.getElementById(`feedback-header${questionIndex}`);
+            const tryAgainBtn = document.getElementById(`try-again${questionIndex}`);
+            
+            // If an option is already selected, don't allow selecting again
+            if (selectedOptions[questionIndex] !== null) return;
+            
+            selectedOptions[questionIndex] = optionIndex;
+            
+            // Check if answer is correct
+            const correct = optionIndex === questions[questionIndex].correctAnswer;
+            
+            // Update styling for options
+            options.forEach((option, idx) => {
+                if (idx === questions[questionIndex].correctAnswer) {
+                    option.classList.add('correct');
+                } else if (idx === optionIndex && !correct) {
+                    option.classList.add('incorrect');
+                } else {
+                    option.classList.add('disabled');
+                }
+            });
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            
+            // Update feedback header
+            if (correct) {
+                feedbackHeader.textContent = 'Correct!';
+                feedback.classList.add('correct');
+                score++;
+                tryAgainBtn.style.display = 'none';
+            } else {
+                feedbackHeader.textContent = 'Incorrect!';
+                feedback.classList.add('incorrect');
+                tryAgainBtn.style.display = 'inline-block';
+            }
+        }
+        
+        function tryAgain(questionIndex) {
+            // Get all options for this question
+            const options = document.querySelectorAll(`#q${questionIndex} .option`);
+            const feedback = document.getElementById(`feedback${questionIndex}`);
+            
+            // Reset option styling
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect', 'disabled');
+            });
+            
+            // Hide feedback
+            feedback.style.display = 'none';
+            feedback.classList.remove('correct', 'incorrect');
+            
+            // Reset selected option for this question
+            selectedOptions[questionIndex] = null;
+        }
+        
+        function nextQuestion() {
+            // Hide current question
+            document.getElementById(`q${currentQuestion}`).style.display = 'none';
+            
+            // Show next question
+            currentQuestion++;
+            document.getElementById(`q${currentQuestion}`).style.display = 'block';
+            
+            // Update progress bar
+            updateProgressBar();
+        }
+        
+        function finishQuiz() {
+            // Hide last question
+            document.getElementById(`q${currentQuestion}`).style.display = 'none';
+            
+            // Hide progress container
+            document.querySelector('.progress-container').style.display = 'none';
+            
+            // Show results
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('score-display').textContent = `You answered ${score} out of 5 questions correctly.`;
+        }
+        
+        function restartQuiz() {
+            // Reset score and current question
+            score = 0;
+            currentQuestion = 0;
+            selectedOptions = new Array(questions.length).fill(null);
+            
+            // Hide all questions and reset options
+            for (let i = 0; i < questions.length; i++) {
+                const questionElement = document.getElementById(`q${i}`);
+                questionElement.style.display = i === 0 ? 'block' : 'none';
+                
+                const options = document.querySelectorAll(`#q${i} .option`);
+                options.forEach(option => {
+                    option.classList.remove('correct', 'incorrect', 'disabled');
+                });
+                
+                const feedback = document.getElementById(`feedback${i}`);
+                feedback.style.display = 'none';
+                feedback.classList.remove('correct', 'incorrect');
+            }
+            
+            // Show progress container
+            document.querySelector('.progress-container').style.display = 'block';
+            
+            // Hide results
+            document.getElementById('result').style.display = 'none';
+            
+            // Update progress bar
+            updateProgressBar();
+        }
+    </script>
+</body>
+</html>
