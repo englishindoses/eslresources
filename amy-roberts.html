@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentence Formation Practice: Amy Roberts</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        h1 {
+            background-color: #1B263B;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .instructions {
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .info-card {
+            background-color: #f1f8e9;
+            border: 2px solid #7cb342;
+            border-radius: 8px;
+            padding: 15px;
+            width: 250px;
+            margin-bottom: 20px;
+        }
+        
+        .info-card .row {
+            margin-bottom: 5px;
+        }
+        
+        .info-card .label {
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+        }
+        
+        .info-card .value {
+            color: #2962ff;
+            font-weight: bold;
+        }
+        
+        .activity-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .drag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .drag-item {
+            padding: 8px 12px;
+            background-color: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            cursor: grab;
+            user-select: none;
+            display: inline-block;
+        }
+        
+        .drop-zone {
+            min-height: 40px;
+            border: 2px dashed #bdbdbd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .drop-zone.highlight {
+            border-color: #2196f3;
+            background-color: #e3f2fd;
+        }
+        
+        .button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        
+        .button:hover {
+            background-color: #1976d2;
+        }
+        
+        .button:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            display: block;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .feedback.incorrect {
+            display: block;
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        
+        .sentence-builder {
+            margin-top: 15px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .word {
+            padding: 8px 12px;
+            background-color: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .word.selected {
+            background-color: #bbdefb;
+            border-color: #2196f3;
+        }
+        
+        .sentence-display {
+            min-height: 40px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .negative-formation {
+            margin-top: 15px;
+        }
+        
+        .fill-blank {
+            margin-top: 15px;
+        }
+        
+        .fill-blank input {
+            padding: 8px;
+            border: 1px solid #bdbdbd;
+            border-radius: 4px;
+            margin: 0 5px;
+            width: 100px;
+        }
+        
+        .summary {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .drag-item, .word {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+            
+            .drop-zone {
+                min-height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentence Formation Practice</h1>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <p>In this activity, you'll practice making sentences, questions, and negatives using information about Amy Roberts. Look at Amy's information card and complete the exercises below.</p>
+    </div>
+    
+    <div class="info-card">
+        <div class="row">
+            <span class="label">Name</span>
+            <span class="value">Amy Roberts</span>
+        </div>
+        <div class="row">
+            <span class="label">Country</span>
+            <span class="value">England</span>
+        </div>
+        <div class="row">
+            <span class="label">Address</span>
+            <span class="value">18, Market Street, Manchester</span>
+        </div>
+        <div class="row">
+            <span class="label">Phone number</span>
+            <span class="value">0161 929 5837</span>
+        </div>
+        <div class="row">
+            <span class="label">Age</span>
+            <span class="value">20</span>
+        </div>
+        <div class="row">
+            <span class="label">Job</span>
+            <span class="value">Student</span>
+        </div>
+        <div class="row">
+            <span class="label">Married?</span>
+            <span class="value">No</span>
+        </div>
+    </div>
+    
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+    
+    <!-- Section 1: Making Affirmative Sentences -->
+    <div id="section1" class="activity-section">
+        <h2>Part 1: Making Sentences</h2>
+        <p>Drag and drop the words to make correct sentences about Amy.</p>
+        
+        <div class="question">
+            <p>1. Make a sentence about Amy's name:</p>
+            <div class="drag-container" id="drag-container-1">
+                <span class="drag-item" draggable="true">Amy</span>
+                <span class="drag-item" draggable="true">Roberts</span>
+                <span class="drag-item" draggable="true">is</span>
+                <span class="drag-item" draggable="true">name</span>
+                <span class="drag-item" draggable="true">Her</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-1"></div>
+            <div class="feedback" id="feedback-1"></div>
+            <button class="button" id="check-1">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>2. Make a sentence about where Amy is from:</p>
+            <div class="drag-container" id="drag-container-2">
+                <span class="drag-item" draggable="true">Amy</span>
+                <span class="drag-item" draggable="true">from</span>
+                <span class="drag-item" draggable="true">England</span>
+                <span class="drag-item" draggable="true">is</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-2"></div>
+            <div class="feedback" id="feedback-2"></div>
+            <button class="button" id="check-2">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>3. Make a sentence about Amy's age:</p>
+            <div class="drag-container" id="drag-container-3">
+                <span class="drag-item" draggable="true">is</span>
+                <span class="drag-item" draggable="true">She</span>
+                <span class="drag-item" draggable="true">years</span>
+                <span class="drag-item" draggable="true">old</span>
+                <span class="drag-item" draggable="true">20</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-3"></div>
+            <div class="feedback" id="feedback-3"></div>
+            <button class="button" id="check-3">Check Answer</button>
+        </div>
+        
+        <button class="button" id="next-to-section2">Next: Making Questions</button>
+    </div>
+    
+    <!-- Section 2: Making Questions -->
+    <div id="section2" class="activity-section hidden">
+        <h2>Part 2: Making Questions</h2>
+        <p>Drag and drop the words to form questions about Amy.</p>
+        
+        <div class="question">
+            <p>1. Make a question to ask about Amy's name:</p>
+            <div class="drag-container" id="drag-container-4">
+                <span class="drag-item" draggable="true">is</span>
+                <span class="drag-item" draggable="true">What</span>
+                <span class="drag-item" draggable="true">name</span>
+                <span class="drag-item" draggable="true">her</span>
+                <span class="drag-item" draggable="true">?</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-4"></div>
+            <div class="feedback" id="feedback-4"></div>
+            <button class="button" id="check-4">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>2. Make a question to ask about Amy's country:</p>
+            <div class="drag-container" id="drag-container-5">
+                <span class="drag-item" draggable="true">Where</span>
+                <span class="drag-item" draggable="true">is</span>
+                <span class="drag-item" draggable="true">she</span>
+                <span class="drag-item" draggable="true">from</span>
+                <span class="drag-item" draggable="true">?</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-5"></div>
+            <div class="feedback" id="feedback-5"></div>
+            <button class="button" id="check-5">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>3. Make a question to ask about Amy's job:</p>
+            <div class="drag-container" id="drag-container-6">
+                <span class="drag-item" draggable="true">What</span>
+                <span class="drag-item" draggable="true">is</span>
+                <span class="drag-item" draggable="true">her</span>
+                <span class="drag-item" draggable="true">job</span>
+                <span class="drag-item" draggable="true">?</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-6"></div>
+            <div class="feedback" id="feedback-6"></div>
+            <button class="button" id="check-6">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>4. Make a question to ask if Amy is married:</p>
+            <div class="drag-container" id="drag-container-7">
+                <span class="drag-item" draggable="true">Is</span>
+                <span class="drag-item" draggable="true">she</span>
+                <span class="drag-item" draggable="true">married</span>
+                <span class="drag-item" draggable="true">?</span>
+            </div>
+            <div class="drop-zone" id="drop-zone-7"></div>
+            <div class="feedback" id="feedback-7"></div>
+            <button class="button" id="check-7">Check Answer</button>
+        </div>
+        
+        <button class="button" id="next-to-section3">Next: Making Negatives</button>
+    </div>
+    
+    <!-- Section 3: Making Negatives -->
+    <div id="section3" class="activity-section hidden">
+        <h2>Part 3: Making Negative Sentences</h2>
+        <p>Complete the sentences with the correct negative form.</p>
+        
+        <div class="question">
+            <p>1. Amy is NOT from France:</p>
+            <div class="fill-blank">
+                <p>Amy <input type="text" id="negative-input-1" placeholder="type here"> from France.</p>
+            </div>
+            <div class="feedback" id="feedback-8"></div>
+            <button class="button" id="check-8">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>2. Amy is NOT married:</p>
+            <div class="fill-blank">
+                <p>Amy <input type="text" id="negative-input-2" placeholder="type here"> married.</p>
+            </div>
+            <div class="feedback" id="feedback-9"></div>
+            <button class="button" id="check-9">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>3. Amy does NOT work as a doctor:</p>
+            <div class="fill-blank">
+                <p>Amy <input type="text" id="negative-input-3" placeholder="type here"> work as a doctor.</p>
+            </div>
+            <div class="feedback" id="feedback-10"></div>
+            <button class="button" id="check-10">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>4. Amy is NOT 25 years old:</p>
+            <div class="fill-blank">
+                <p>Amy <input type="text" id="negative-input-4" placeholder="type here"> 25 years old.</p>
+            </div>
+            <div class="feedback" id="feedback-11"></div>
+            <button class="button" id="check-11">Check Answer</button>
+        </div>
+        
+        <button class="button" id="next-to-section4">Next: Mixed Practice</button>
+    </div>
+    
+    <!-- Section 4: Mixed Practice -->
+    <div id="section4" class="activity-section hidden">
+        <h2>Part 4: Mixed Practice</h2>
+        <p>Fill in the blanks with the correct words to complete the sentences, questions or negatives about Amy.</p>
+        
+        <div class="question">
+            <p>1. Amy <input type="text" placeholder="type here" style="width: 80px;" id="mixed-input-1"> a student.</p>
+            <div class="feedback" id="feedback-12"></div>
+            <button class="button" id="check-12">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>2. <input type="text" placeholder="type here" style="width: 80px;" id="mixed-input-2"> Amy from England?</p>
+            <div class="feedback" id="feedback-13"></div>
+            <button class="button" id="check-13">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>3. She <input type="text" placeholder="type here" style="width: 80px;" id="mixed-input-3"> not live in London.</p>
+            <div class="feedback" id="feedback-14"></div>
+            <button class="button" id="check-14">Check Answer</button>
+        </div>
+        
+        <div class="question">
+            <p>4. <input type="text" placeholder="type here" style="width: 80px;" id="mixed-input-4"> old is Amy?</p>
+            <div class="feedback" id="feedback-15"></div>
+            <button class="button" id="check-15">Check Answer</button>
+        </div>
+        
+        <button class="button" id="finish-activity">Finish Activity</button>
+    </div>
+    
+    <!-- Summary Section -->
+    <div id="summary" class="activity-section hidden">
+        <h2>Great Job!</h2>
+        <div class="summary">
+            <h3>What you've learned:</h3>
+            <ul>
+                <li>How to make basic sentences about a person</li>
+                <li>How to form questions to ask for information</li>
+                <li>How to make negative sentences</li>
+            </ul>
+            
+            <h3>Remember:</h3>
+            <p><strong>Affirmative sentences:</strong> Subject + verb + rest of sentence</p>
+            <p><strong>Questions:</strong> Question word (What, Where, How) + auxiliary verb (is, does) + subject + rest</p>
+            <p><strong>Negatives:</strong> Subject + auxiliary verb + not + rest of sentence</p>
+            
+            <div style="margin-top: 20px;">
+                <button class="button" id="restart-activity">Restart Activity</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Progress tracking
+        let totalQuestions = 15;
+        let answeredCorrectly = 0;
+        
+        // Correct answers
+        const correctAnswers = {
+            1: "Her name is Amy Roberts",
+            2: "Amy is from England",
+            3: "She is 20 years old",
+            4: "What is her name ?",
+            5: "Where is she from ?",
+            6: "What is her job ?",
+            7: "Is she married ?",
+            8: "is not",
+            9: "is not",
+            10: "does not",
+            11: "is not",
+            12: "is",
+            13: "Is",
+            14: "does",
+            15: "How"
+        };
+        
+        // Alternative correct answers
+        const alternativeAnswers = {
+            8: ["isn't"],
+            9: ["isn't"],
+            10: ["doesn't"],
+            11: ["isn't"]
+        };
+        
+        // Initialize drag and drop functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initDragAndDrop();
+            setupCheckButtons();
+            setupNavigationButtons();
+        });
+        
+        function initDragAndDrop() {
+            // Get all drag items
+            const dragItems = document.querySelectorAll('.drag-item');
+            
+            // Add event listeners to drag items
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragend', dragEnd);
+                
+                // Mobile touch support
+                item.addEventListener('touchstart', touchStart, { passive: false });
+                item.addEventListener('touchmove', touchMove, { passive: false });
+                item.addEventListener('touchend', touchEnd);
+            });
+            
+            // Add event listeners to drop zones
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', dragOver);
+                zone.addEventListener('dragenter', dragEnter);
+                zone.addEventListener('dragleave', dragLeave);
+                zone.addEventListener('drop', drop);
+            });
+        }
+        
+        // Drag functions
+        function dragStart(e) {
+            this.style.opacity = '0.4';
+            e.dataTransfer.setData('text/plain', this.innerText);
+            e.dataTransfer.effectAllowed = 'move';
+            this.classList.add('dragging');
+        }
+        
+        function dragEnd() {
+            this.style.opacity = '1';
+            this.classList.remove('dragging');
+        }
+        
+        // Drop zone functions
+        function dragOver(e) {
+            e.preventDefault();
+            return false;
+        }
+        
+        function dragEnter(e) {
+            e.preventDefault();
+            this.classList.add('highlight');
+        }
+        
+        function dragLeave() {
+            this.classList.remove('highlight');
+        }
+        
+        function drop(e) {
+            e.preventDefault();
+            this.classList.remove('highlight');
+            
+            const data = e.dataTransfer.getData('text/plain');
+            
+            // Create a new element to add to the drop zone
+            const newElement = document.createElement('span');
+            newElement.classList.add('drag-item');
+            newElement.innerText = data;
+            newElement.draggable = true;
+            
+            // Add event listeners to the new element
+            newElement.addEventListener('dragstart', dragStart);
+            newElement.addEventListener('dragend', dragEnd);
+            
+            // Add to drop zone
+            this.appendChild(newElement);
+            
+            // Remove the original item if it exists
+            const dragItems = document.querySelectorAll('.dragging');
+            dragItems.forEach(item => {
+                if (item.innerText === data) {
+                    item.remove();
+                }
+            });
+            
+            return false;
+        }
+        
+        // Touch support for mobile
+        let touchDragItem = null;
+        
+        function touchStart(e) {
+            e.preventDefault();
+            this.classList.add('dragging');
+            touchDragItem = this;
+        }
+        
+        function touchMove(e) {
+            e.preventDefault();
+            if (!touchDragItem) return;
+            
+            const touch = e.touches[0];
+            touchDragItem.style.position = 'absolute';
+            touchDragItem.style.left = touch.pageX + 'px';
+            touchDragItem.style.top = touch.pageY + 'px';
+        }
+        
+        function touchEnd(e) {
+            if (!touchDragItem) return;
+            
+            const touch = e.changedTouches[0];
+            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+            
+            let dropZone = elements.find(el => el.classList.contains('drop-zone'));
+            
+            if (dropZone) {
+                // Create new element
+                const newElement = document.createElement('span');
+                newElement.classList.add('drag-item');
+                newElement.innerText = touchDragItem.innerText;
+                
+                // Add to drop zone
+                dropZone.appendChild(newElement);
+                
+                // Remove original
+                touchDragItem.remove();
+            }
+            
+            touchDragItem.classList.remove('dragging');
+            touchDragItem.style.position = '';
+            touchDragItem = null;
+        }
+        
+        function setupCheckButtons() {
+            // Set up check buttons for drag and drop questions
+            for (let i = 1; i <= 7; i++) {
+                document.getElementById(`check-${i}`).addEventListener('click', function() {
+                    checkDragAndDropAnswer(i);
+                });
+            }
+            
+            // Set up check buttons for negative forms
+            for (let i = 8; i <= 11; i++) {
+                document.getElementById(`check-${i}`).addEventListener('click', function() {
+                    checkNegativeAnswer(i);
+                });
+            }
+            
+            // Set up check buttons for mixed practice
+            for (let i = 12; i <= 15; i++) {
+                document.getElementById(`check-${i}`).addEventListener('click', function() {
+                    checkMixedAnswer(i);
+                });
+            }
+        }
+        
+        function setupNavigationButtons() {
+            document.getElementById('next-to-section2').addEventListener('click', function() {
+                document.getElementById('section1').classList.add('hidden');
+                document.getElementById('section2').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            });
+            
+            document.getElementById('next-to-section3').addEventListener('click', function() {
+                document.getElementById('section2').classList.add('hidden');
+                document.getElementById('section3').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            });
+            
+            document.getElementById('next-to-section4').addEventListener('click', function() {
+                document.getElementById('section3').classList.add('hidden');
+                document.getElementById('section4').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            });
+            
+            document.getElementById('finish-activity').addEventListener('click', function() {
+                document.getElementById('section4').classList.add('hidden');
+                document.getElementById('summary').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            });
+            
+            document.getElementById('restart-activity').addEventListener('click', function() {
+                location.reload();
+            });
+        }
+        
+        function checkDragAndDropAnswer(questionNumber) {
+            const dropZone = document.getElementById(`drop-zone-${questionNumber}`);
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            
+            // Get the text of all items in the drop zone
+            const droppedItems = dropZone.querySelectorAll('.drag-item');
+            let answer = '';
+            droppedItems.forEach(item => {
+                answer += item.innerText + ' ';
+            });
+            answer = answer.trim();
+            
+            // Check if the answer is correct
+            if (answer === correctAnswers[questionNumber]) {
+                feedback.innerHTML = "Correct! Good job!";
+                feedback.className = "feedback correct";
+                
+                // Disable check button
+                document.getElementById(`check-${questionNumber}`).disabled = true;
+                
+                // Update progress
+                answeredCorrectly++;
+                updateProgress();
+            } else {
+                feedback.innerHTML = "Not quite right. Try again!";
+                feedback.className = "feedback incorrect";
+            }
+        }
+        
+        function checkNegativeAnswer(questionNumber) {
+            const input = document.getElementById(`negative-input-${questionNumber - 7}`);
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            const answer = input.value.trim().toLowerCase();
+            
+            // Check if answer is correct (including alternatives)
+            const isCorrect = answer === correctAnswers[questionNumber].toLowerCase() || 
+                             (alternativeAnswers[questionNumber] && 
+                              alternativeAnswers[questionNumber].includes(answer));
+            
+            if (isCorrect) {
+                feedback.innerHTML = "Correct! Good job!";
+                feedback.className = "feedback correct";
+                
+                // Disable check button and input
+                document.getElementById(`check-${questionNumber}`).disabled = true;
+                input.disabled = true;
+                
+                // Update progress
+                answeredCorrectly++;
+                updateProgress();
+            } else {
+                feedback.innerHTML = "Not quite right. Try again!";
+                feedback.className = "feedback incorrect";
+            }
+        }
+        
+        function checkMixedAnswer(questionNumber) {
+            const input = document.getElementById(`mixed-input-${questionNumber - 11}`);
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            const answer = input.value.trim().toLowerCase();
+            
+            // Check if answer is correct
+            if (answer === correctAnswers[questionNumber].toLowerCase()) {
+                feedback.innerHTML = "Correct! Good job!";
+                feedback.className = "feedback correct";
+                
+                // Disable check button and input
+                document.getElementById(`check-${questionNumber}`).disabled = true;
+                input.disabled = true;
+                
+                // Update progress
+                answeredCorrectly++;
+                updateProgress();
+            } else {
+                feedback.innerHTML = "Not quite right. Try again!";
+                feedback.className = "feedback incorrect";
+            }
+        }
+        
+        function updateProgress() {
+            const progressPercentage = (answeredCorrectly / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+    </script>
+</body>
+</html>
