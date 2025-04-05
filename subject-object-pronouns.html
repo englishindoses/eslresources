@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Pronouns vs. Object Pronouns</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .rule-box {
+            background-color: #e8f4f8;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .example {
+            background-color: #eaf7ea;
+            border-left: 5px solid #27ae60;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .error-box {
+            background-color: #FFEFD5; /* Pale orange background */
+            border-left: 5px solid #e74c3c;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .incorrect {
+            color: #e74c3c; /* Red for incorrect text */
+            font-weight: bold;
+        }
+        .correct-fix {
+            color: #27ae60; /* Green for correct text */
+            font-weight: bold;
+        }
+        .activity {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .hidden {
+            display: none;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .feedback {
+            color: #e74c3c;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .pronoun-choice {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .result-summary {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        .progress-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .progress-indicator {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .highlight {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .conversation {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-indicator">
+        <span id="current-section">Rules</span> (1/5)
+    </div>
+
+    <!-- Rules Section -->
+    <div id="section-rules" class="section">
+        <h1>Subject Pronouns vs. Object Pronouns</h1>
+        
+        <div class="rule-box">
+            <h3>Subject Pronouns</h3>
+            <p>Used when the pronoun is <span class="highlight">doing the action</span>:</p>
+            <p><strong>I, you, he, she, it, we, they</strong></p>
+            
+            <h3>Object Pronouns</h3>
+            <p>Used when the pronoun <span class="highlight">receives the action</span>:</p>
+            <p><strong>me, you, him, her, it, us, them</strong></p>
+        </div>
+        
+        <div class="example">
+            <h3>Examples:</h3>
+            <ul>
+                <li><strong>He</strong> calls <strong>her</strong> every day. (He = subject, her = object)</li>
+                <li><strong>They</strong> invited <strong>us</strong> to dinner. (They = subject, us = object)</li>
+                <li><strong>She</strong> likes <strong>him</strong> a lot. (She = subject, him = object)</li>
+                <li><strong>We</strong> helped <strong>them</strong> with homework. (We = subject, them = object)</li>
+                <li><strong>I</strong> sent <strong>you</strong> a message. (I = subject, you = object)</li>
+            </ul>
+        </div>
+        
+        <div class="error-box">
+            <h3>Common Errors:</h3>
+            <ol>
+                <li>
+                    <span class="incorrect">INCORRECT: "She talked to I"</span> <br>
+                    <span class="correct-fix">CORRECT: "She talked to me"</span> <br>
+                    <em>(After prepositions like "to," we need object pronouns)</em>
+                </li>
+                <br>
+                <li>
+                    <span class="incorrect">INCORRECT: "Him is my friend"</span> <br>
+                    <span class="correct-fix">CORRECT: "He is my friend"</span> <br>
+                    <em>(At the beginning of a sentence as the subject, we need subject pronouns)</em>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="progress-nav">
+            <button onclick="showSection('activity1')">Next: Activity 1</button>
+        </div>
+    </div>
+
+    <!-- Activity 1 -->
+    <div id="section-activity1" class="section hidden">
+        <h2>Activity 1: Fill in the Blanks</h2>
+        <p>Choose the correct pronoun (subject or object) for each sentence:</p>
+        
+        <div class="activity" id="activity1">
+            <div class="question" id="q1-1">
+                <span>1. </span>
+                <label>
+                    <input type="radio" name="q1-1" value="I" class="pronoun-choice"> I
+                </label>
+                <label>
+                    <input type="radio" name="q1-1" value="me" class="pronoun-choice"> me
+                </label>
+                <span> am going to the store.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-2">
+                <span>2. Please call </span>
+                <label>
+                    <input type="radio" name="q1-2" value="we" class="pronoun-choice"> we
+                </label>
+                <label>
+                    <input type="radio" name="q1-2" value="us" class="pronoun-choice"> us
+                </label>
+                <span> later.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-3">
+                <span>3. </span>
+                <label>
+                    <input type="radio" name="q1-3" value="She" class="pronoun-choice"> She
+                </label>
+                <label>
+                    <input type="radio" name="q1-3" value="Her" class="pronoun-choice"> Her
+                </label>
+                <span> is waiting for the bus.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-4">
+                <span>4. The teacher gave </span>
+                <label>
+                    <input type="radio" name="q1-4" value="they" class="pronoun-choice"> they
+                </label>
+                <label>
+                    <input type="radio" name="q1-4" value="them" class="pronoun-choice"> them
+                </label>
+                <span> a good grade.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-5">
+                <span>5. </span>
+                <label>
+                    <input type="radio" name="q1-5a" value="He" class="pronoun-choice"> He
+                </label>
+                <label>
+                    <input type="radio" name="q1-5a" value="Him" class="pronoun-choice"> Him
+                </label>
+                <span> invited </span>
+                <label>
+                    <input type="radio" name="q1-5b" value="I" class="pronoun-choice"> I
+                </label>
+                <label>
+                    <input type="radio" name="q1-5b" value="me" class="pronoun-choice"> me
+                </label>
+                <span> to the party.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-6">
+                <span>6. My friends helped </span>
+                <label>
+                    <input type="radio" name="q1-6" value="I" class="pronoun-choice"> I
+                </label>
+                <label>
+                    <input type="radio" name="q1-6" value="me" class="pronoun-choice"> me
+                </label>
+                <span>.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-7">
+                <span>7. </span>
+                <label>
+                    <input type="radio" name="q1-7a" value="We" class="pronoun-choice"> We
+                </label>
+                <label>
+                    <input type="radio" name="q1-7a" value="Us" class="pronoun-choice"> Us
+                </label>
+                <span> went to the beach with </span>
+                <label>
+                    <input type="radio" name="q1-7b" value="he" class="pronoun-choice"> he
+                </label>
+                <label>
+                    <input type="radio" name="q1-7b" value="him" class="pronoun-choice"> him
+                </label>
+                <span>.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q1-8">
+                <span>8. The dog followed </span>
+                <label>
+                    <input type="radio" name="q1-8" value="she" class="pronoun-choice"> she
+                </label>
+                <label>
+                    <input type="radio" name="q1-8" value="her" class="pronoun-choice"> her
+                </label>
+                <span>.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <button id="check-activity1">Check Answers</button>
+            <button id="retry-activity1" class="hidden">Try Again</button>
+            <div class="result-summary" id="result-activity1"></div>
+        </div>
+        
+        <div class="progress-nav">
+            <button onclick="showSection('rules')">Back to Rules</button>
+            <button onclick="showSection('activity2')">Next: Activity 2</button>
+        </div>
+    </div>
+
+    <!-- Activity 2 -->
+    <div id="section-activity2" class="section hidden">
+        <h2>Activity 2: Correct the Mistakes</h2>
+        <p>Fix the mistakes in these sentences by typing the correct pronoun:</p>
+        
+        <div class="activity" id="activity2">
+            <div class="question" id="q2-1">
+                <span>1. Her is my sister.</span><br>
+                <span>Correct: </span>
+                <input type="text" id="a2-1" placeholder="Type the correct pronoun">
+                <span> is my sister.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-2">
+                <span>2. The teacher called they.</span><br>
+                <span>Correct: The teacher called </span>
+                <input type="text" id="a2-2" placeholder="Type the correct pronoun">
+                <span>.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-3">
+                <span>3. Me like pizza.</span><br>
+                <span>Correct: </span>
+                <input type="text" id="a2-3" placeholder="Type the correct pronoun">
+                <span> like pizza.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-4">
+                <span>4. My father gave she a present.</span><br>
+                <span>Correct: My father gave </span>
+                <input type="text" id="a2-4" placeholder="Type the correct pronoun">
+                <span> a present.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-5">
+                <span>5. Them are good students.</span><br>
+                <span>Correct: </span>
+                <input type="text" id="a2-5" placeholder="Type the correct pronoun">
+                <span> are good students.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-6">
+                <span>6. Pedro talked to I yesterday.</span><br>
+                <span>Correct: Pedro talked to </span>
+                <input type="text" id="a2-6" placeholder="Type the correct pronoun">
+                <span> yesterday.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-7">
+                <span>7. Him wants to learn English.</span><br>
+                <span>Correct: </span>
+                <input type="text" id="a2-7" placeholder="Type the correct pronoun">
+                <span> wants to learn English.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q2-8">
+                <span>8. Us went to the cinema.</span><br>
+                <span>Correct: </span>
+                <input type="text" id="a2-8" placeholder="Type the correct pronoun">
+                <span> went to the cinema.</span>
+                <div class="feedback"></div>
+            </div>
+            
+            <button id="check-activity2">Check Answers</button>
+            <button id="retry-activity2" class="hidden">Try Again</button>
+            <div class="result-summary" id="result-activity2"></div>
+        </div>
+        
+        <div class="progress-nav">
+            <button onclick="showSection('activity1')">Back to Activity 1</button>
+            <button onclick="showSection('activity3')">Next: Activity 3</button>
+        </div>
+    </div>
+
+    <!-- Activity 3 -->
+    <div id="section-activity3" class="section hidden">
+        <h2>Activity 3: Complete the Conversations</h2>
+        <p>Fill in the blanks with the correct pronouns:</p>
+        
+        <div class="activity" id="activity3">
+            <div class="question" id="q3-1">
+                <div class="conversation">
+                    <p><strong>Conversation 1:</strong></p>
+                    <p>A: Do you know Maria?</p>
+                    <p>B: Yes, I know <input type="text" id="a3-1a" size="5">. 
+                       <input type="text" id="a3-1b" size="5"> is my neighbor.</p>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q3-2">
+                <div class="conversation">
+                    <p><strong>Conversation 2:</strong></p>
+                    <p>A: Who called you?</p>
+                    <p>B: <input type="text" id="a3-2a" size="5"> called 
+                       <input type="text" id="a3-2b" size="5">. 
+                       <input type="text" id="a3-2c" size="5"> wanted to invite 
+                       <input type="text" id="a3-2d" size="5"> to dinner.</p>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q3-3">
+                <div class="conversation">
+                    <p><strong>Conversation 3:</strong></p>
+                    <p>A: Did you help your friends?</p>
+                    <p>B: Yes, I helped <input type="text" id="a3-3a" size="5">. 
+                       <input type="text" id="a3-3b" size="5"> needed my help.</p>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q3-4">
+                <div class="conversation">
+                    <p><strong>Conversation 4:</strong></p>
+                    <p>A: Where are Pedro and Ana?</p>
+                    <p>B: <input type="text" id="a3-4a" size="5"> are at home. 
+                       I visited <input type="text" id="a3-4b" size="5"> yesterday.</p>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question" id="q3-5">
+                <div class="conversation">
+                    <p><strong>Conversation 5:</strong></p>
+                    <p>A: Who is that man?</p>
+                    <p>B: <input type="text" id="a3-5a" size="5"> is my teacher. 
+                       Do you know <input type="text" id="a3-5b" size="5">?</p>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <button id="check-activity3">Check Answers</button>
+            <button id="retry-activity3" class="hidden">Try Again</button>
+            <div class="result-summary" id="result-activity3"></div>
+        </div>
+        
+        <div class="progress-nav">
+            <button onclick="showSection('activity2')">Back to Activity 2</button>
+            <button onclick="showSection('summary')" id="to-summary">Next: Summary</button>
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div id="section-summary" class="section hidden">
+        <h2>Great Job!</h2>
+        
+        <div class="rule-box">
+            <h3>Remember:</h3>
+            <ul>
+                <li><strong>Subject pronouns</strong> (I, you, he, she, it, we, they) <strong>do</strong> the action</li>
+                <li><strong>Object pronouns</strong> (me, you, him, her, it, us, them) <strong>receive</strong> the action</li>
+                <li>After prepositions (to, with, for, etc.), use <strong>object pronouns</strong></li>
+            </ul>
+        </div>
+        
+        <div class="progress-nav">
+            <button onclick="showSection('activity3')">Back to Activity 3</button>
+            <button onclick="showSection('rules')">Start Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Navigation between sections
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the requested section
+            document.getElementById('section-' + sectionName).classList.remove('hidden');
+            
+            // Update progress indicator
+            const progressText = document.getElementById('current-section');
+            const sections = {
+                'rules': 'Rules (1/5)',
+                'activity1': 'Activity 1 (2/5)',
+                'activity2': 'Activity 2 (3/5)',
+                'activity3': 'Activity 3 (4/5)',
+                'summary': 'Summary (5/5)'
+            };
+            
+            document.querySelector('.progress-indicator').innerHTML = sections[sectionName] || '';
+        }
+        
+        // Activity 1 checking
+        document.getElementById('check-activity1').addEventListener('click', function() {
+            let correctAnswers = 0;
+            const totalQuestions = 9; // There are 9 blanks to fill (including the double pronouns in q5 and q7)
+            
+            // Check question 1
+            const q1Answer = document.querySelector('input[name="q1-1"]:checked');
+            if (q1Answer && q1Answer.value === 'I') {
+                document.querySelector('#q1-1 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-1 .feedback').className = 'feedback correct';
+                correctAnswers++;
+            } else {
+                document.querySelector('#q1-1 .feedback').textContent = '✗ "I" is correct. Subject pronoun is needed.';
+                document.querySelector('#q1-1 .feedback').className = 'feedback';
+            }
+            
+            // Check question 2
+            const q2Answer = document.querySelector('input[name="q1-2"]:checked');
+            if (q2Answer && q2Answer.value === 'us') {
+                document.querySelector('#q1-2 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-2 .feedback').className = 'feedback correct';
+                correctAnswers++;
+            } else {
+                document.querySelector('#q1-2 .feedback').textContent = '✗ "us" is correct. Object pronoun is needed after "call".';
+                document.querySelector('#q1-2 .feedback').className = 'feedback';
+            }
+            
+            // Check question 3
+            const q3Answer = document.querySelector('input[name="q1-3"]:checked');
+            if (q3Answer && q3Answer.value === 'She') {
+                document.querySelector('#q1-3 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-3 .feedback').className = 'feedback correct';
+                correctAnswers++;
+            } else {
+                document.querySelector('#q1-3 .feedback').textContent = '✗ "She" is correct. Subject pronoun is needed.';
+                document.querySelector('#q1-3 .feedback').className = 'feedback';
+            }
+            
+            // Check question 4
+            const q4Answer = document.querySelector('input[name="q1-4"]:checked');
+            if (q4Answer && q4Answer.value === 'them') {
+                document.querySelector('#q1-4 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-4 .feedback').className = 'feedback correct';
+                correctAnswers++;
+            } else {
+                document.querySelector('#q1-4 .feedback').textContent = '✗ "them" is correct. Object pronoun is needed after "gave".';
+                document.querySelector('#q1-4 .feedback').className = 'feedback';
+            }
+            
+            // Check question 5 (two parts)
+            const q5aAnswer = document.querySelector('input[name="q1-5a"]:checked');
+            const q5bAnswer = document.querySelector('input[name="q1-5b"]:checked');
+            if (q5aAnswer && q5aAnswer.value === 'He' && q5bAnswer && q5bAnswer.value === 'me') {
+                document.querySelector('#q1-5 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-5 .feedback').className = 'feedback correct';
+                correctAnswers += 2;
+            } else {
+                let feedback = '✗ ';
+                if (!q5aAnswer || q5aAnswer.value !== 'He') {
+                    feedback += '"He" is the correct subject pronoun. ';
+                }
+                if (!q5bAnswer || q5bAnswer.value !== 'me') {
+                    feedback += '"me" is the correct object pronoun.';
+                }
+                document.querySelector('#q1-5 .feedback').textContent = feedback;
+                document.querySelector('#q1-5 .feedback').className = 'feedback';
+            }
+            
+            // Check question 6
+            const q6Answer = document.querySelector('input[name="q1-6"]:checked');
+            if (q6Answer && q6Answer.value === 'me') {
+                document.querySelector('#q1-6 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-6 .feedback').className = 'feedback correct';
+                correctAnswers++;
+            } else {
+                document.querySelector('#q1-6 .feedback').textContent = '✗ "me" is correct. Object pronoun is needed after "helped".';
+                document.querySelector('#q1-6 .feedback').className = 'feedback';
+            }
+            
+            // Check question 7 (two parts)
+            const q7aAnswer = document.querySelector('input[name="q1-7a"]:checked');
+            const q7bAnswer = document.querySelector('input[name="q1-7b"]:checked');
+            if (q7aAnswer && q7aAnswer.value === 'We' && q7bAnswer && q7bAnswer.value === 'him') {
+                document.querySelector('#q1-7 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-7 .feedback').className = 'feedback correct';
+                correctAnswers += 2;
+            } else {
+                let feedback = '✗ ';
+                if (!q7aAnswer || q7aAnswer.value !== 'We') {
+                    feedback += '"We" is the correct subject pronoun. ';
+                }
+                if (!q7bAnswer || q7bAnswer.value !== 'him') {
+                    feedback += '"him" is the correct object pronoun after "with".';
+                }
+                document.querySelector('#q1-7 .feedback').textContent = feedback;
+                document.querySelector('#q1-7 .feedback').className = 'feedback';
+            }
+            
+            // Check question 8
+            const q8Answer = document.querySelector('input[name="q1-8"]:checked');
+            if (q8Answer && q8Answer.value === 'her') {
+                document.querySelector('#q1-8 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q1-8 .feedback').className = 'feedback correct';
+                correctAnswers++;
+            } else {
+                document.querySelector('#q1-8 .feedback').textContent = '✗ "her" is correct. Object pronoun is needed after "followed".';
+                document.querySelector('#q1-8 .feedback').className = 'feedback';
+            }
+            
+            // Display results
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            document.getElementById('result-activity1').textContent = `Score: ${correctAnswers}/${totalQuestions} (${percentage}%)`;
+            
+            // Show retry button
+            this.classList.add('hidden');
+            document.getElementById('retry-activity1').classList.remove('hidden');
+        });
+        
+        // Retry Activity 1
+        document.getElementById('retry-activity1').addEventListener('click', function() {
+            // Clear all selections
+            document.querySelectorAll('#activity1 input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+            
+            // Clear feedback
+            document.querySelectorAll('#activity1 .feedback').forEach(feedback => {
+                feedback.textContent = '';
+            });
+            
+            // Hide results
+            document.getElementById('result-activity1').textContent = '';
+            
+            // Show check button, hide retry button
+            document.getElementById('check-activity1').classList.remove('hidden');
+            this.classList.add('hidden');
+        });
+        
+        // Activity 2 checking
+        document.getElementById('check-activity2').addEventListener('click', function() {
+            let correctAnswers = 0;
+            const totalQuestions = 8;
+            
+            // Correct answers
+            const answers = {
+                'a2-1': 'She',
+                'a2-2': 'them',
+                'a2-3': 'I',
+                'a2-4': 'her',
+                'a2-5': 'They',
+                'a2-6': 'me',
+                'a2-7': 'He',
+                'a2-8': 'We'
+            };
+            
+            // Check each answer
+            for (let i = 1; i <= 8; i++) {
+                const inputId = 'a2-' + i;
+                const userAnswer = document.getElementById(inputId).value.trim();
+                
+                if (userAnswer.toLowerCase() === answers[inputId].toLowerCase()) {
+                    document.querySelector(`#q2-${i} .feedback`).textContent = `✓ Correct! "${answers[inputId]}" is the right answer.`;
+                    document.querySelector(`#q2-${i} .feedback`).className = 'feedback correct';
+                    correctAnswers++;
+                } else {
+                    document.querySelector(`#q2-${i} .feedback`).textContent = `✗ Incorrect. The correct answer is "${answers[inputId]}".`;
+                    document.querySelector(`#q2-${i} .feedback`).className = 'feedback';
+                }
+            }
+            
+            // Display results
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            document.getElementById('result-activity2').textContent = `Score: ${correctAnswers}/${totalQuestions} (${percentage}%)`;
+            
+            // Show retry button
+            this.classList.add('hidden');
+            document.getElementById('retry-activity2').classList.remove('hidden');
+        });
+        
+        // Retry Activity 2
+        document.getElementById('retry-activity2').addEventListener('click', function() {
+            // Clear all inputs
+            document.querySelectorAll('#activity2 input[type="text"]').forEach(input => {
+                input.value = '';
+            });
+            
+            // Clear feedback
+            document.querySelectorAll('#activity2 .feedback').forEach(feedback => {
+                feedback.textContent = '';
+            });
+            
+            // Hide results
+            document.getElementById('result-activity2').textContent = '';
+            
+            // Show check button, hide retry button
+            document.getElementById('check-activity2').classList.remove('hidden');
+            this.classList.add('hidden');
+        });
+        
+        // Activity 3 checking
+        document.getElementById('check-activity3').addEventListener('click', function() {
+            let correctAnswers = 0;
+            const totalQuestions = 12;
+            
+            // Correct answers
+            const answers = {
+                'a3-1a': 'her', 'a3-1b': 'She',
+                'a3-2a': 'He', 'a3-2b': 'me', 'a3-2c': 'He', 'a3-2d': 'me',
+                'a3-3a': 'them', 'a3-3b': 'They',
+                'a3-4a': 'They', 'a3-4b': 'them',
+                'a3-5a': 'He', 'a3-5b': 'him'
+            };
+            
+            // Check conversation 1
+            const c1aAnswer = document.getElementById('a3-1a').value.trim();
+            const c1bAnswer = document.getElementById('a3-1b').value.trim();
+            
+            if (c1aAnswer.toLowerCase() === answers['a3-1a'].toLowerCase() && 
+                c1bAnswer.toLowerCase() === answers['a3-1b'].toLowerCase()) {
+                document.querySelector('#q3-1 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q3-1 .feedback').className = 'feedback correct';
+                correctAnswers += 2;
+            } else {
+                let feedback = '✗ ';
+                if (c1aAnswer.toLowerCase() !== answers['a3-1a'].toLowerCase()) {
+                    feedback += `First answer should be "${answers['a3-1a']}" (object pronoun). `;
+                }
+                if (c1bAnswer.toLowerCase() !== answers['a3-1b'].toLowerCase()) {
+                    feedback += `Second answer should be "${answers['a3-1b']}" (subject pronoun).`;
+                }
+                document.querySelector('#q3-1 .feedback').textContent = feedback;
+                document.querySelector('#q3-1 .feedback').className = 'feedback';
+            }
+            
+            // Check conversation 2
+            const c2aAnswer = document.getElementById('a3-2a').value.trim();
+            const c2bAnswer = document.getElementById('a3-2b').value.trim();
+            const c2cAnswer = document.getElementById('a3-2c').value.trim();
+            const c2dAnswer = document.getElementById('a3-2d').value.trim();
+            
+            let c2Correct = true;
+            let c2Feedback = '✗ ';
+            
+            if (c2aAnswer.toLowerCase() !== answers['a3-2a'].toLowerCase()) {
+                c2Feedback += `First should be "${answers['a3-2a']}" (subject). `;
+                c2Correct = false;
+            }
+            if (c2bAnswer.toLowerCase() !== answers['a3-2b'].toLowerCase()) {
+                c2Feedback += `Second should be "${answers['a3-2b']}" (object). `;
+                c2Correct = false;
+            }
+            if (c2cAnswer.toLowerCase() !== answers['a3-2c'].toLowerCase()) {
+                c2Feedback += `Third should be "${answers['a3-2c']}" (subject). `;
+                c2Correct = false;
+            }
+            if (c2dAnswer.toLowerCase() !== answers['a3-2d'].toLowerCase()) {
+                c2Feedback += `Fourth should be "${answers['a3-2d']}" (object).`;
+                c2Correct = false;
+            }
+            
+            if (c2Correct) {
+                document.querySelector('#q3-2 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q3-2 .feedback').className = 'feedback correct';
+                correctAnswers += 4;
+            } else {
+                document.querySelector('#q3-2 .feedback').textContent = c2Feedback;
+                document.querySelector('#q3-2 .feedback').className = 'feedback';
+            }
+            
+            // Check conversation 3
+            const c3aAnswer = document.getElementById('a3-3a').value.trim();
+            const c3bAnswer = document.getElementById('a3-3b').value.trim();
+            
+            if (c3aAnswer.toLowerCase() === answers['a3-3a'].toLowerCase() && 
+                c3bAnswer.toLowerCase() === answers['a3-3b'].toLowerCase()) {
+                document.querySelector('#q3-3 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q3-3 .feedback').className = 'feedback correct';
+                correctAnswers += 2;
+            } else {
+                let feedback = '✗ ';
+                if (c3aAnswer.toLowerCase() !== answers['a3-3a'].toLowerCase()) {
+                    feedback += `First answer should be "${answers['a3-3a']}" (object pronoun). `;
+                }
+                if (c3bAnswer.toLowerCase() !== answers['a3-3b'].toLowerCase()) {
+                    feedback += `Second answer should be "${answers['a3-3b']}" (subject pronoun).`;
+                }
+                document.querySelector('#q3-3 .feedback').textContent = feedback;
+                document.querySelector('#q3-3 .feedback').className = 'feedback';
+            }
+            
+            // Check conversation 4
+            const c4aAnswer = document.getElementById('a3-4a').value.trim();
+            const c4bAnswer = document.getElementById('a3-4b').value.trim();
+            
+            if (c4aAnswer.toLowerCase() === answers['a3-4a'].toLowerCase() && 
+                c4bAnswer.toLowerCase() === answers['a3-4b'].toLowerCase()) {
+                document.querySelector('#q3-4 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q3-4 .feedback').className = 'feedback correct';
+                correctAnswers += 2;
+            } else {
+                let feedback = '✗ ';
+                if (c4aAnswer.toLowerCase() !== answers['a3-4a'].toLowerCase()) {
+                    feedback += `First answer should be "${answers['a3-4a']}" (subject pronoun). `;
+                }
+                if (c4bAnswer.toLowerCase() !== answers['a3-4b'].toLowerCase()) {
+                    feedback += `Second answer should be "${answers['a3-4b']}" (object pronoun).`;
+                }
+                document.querySelector('#q3-4 .feedback').textContent = feedback;
+                document.querySelector('#q3-4 .feedback').className = 'feedback';
+            }
+            
+            // Check conversation 5
+            const c5aAnswer = document.getElementById('a3-5a').value.trim();
+            const c5bAnswer = document.getElementById('a3-5b').value.trim();
+            
+            if (c5aAnswer.toLowerCase() === answers['a3-5a'].toLowerCase() && 
+                c5bAnswer.toLowerCase() === answers['a3-5b'].toLowerCase()) {
+                document.querySelector('#q3-5 .feedback').textContent = '✓ Correct!';
+                document.querySelector('#q3-5 .feedback').className = 'feedback correct';
+                correctAnswers += 2;
+            } else {
+                let feedback = '✗ ';
+                if (c5aAnswer.toLowerCase() !== answers['a3-5a'].toLowerCase()) {
+                    feedback += `First answer should be "${answers['a3-5a']}" (subject pronoun). `;
+                }
+                if (c5bAnswer.toLowerCase() !== answers['a3-5b'].toLowerCase()) {
+                    feedback += `Second answer should be "${answers['a3-5b']}" (object pronoun).`;
+                }
+                document.querySelector('#q3-5 .feedback').textContent = feedback;
+                document.querySelector('#q3-5 .feedback').className = 'feedback';
+            }
+            
+            // Display results
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            document.getElementById('result-activity3').textContent = `Score: ${correctAnswers}/${totalQuestions} (${percentage}%)`;
+            
+            // Show retry button
+            this.classList.add('hidden');
+            document.getElementById('retry-activity3').classList.remove('hidden');
