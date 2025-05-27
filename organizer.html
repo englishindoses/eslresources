@@ -324,6 +324,12 @@
         <div class="header">
             <h1>🎓 ESL Holiday Organizer</h1>
             <p>Available: Tuesday & Thursday, 1-6pm UK Time</p>
+            <div style="margin-top: 10px;">
+                <button onclick="clearAllData()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px; border-radius: 6px; font-size: 0.9rem; cursor: pointer;">
+                    🗑️ Clear All Data
+                </button>
+                <span id="saveIndicator" style="margin-left: 10px; font-size: 0.8rem; opacity: 0.7;"></span>
+            </div>
         </div>
         
         <div class="stats">
@@ -380,16 +386,117 @@
         let paymentData = {};
         let scheduleData = { tuesday: {}, thursday: {} };
         
-        // Initialize data
-        students.forEach(student => {
-            studentData[student] = { contacted: false, status: 'pending' };
-        });
+        // Initialize data with localStorage
+        function initializeData() {
+            // Load from localStorage or use defaults
+            const savedStudentData = localStorage.getItem('eslOrganizerStudents');
+            const savedPaymentData = localStorage.getItem('eslOrganizerPayments');
+            const savedScheduleData = localStorage.getItem('eslOrganizerSchedule');
+            
+            if (savedStudentData) {
+                try {
+                    studentData = JSON.parse(savedStudentData);
+                } catch (e) {
+                    console.log('Error loading student data, using defaults');
+                    studentData = {};
+                }
+            }
+            
+            if (savedPaymentData) {
+                try {
+                    paymentData = JSON.parse(savedPaymentData);
+                } catch (e) {
+                    console.log('Error loading payment data, using defaults');
+                    paymentData = {};
+                }
+            }
+            
+            if (savedScheduleData) {
+                try {
+                    scheduleData = JSON.parse(savedScheduleData);
+                } catch (e) {
+                    console.log('Error loading schedule data, using defaults');
+                    scheduleData = { tuesday: {}, thursday: {} };
+                }
+            }
+            
+            // Ensure all students exist in studentData
+            students.forEach(student => {
+                if (!studentData[student]) {
+                    studentData[student] = { contacted: false, status: 'pending' };
+                }
+            });
+            
+            // Ensure all payment students exist in paymentData
+            paymentStudents.forEach(student => {
+                if (!paymentData[student]) {
+                    paymentData[student] = { amount: 0, dueDate: '', paid: false };
+                }
+            });
+            
+            // Ensure schedule structure exists
+            if (!scheduleData.tuesday) scheduleData.tuesday = {};
+            if (!scheduleData.thursday) scheduleData.thursday = {};
+        }
         
-        paymentStudents.forEach(student => {
-            paymentData[student] = { amount: 0, dueDate: '', paid: false };
-        });
+        // Save data to localStorage
+        function saveData() {
+            try {
+                localStorage.setItem('eslOrganizerStudents', JSON.stringify(studentData));
+                localStorage.setItem('eslOrganizerPayments', JSON.stringify(paymentData));
+                localStorage.setItem('eslOrganizerSchedule', JSON.stringify(scheduleData));
+                
+                // Show save indicator
+                const indicator = document.getElementById('saveIndicator');
+                indicator.textContent = '💾 Saved';
+                setTimeout(() => {
+                    indicator.textContent = '';
+                }, 2000);
+            } catch (e) {
+                console.error('Error saving data to localStorage:', e);
+                const indicator = document.getElementById('saveIndicator');
+                indicator.textContent = '❌ Save failed';
+                setTimeout(() => {
+                    indicator.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        // Clear all data
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                localStorage.removeItem('eslOrganizerStudents');
+                localStorage.removeItem('eslOrganizerPayments');
+                localStorage.removeItem('eslOrganizerSchedule');
+                
+                // Reset to defaults
+                studentData = {};
+                paymentData = {};
+                scheduleData = { tuesday: {}, thursday: {} };
+                
+                students.forEach(student => {
+                    studentData[student] = { contacted: false, status: 'pending' };
+                });
+                
+                paymentStudents.forEach(student => {
+                    paymentData[student] = { amount: 0, dueDate: '', paid: false };
+                });
+                
+                renderStudentList();
+                renderPaymentList();
+                renderSchedule();
+                updateStats();
+                
+                const indicator = document.getElementById('saveIndicator');
+                indicator.textContent = '🧹 Data cleared';
+                setTimeout(() => {
+                    indicator.textContent = '';
+                }, 3000);
+            }
+        }
         
         function initializeApp() {
+            initializeData();
             renderStudentList();
             renderPaymentList();
             renderSchedule();
@@ -472,12 +579,14 @@
             if (status !== 'pending') {
                 studentData[student].contacted = true;
             }
+            saveData();
             renderStudentList();
             updateStats();
         }
         
         function toggleContacted(student) {
             studentData[student].contacted = !studentData[student].contacted;
+            saveData();
             updateStats();
         }
         
@@ -487,6 +596,7 @@
             } else {
                 paymentData[student][field] = value;
             }
+            saveData();
             updateStats();
         }
         
@@ -496,6 +606,7 @@
             } else {
                 delete scheduleData[day][slot];
             }
+            saveData();
             renderSchedule();
             updateStats();
         }
