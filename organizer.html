@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>ESL Lesson Holiday Organizer</title>
     <style>
         * {
@@ -12,96 +12,120 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            font-size: 16px; /* Prevents zoom on iOS */
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         
         .header {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
-            padding: 30px;
+            padding: 20px 15px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             font-weight: 700;
         }
         
         .header p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.9;
         }
         
-        .content {
+        .stats {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            background: #1e293b;
+            color: white;
+            padding: 15px 10px;
+            gap: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .content {
+            padding: 15px;
         }
         
         .section {
             background: #f8fafc;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .section h2 {
             color: #1e293b;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
             border-bottom: 3px solid #4f46e5;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
         
         .student-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px;
+            padding: 15px 12px;
             margin-bottom: 10px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .student-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-height: 60px; /* Better touch target */
         }
         
         .student-name {
             font-weight: 600;
             color: #1e293b;
             font-size: 1.1rem;
+            flex: 1;
         }
         
         .student-controls {
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .status-select {
-            padding: 5px 10px;
+            padding: 8px 12px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
             background: white;
             font-size: 0.9rem;
+            min-height: 44px; /* iOS recommended touch target */
+            min-width: 100px;
         }
         
         .status-select.contacted {
@@ -111,28 +135,45 @@
         }
         
         .checkbox-custom {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             accent-color: #4f46e5;
+            margin: 10px; /* Larger touch area */
         }
         
         .payment-item {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px;
-            margin-bottom: 8px;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
+        .payment-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .payment-name {
+            font-weight: 600;
+            color: #1e293b;
+            min-width: 80px;
+            font-size: 1.1rem;
+        }
+        
         .payment-input {
-            padding: 8px 12px;
+            padding: 12px;
             border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            width: 80px;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 44px;
+            flex: 1;
+            min-width: 80px;
         }
         
         .payment-input:focus {
@@ -141,20 +182,16 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         
-        .calendar {
-            grid-column: 1 / -1;
-        }
-        
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
         
         .day-column {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         
@@ -164,7 +201,7 @@
             color: #4f46e5;
             margin-bottom: 15px;
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             background: #f1f5f9;
             border-radius: 8px;
         }
@@ -173,18 +210,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 15px;
+            padding: 15px;
             margin-bottom: 8px;
             background: #fafafa;
             border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            cursor: pointer;
+            border-radius: 10px;
+            min-height: 50px;
             transition: all 0.3s ease;
-        }
-        
-        .time-slot:hover {
-            background: #f0f9ff;
-            border-color: #0ea5e9;
         }
         
         .time-slot.booked {
@@ -194,52 +226,96 @@
         }
         
         .student-select {
-            padding: 4px 8px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
             background: white;
-            font-size: 0.85rem;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            background: #1e293b;
-            color: white;
-            padding: 20px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #10b981;
-        }
-        
-        .stat-label {
             font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 5px;
+            min-height: 40px;
+            min-width: 100px;
         }
         
+        .paid-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            padding: 5px;
+        }
+        
+        /* Mobile-specific improvements */
         @media (max-width: 768px) {
-            .content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
+            .student-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
             }
             
-            .calendar-grid {
-                grid-template-columns: 1fr;
+            .student-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .payment-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .payment-input {
+                width: 100%;
+            }
+            
+            .time-slot {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .student-select {
+                width: 100%;
+            }
+        }
+        
+        /* Very small screens */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 12px;
             }
             
             .stats {
-                flex-direction: column;
-                gap: 15px;
+                padding: 10px 5px;
             }
+            
+            .stat-number {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* Prevent zoom on double tap */
+        * {
+            touch-action: manipulation;
+        }
+        
+        /* Better scrolling on iOS */
+        body {
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
@@ -276,7 +352,7 @@
                 <div id="paymentList"></div>
             </div>
             
-            <div class="section calendar">
+            <div class="section">
                 <h2>📅 Schedule (UK Time)</h2>
                 <div class="calendar-grid">
                     <div class="day-column">
@@ -324,15 +400,18 @@
             const container = document.getElementById('studentList');
             container.innerHTML = students.map(student => `
                 <div class="student-item">
-                    <span class="student-name">${student}</span>
+                    <div class="student-name">${student}</div>
                     <div class="student-controls">
                         <select class="status-select ${studentData[student].contacted ? 'contacted' : ''}" onchange="updateStudentStatus('${student}', this.value)">
                             <option value="pending" ${studentData[student].status === 'pending' ? 'selected' : ''}>Pending</option>
                             <option value="cancelled" ${studentData[student].status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
                             <option value="rescheduled" ${studentData[student].status === 'rescheduled' ? 'selected' : ''}>Rescheduled</option>
                         </select>
-                        <input type="checkbox" class="checkbox-custom" onchange="toggleContacted('${student}')" 
-                               ${studentData[student].contacted ? 'checked' : ''}>
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" class="checkbox-custom" onchange="toggleContacted('${student}')" 
+                                   ${studentData[student].contacted ? 'checked' : ''}>
+                            <span style="font-size: 0.9rem;">Contacted</span>
+                        </label>
                     </div>
                 </div>
             `).join('');
@@ -342,20 +421,25 @@
             const container = document.getElementById('paymentList');
             container.innerHTML = paymentStudents.map(student => `
                 <div class="payment-item">
-                    <span style="min-width: 80px; font-weight: 600;">${student}</span>
-                    <span>R$</span>
-                    <input type="number" class="payment-input" placeholder="0" step="0.01" 
-                           value="${paymentData[student].amount || ''}" 
-                           onchange="updatePayment('${student}', 'amount', this.value)">
-                    <input type="date" class="payment-input" style="width: auto;" 
-                           value="${paymentData[student].dueDate}" 
-                           onchange="updatePayment('${student}', 'dueDate', this.value)">
-                    <label style="display: flex; align-items: center; gap: 5px; font-size: 0.9rem;">
+                    <div class="payment-name">${student}</div>
+                    <div class="payment-row">
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            R$ <input type="number" class="payment-input" placeholder="0.00" step="0.01" 
+                                   value="${paymentData[student].amount || ''}" 
+                                   onchange="updatePayment('${student}', 'amount', this.value)">
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px; font-size: 0.9rem;">
+                            Due: <input type="date" class="payment-input" 
+                                   value="${paymentData[student].dueDate}" 
+                                   onchange="updatePayment('${student}', 'dueDate', this.value)">
+                        </label>
+                    </div>
+                    <div class="paid-checkbox">
                         <input type="checkbox" class="checkbox-custom" 
                                ${paymentData[student].paid ? 'checked' : ''}
                                onchange="updatePayment('${student}', 'paid', this.checked)">
-                        Paid
-                    </label>
+                        <span>Payment Received</span>
+                    </div>
                 </div>
             `).join('');
         }
@@ -370,10 +454,9 @@
             container.innerHTML = timeSlots.map(slot => {
                 const bookedStudent = scheduleData[day][slot];
                 return `
-                    <div class="time-slot ${bookedStudent ? 'booked' : ''}" onclick="toggleSlot('${day}', '${slot}')">
-                        <span>${slot}</span>
-                        <select class="student-select" onclick="event.stopPropagation()" 
-                                onchange="bookSlot('${day}', '${slot}', this.value)">
+                    <div class="time-slot ${bookedStudent ? 'booked' : ''}">
+                        <div style="font-weight: 600;">${slot}</div>
+                        <select class="student-select" onchange="bookSlot('${day}', '${slot}', this.value)">
                             <option value="">Available</option>
                             ${students.map(student => 
                                 `<option value="${student}" ${bookedStudent === student ? 'selected' : ''}>${student}</option>`
@@ -417,10 +500,6 @@
             updateStats();
         }
         
-        function toggleSlot(day, slot) {
-            // This function can be used for additional slot interactions if needed
-        }
-        
         function updateStats() {
             // Count contacted students
             const contactedCount = Object.values(studentData).filter(data => data.contacted).length;
@@ -428,7 +507,7 @@
             
             // Calculate total owed
             const totalOwed = Object.values(paymentData).reduce((sum, data) => sum + (parseFloat(data.amount) || 0), 0);
-            document.getElementById('totalOwed').textContent = `R${totalOwed.toFixed(2)}`;
+            document.getElementById('totalOwed').textContent = `R$${totalOwed.toFixed(2)}`;
             
             // Count scheduled lessons
             const bookedSlots = Object.keys(scheduleData.tuesday).length + Object.keys(scheduleData.thursday).length;
