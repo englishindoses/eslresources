@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Practice - Common Expressions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #1e293b;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 20px 25px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 24px;
+        }
+        
+        .title {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 24px;
+        }
+        
+        .tab-btn {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab-btn:hover {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-color: #3b82f6;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border-color: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+        
+        .tab-score {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.025em;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            margin-bottom: 24px;
+        }
+        
+        .question-container {
+            margin: 32px 0;
+            padding: 32px;
+            background: linear-gradient(135deg, #fefefe, #f8fafc);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            color: #1e293b;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .gap {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 0 4px;
+            display: inline-block;
+            min-width: 50px;
+            text-align: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+        
+        .option-btn {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            color: #475569;
+            border: 2px solid #e2e8f0;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .option-btn:hover {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+        
+        .option-btn:hover::before {
+            left: 100%;
+        }
+        
+        .option-btn.correct {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border-color: #16a34a;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+        }
+        
+        .option-btn.incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-color: #dc2626;
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 24px;
+            padding: 20px;
+            border-radius: 8px;
+            font-weight: 400;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 1rem;
+            line-height: 1.6;
+            border-left: 4px solid;
+        }
+        
+        .feedback.show {
+            opacity: 1;
+        }
+        
+        .feedback.correct {
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            color: #166534;
+            border-left-color: #22c55e;
+        }
+        
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #fef2f2, #fef7f7);
+            color: #991b1b;
+            border-left-color: #ef4444;
+        }
+        
+        .next-btn, .restart-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+            display: none;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .next-btn:hover, .restart-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        .restart-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            margin-left: 0;
+            margin-top: 24px;
+        }
+        
+        .restart-btn:hover {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+        
+        .progress {
+            background: #f1f5f9;
+            height: 8px;
+            border-radius: 4px;
+            margin: 24px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+            height: 100%;
+            transition: width 0.4s ease;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+        }
+        
+        .completion {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+        
+        .completion h2 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .completion p {
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        
+        .completion .score-highlight {
+            color: #3b82f6;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .button-container {
+            margin-top: 24px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Articles Practice and New Vocabulary - The Story of KFC</h1>
+            <p class="subtitle">Interactive exercises to strengthen your English skills</p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('articles')">Article Practice</button>
+                <button class="tab-btn" onclick="showTab('vocabulary')">Vocabulary Practice</button>
+            </div>
+        </div>
+        
+        <div class="tab-content active" id="articles-tab">
+            <div class="tab-score">Score: <span id="score">0</span>/6</div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="question-container" id="question-container">
+                <div class="question" id="question"></div>
+                <div class="options" id="options"></div>
+                <div class="feedback" id="feedback"></div>
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question</button>
+                
+                <div class="completion" id="inline-completion" style="display: none; margin-top: 32px; padding-top: 32px; border-top: 2px solid #e2e8f0;">
+                    <h2>Article Practice Complete!</h2>
+                    <p>Great job practicing these common expressions.</p>
+                    <p>Final Score: <span id="inline-final-score" class="score-highlight"></span>/6</p>
+                    <div class="button-container">
+                        <button class="restart-btn" id="inline-restart-btn" onclick="restartExercise()">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="vocabulary-tab">
+            <div class="tab-score">Score: <span id="vocab-score">0</span>/6</div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="vocab-progress-bar"></div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question" id="vocab-question"></div>
+                <div class="options" id="vocab-options"></div>
+                <div class="feedback" id="vocab-feedback"></div>
+                <button class="next-btn" id="vocab-next-btn" onclick="nextVocabQuestion()">Next Question</button>
+                
+                <div class="completion" id="vocab-inline-completion" style="display: none; margin-top: 32px; padding-top: 32px; border-top: 2px solid #e2e8f0;">
+                    <h2>Vocabulary Practice Complete!</h2>
+                    <p>Excellent work with these new words.</p>
+                    <p>Final Score: <span id="vocab-inline-final-score" class="score-highlight"></span>/6</p>
+                    <div class="button-container">
+                        <button class="restart-btn" id="vocab-inline-restart-btn" onclick="restartVocabExercise()">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "I usually get to ___ office around 8:30 AM.",
+                options: ["a", "an", "the", "no article"],
+                correct: 2,
+                explanation: "Use 'the' with 'office' when referring to your specific workplace."
+            },
+            {
+                text: "Let's have ___ quick meeting before lunch.",
+                options: ["a", "an", "the", "no article"],
+                correct: 0,
+                explanation: "Use 'a' with singular countable nouns mentioned for the first time. 'Quick' starts with a consonant sound."
+            },
+            {
+                text: "I'm sorry I'm late - I was stuck in ___ traffic.",
+                options: ["a", "an", "the", "no article"],
+                correct: 3,
+                explanation: "No article with 'traffic' when talking about the general condition of busy roads."
+            },
+            {
+                text: "Could you take ___ break and help me with this project?",
+                options: ["a", "an", "the", "no article"],
+                correct: 0,
+                explanation: "Use 'a' with 'break' - this is a common fixed expression meaning to pause work temporarily."
+            },
+            {
+                text: "I always have ___ lunch at my desk when I'm busy.",
+                options: ["a", "an", "the", "no article"],
+                correct: 3,
+                explanation: "No article with meals when talking about the general activity of eating. 'Have lunch' is a fixed expression."
+            },
+            {
+                text: "She's been working from ___ home since the pandemic started.",
+                options: ["a", "an", "the", "no article"],
+                correct: 3,
+                explanation: "No article with 'home' in the expression 'from home' - this refers to working remotely."
+            }
+        ];
+
+        const vocabQuestions = [
+            {
+                text: "Tesla hired a famous actor to be their new ___ and promote their electric cars worldwide.",
+                options: ["ambassador", "service station", "brand", "failure"],
+                correct: 0,
+                explanation: "An ambassador represents and promotes a company or product publicly."
+            },
+            {
+                text: "After many unsuccessful attempts, the startup experienced complete ___ and had to close down.",
+                options: ["brand", "ambassador", "failure", "service station"],
+                correct: 2,
+                explanation: "Failure refers to the lack of success in achieving a goal."
+            },
+            {
+                text: "My car needs gas, so I'll stop at the next ___ on the highway.",
+                options: ["failure", "brand", "service station", "ambassador"],
+                correct: 2,
+                explanation: "A service station is where you can buy fuel and get car services."
+            },
+            {
+                text: "Nike is a global ___ that's recognized everywhere for their athletic products.",
+                options: ["service station", "failure", "ambassador", "brand"],
+                correct: 3,
+                explanation: "A brand is a company's name and reputation that customers recognize."
+            },
+            {
+                text: "The hurricane will ___ many buildings along the coast if it hits with full force.",
+                options: ["give up", "destroy", "ambassador", "brand"],
+                correct: 1,
+                explanation: "Destroy means to completely damage or ruin something."
+            },
+            {
+                text: "Don't ___ on your dreams even when things get difficult and challenging.",
+                options: ["destroy", "failure", "give up", "service station"],
+                correct: 2,
+                explanation: "Give up means to stop trying or stop doing something."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let currentVocabQuestion = 0;
+        let vocabScore = 0;
+        let vocabAnswered = false;
+
+        function displayQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question').innerHTML = q.text.replace('___', '<span class="gap">?</span>');
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('next-btn').style.display = 'none';
+            answered = false;
+            
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (answered) return;
+            
+            answered = true;
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('#options .option-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === q.correct) {
+                    btn.className = 'option-btn correct';
+                } else if (index === selectedIndex && index !== q.correct) {
+                    btn.className = 'option-btn incorrect';
+                }
+            });
+            
+            if (selectedIndex === q.correct) {
+                score++;
+                feedback.className = 'feedback correct show';
+                feedback.textContent = '✓ Correct! ' + q.explanation;
+                document.getElementById('score').textContent = score;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.textContent = '✗ Incorrect. ' + q.explanation;
+            }
+            
+            // Update question text with correct answer
+            const correctAnswer = q.options[q.correct] === "no article" ? "" : q.options[q.correct] + " ";
+            const questionText = q.text.replace('___', correctAnswer);
+            document.getElementById('question').innerHTML = questionText;
+            
+            if (currentQuestion < questions.length - 1) {
+                document.getElementById('next-btn').style.display = 'inline-block';
+            } else {
+                setTimeout(showInlineCompletion, 2000);
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            }
+        }
+
+        function showInlineCompletion() {
+            document.getElementById('inline-completion').style.display = 'block';
+            document.getElementById('inline-final-score').textContent = score;
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('inline-restart-btn').style.display = 'inline-block';
+        }
+
+        function restartExercise() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('inline-completion').style.display = 'none';
+            
+            displayQuestion();
+        }
+
+        // Vocabulary exercise functions
+        function displayVocabQuestion() {
+            const q = vocabQuestions[currentVocabQuestion];
+            document.getElementById('vocab-question').innerHTML = q.text.replace('___', '<span class="gap">?</span>');
+            
+            const optionsContainer = document.getElementById('vocab-options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => selectVocabAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('vocab-feedback').className = 'feedback';
+            document.getElementById('vocab-next-btn').style.display = 'none';
+            vocabAnswered = false;
+            
+            // Update progress bar
+            const progress = ((currentVocabQuestion) / vocabQuestions.length) * 100;
+            document.getElementById('vocab-progress-bar').style.width = progress + '%';
+        }
+
+        function selectVocabAnswer(selectedIndex) {
+            if (vocabAnswered) return;
+            
+            vocabAnswered = true;
+            const q = vocabQuestions[currentVocabQuestion];
+            const buttons = document.querySelectorAll('#vocab-options .option-btn');
+            const feedback = document.getElementById('vocab-feedback');
+            
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === q.correct) {
+                    btn.className = 'option-btn correct';
+                } else if (index === selectedIndex && index !== q.correct) {
+                    btn.className = 'option-btn incorrect';
+                }
+            });
+            
+            if (selectedIndex === q.correct) {
+                vocabScore++;
+                feedback.className = 'feedback correct show';
+                feedback.textContent = '✓ Correct! ' + q.explanation;
+                document.getElementById('vocab-score').textContent = vocabScore;
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.textContent = '✗ Incorrect. ' + q.explanation;
+            }
+            
+            // Update question text with correct answer
+            const correctAnswer = q.options[q.correct];
+            const questionText = q.text.replace('___', correctAnswer);
+            document.getElementById('vocab-question').innerHTML = questionText;
+            
+            if (currentVocabQuestion < vocabQuestions.length - 1) {
+                document.getElementById('vocab-next-btn').style.display = 'inline-block';
+            } else {
+                setTimeout(showVocabInlineCompletion, 2000);
+            }
+        }
+
+        function nextVocabQuestion() {
+            currentVocabQuestion++;
+            if (currentVocabQuestion < vocabQuestions.length) {
+                displayVocabQuestion();
+            }
+        }
+
+        function showVocabInlineCompletion() {
+            document.getElementById('vocab-inline-completion').style.display = 'block';
+            document.getElementById('vocab-inline-final-score').textContent = vocabScore;
+            document.getElementById('vocab-progress-bar').style.width = '100%';
+            document.getElementById('vocab-inline-restart-btn').style.display = 'inline-block';
+        }
+
+        function restartVocabExercise() {
+            currentVocabQuestion = 0;
+            vocabScore = 0;
+            vocabAnswered = false;
+            
+            document.getElementById('vocab-score').textContent = vocabScore;
+            document.getElementById('vocab-inline-completion').style.display = 'none';
+            
+            displayVocabQuestion();
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Initialize the appropriate exercise when switching tabs
+            if (tabName === 'vocabulary') {
+                displayVocabQuestion();
+            }
+        }
+
+        // Initialize the application
+        displayQuestion();
+    </script>
+</body>
+</html>
