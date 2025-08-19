@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Verb Usage Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #1b263b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #1b263b;
+            margin: 25px 0 15px 0;
+            font-size: 1.5rem;
+        }
+        
+        .question-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .option {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .correct {
+            border-color: #2ecc71;
+            background-color: #e8f8f5;
+        }
+        
+        .incorrect {
+            border-color: #e74c3c;
+            background-color: #fdedec;
+        }
+        
+        .feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .feedback.correct {
+            background-color: #e8f8f5;
+            color: #27ae60;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .feedback.incorrect {
+            background-color: #fdedec;
+            color: #c0392b;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .rule-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #f07d3e;
+        }
+        
+        .highlight-modal {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .highlight-negative {
+            color: #f07d3e;
+            font-weight: bold;
+        }
+        
+        .practice-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .practice-item {
+            margin: 15px 0;
+        }
+        
+        .practice-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .practice-option {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .practice-option.correct {
+            background-color: #e8f8f5;
+            color: #27ae60;
+            border-color: #2ecc71;
+            font-weight: 500;
+        }
+        
+        .practice-option.incorrect {
+            background-color: #fdedec;
+            color: #c0392b;
+            border-color: #e74c3c;
+            font-weight: 500;
+        }
+        
+        .false-friend {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid #f07d3e;
+        }
+        
+        .false-friend-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .false-friend-item:hover {
+            border-color: #f07d3e;
+        }
+        
+        .confidence-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid #1b263b;
+        }
+        
+        .review-item {
+            margin: 15px 0;
+        }
+        
+        .confidence-levels {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .confidence-level {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .confidence-level:hover {
+            transform: translateY(-2px);
+        }
+        
+        .low {
+            border-color: #e74c3c;
+        }
+        
+        .medium {
+            border-color: #f39c12;
+        }
+        
+        .high {
+            border-color: #2ecc71;
+        }
+        
+        .selected {
+            font-weight: bold;
+        }
+        
+        .low.selected {
+            background-color: #fdedec;
+            color: #c0392b;
+        }
+        
+        .medium.selected {
+            background-color: #fef5e7;
+            color: #d35400;
+        }
+        
+        .high.selected {
+            background-color: #e8f8f5;
+            color: #27ae60;
+        }
+        
+        .fill-blank {
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 10px 15px;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        
+        .check-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        .fill-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modal Verb Usage Lesson</h1>
+        
+        <h2>Which one is correct?</h2>
+        <div class="question-container">
+            <div class="option" onclick="checkAnswer(false, this)">
+                "I don't can speak English well."
+            </div>
+            <div class="option" onclick="checkAnswer(true, this)">
+                "I can't speak English well."
+            </div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+        
+        <h2>The Rule</h2>
+        <div class="rule-box">
+            <p>Modal verbs (<span class="highlight-modal">can, must, should, will, may, might, could</span>) are special! They:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Don't use "do/does/did" to make negatives</li>
+                <li>Form negatives by adding "<span class="highlight-negative">not</span>" directly after the modal</li>
+                <li>Make questions by switching the modal and subject</li>
+            </ul>
+            
+            <p style="margin-top: 15px;"><strong>Correct formation:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 5px;">
+                <li><strong>Negative:</strong> Subject + <span class="highlight-modal">modal</span> + <span class="highlight-negative">not</span> + base verb<br>
+                "<span style="color: #333">I</span> <span class="highlight-modal">can</span><span class="highlight-negative">'t</span> <span style="color: #333">speak English</span>" (NOT "I don't can speak")</li>
+                <li style="margin-top: 10px;"><strong>Question:</strong> <span class="highlight-modal">Modal</span> + subject + base verb<br>
+                "<span class="highlight-modal">Can</span> <span style="color: #333">you speak English?</span>" (NOT "Do you can speak?")</li>
+            </ul>
+        </div>
+        
+        <h2>Practice Activity 1: Choose the correct sentence</h2>
+        <div class="practice-container">
+            <div class="practice-item">
+                <p>1. Which is correct?</p>
+                <div class="practice-options">
+                    <div class="practice-option" onclick="markOption(this, false)">Do you can drive?</div>
+                    <div class="practice-option" onclick="markOption(this, true)">Can you drive?</div>
+                </div>
+            </div>
+            
+            <div class="practice-item">
+                <p>2. Which is correct?</p>
+                <div class="practice-options">
+                    <div class="practice-option" onclick="markOption(this, true)">She mustn't work today.</div>
+                    <div class="practice-option" onclick="markOption(this, false)">She doesn't must work today.</div>
+                </div>
+            </div>
+            
+            <div class="practice-item">
+                <p>3. Which is correct?</p>
+                <div class="practice-options">
+                    <div class="practice-option" onclick="markOption(this, false)">They don't should arrive late.</div>
+                    <div class="practice-option" onclick="markOption(this, true)">They shouldn't arrive late.</div>
+                </div>
+            </div>
+            
+            <div class="practice-item">
+                <p>4. Which is correct?</p>
+                <div class="practice-options">
+                    <div class="practice-option" onclick="markOption(this, true)">We won't go tomorrow.</div>
+                    <div class="practice-option" onclick="markOption(this, false)">We don't will go tomorrow.</div>
+                </div>
+            </div>
+            
+            <div class="practice-item">
+                <p>5. Which is correct?</p>
+                <div class="practice-options">
+                    <div class="practice-option" onclick="markOption(this, true)">He can't swim well.</div>
+                    <div class="practice-option" onclick="markOption(this, false)">He doesn't can swim well.</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Practice Activity 2: Make these sentences negative</h2>
+        <div class="practice-container">
+            <div class="practice-item">
+                <p>1. I can speak Portuguese.</p>
+                <input type="text" class="fill-blank" id="fill1" placeholder="Write the negative form...">
+                <button class="check-btn" onclick="checkFill('fill1', 'I can\'t speak Portuguese.')">Check</button>
+                <div class="fill-feedback" id="feedback-fill1"></div>
+            </div>
+            
+            <div class="practice-item">
+                <p>2. She must leave early.</p>
+                <input type="text" class="fill-blank" id="fill2" placeholder="Write the negative form...">
+                <button class="check-btn" onclick="checkFill('fill2', 'She mustn\'t leave early.')">Check</button>
+                <div class="fill-feedback" id="feedback-fill2"></div>
+            </div>
+            
+            <div class="practice-item">
+                <p>3. They should eat more vegetables.</p>
+                <input type="text" class="fill-blank" id="fill3" placeholder="Write the negative form...">
+                <button class="check-btn" onclick="checkFill('fill3', 'They shouldn\'t eat more vegetables.')">Check</button>
+                <div class="fill-feedback" id="feedback-fill3"></div>
+            </div>
+            
+            <div class="practice-item">
+                <p>4. We will visit Rio next year.</p>
+                <input type="text" class="fill-blank" id="fill4" placeholder="Write the negative form...">
+                <button class="check-btn" onclick="checkFill('fill4', 'We won\'t visit Rio next year.')">Check</button>
+                <div class="fill-feedback" id="feedback-fill4"></div>
+            </div>
+            
+            <div class="practice-item">
+                <p>5. You could help me.</p>
+                <input type="text" class="fill-blank" id="fill5" placeholder="Write the negative form...">
+                <button class="check-btn" onclick="checkFill('fill5', 'You couldn\'t help me.')">Check</button>
+                <div class="fill-feedback" id="feedback-fill5"></div>
+            </div>
+        </div>
+        
+        <h2>False Friend Mini-Task</h2>
+        <div class="false-friend">
+            <p>In Portuguese, you say "isso não <strong>tem</strong> sentido" (this doesn't <strong>have</strong> sense).</p>
+            <p>In English, we say "this doesn't <strong>make</strong> sense."</p>
+            
+            <div style="margin-top: 15px;">
+                <p><strong>Quick practice:</strong> Click on each sentence to correct it:</p>
+                <div class="false-friend-item" onclick="correctFalseFriend(this, 'This movie doesn\'t <strong>make</strong> sense.')">
+                    This movie doesn't <strong>have</strong> sense.
+                </div>
+                <div class="false-friend-item" onclick="correctFalseFriend(this, 'Your explanation <strong>makes</strong> no sense.')">
+                    Your explanation <strong>has</strong> no sense.
+                </div>
+            </div>
+        </div>
+        
+        <h2>Quick Review: How confident are you?</h2>
+        <div class="confidence-container">
+            <div class="review-item">
+                <p>Modal verbs (can, must, should) never use "do/does/did"</p>
+                <div class="confidence-levels">
+                    <div class="confidence-level low" onclick="selectConfidence(this)">Not confident</div>
+                    <div class="confidence-level medium" onclick="selectConfidence(this)">Somewhat confident</div>
+                    <div class="confidence-level high" onclick="selectConfidence(this)">Very confident</div>
+                </div>
+            </div>
+            
+            <div class="review-item">
+                <p>Negative form: modal + not (can't, mustn't, shouldn't)</p>
+                <div class="confidence-levels">
+                    <div class="confidence-level low" onclick="selectConfidence(this)">Not confident</div>
+                    <div class="confidence-level medium" onclick="selectConfidence(this)">Somewhat confident</div>
+                    <div class="confidence-level high" onclick="selectConfidence(this)">Very confident</div>
+                </div>
+            </div>
+            
+            <div class="review-item">
+                <p>Question form: modal + subject (Can you...? Should we...?)</p>
+                <div class="confidence-levels">
+                    <div class="confidence-level low" onclick="selectConfidence(this)">Not confident</div>
+                    <div class="confidence-level medium" onclick="selectConfidence(this)">Somewhat confident</div>
+                    <div class="confidence-level high" onclick="selectConfidence(this)">Very confident</div>
+                </div>
+            </div>
+            
+            <div class="review-item">
+                <p>Remember: "make sense" not "have sense"</p>
+                <div class="confidence-levels">
+                    <div class="confidence-level low" onclick="selectConfidence(this)">Not confident</div>
+                    <div class="confidence-level medium" onclick="selectConfidence(this)">Somewhat confident</div>
+                    <div class="confidence-level high" onclick="selectConfidence(this)">Very confident</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(isCorrect, element) {
+            const feedback = document.getElementById('feedback');
+            const options = document.getElementsByClassName('option');
+            
+            for (let opt of options) {
+                opt.classList.remove('correct', 'incorrect');
+                opt.style.pointerEvents = 'none';
+            }
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.classList.add('correct');
+                feedback.innerHTML = "✓ Correct! Modal verbs like 'can' don't use 'do/does/did' to form negatives. Instead, add 'not' directly after the modal verb.";
+            } else {
+                element.classList.add('incorrect');
+                options[1].classList.add('correct');
+                feedback.classList.add('incorrect');
+                feedback.innerHTML = "✗ Incorrect. Modal verbs like 'can' don't use 'do/does/did' to form negatives. The correct form is 'can't' (can + not).";
+            }
+            
+            feedback.style.display = 'block';
+        }
+        
+        function markOption(element, isCorrect) {
+            const parentDiv = element.parentElement;
+            const options = parentDiv.getElementsByClassName('practice-option');
+            const itemDiv = parentDiv.parentElement;
+            
+            // Create feedback element if it doesn't exist
+            let feedback = itemDiv.querySelector('.feedback');
+            if (!feedback) {
+                feedback = document.createElement('div');
+                feedback.className = 'feedback';
+                itemDiv.appendChild(feedback);
+            }
+            
+            for (let opt of options) {
+                opt.classList.remove('correct', 'incorrect');
+                // Don't disable pointer events to keep highlighting
+                // opt.style.pointerEvents = 'none';
+            }
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.classList.add('correct');
+                feedback.classList.remove('incorrect');
+                feedback.innerHTML = "✓ Correct! This follows the modal verb rule.";
+            } else {
+                element.classList.add('incorrect');
+                feedback.classList.add('incorrect');
+                feedback.classList.remove('correct');
+                feedback.innerHTML = "✗ Incorrect. Remember modal verbs don't use do/does/did.";
+                
+                // Show the correct option
+                for (let opt of options) {
+                    if (opt !== element) {
+                        opt.classList.add('correct');
+                    }
+                }
+            }
+            
+            // Disable further clicks on this specific item
+            for (let opt of options) {
+                opt.onclick = null;
+            }
+            
+            feedback.style.display = 'block';
+        }
+        
+        function checkFill(inputId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const feedback = document.getElementById('feedback-' + inputId);
+            let userAnswer = input.value.trim().toLowerCase();
+            let correctLower = correctAnswer.toLowerCase();
+            
+            // Remove periods at the end for comparison
+            if (userAnswer.endsWith('.')) {
+                userAnswer = userAnswer.slice(0, -1);
+            }
+            if (correctLower.endsWith('.')) {
+                correctLower = correctLower.slice(0, -1);
+            }
+            
+            // Normalize apostrophes
+            userAnswer = userAnswer.replace(/'/g, '');
+            correctLower = correctLower.replace(/'/g, '');
+            
+            // Check for various forms
+            const isCorrect = 
+                userAnswer === correctLower || 
+                (correctLower.includes("wont") && (userAnswer.includes("will not") || userAnswer.includes("willnot"))) ||
+                (correctLower.includes("cant") && (userAnswer.includes("cannot") || userAnswer.includes("can not"))) ||
+                (correctLower.includes("mustnt") && (userAnswer.includes("must not"))) ||
+                (correctLower.includes("shouldnt") && (userAnswer.includes("should not"))) ||
+                (correctLower.includes("couldnt") && (userAnswer.includes("could not")));
+                
+            if (isCorrect) {
+                feedback.textContent = "✓ Correct!";
+                feedback.style.backgroundColor = "#e8f8f5";
+                feedback.style.color = "#27ae60";
+                feedback.style.borderLeft = "4px solid #2ecc71";
+            } else {
+                feedback.textContent = "✗ Incorrect. The correct answer is: " + correctAnswer;
+                feedback.style.backgroundColor = "#fdedec";
+                feedback.style.color = "#c0392b";
+                feedback.style.borderLeft = "4px solid #e74c3c";
+            }
+            
+            feedback.style.display = "block";
+        }
+        
+        function correctFalseFriend(element, correctVersion) {
+            if (element.textContent.trim() === correctVersion) {
+                return; // Already corrected
+            }
+            
+            element.textContent = correctVersion;
+            element.style.backgroundColor = "#e8f8f5";
+            element.style.color = "#27ae60";
+            element.style.borderColor = "#2ecc71";
+            element.style.fontWeight = "500";
+        }
+        
+        function selectConfidence(element) {
+            const parentDiv = element.parentElement;
+            const levels = parentDiv.getElementsByClassName('confidence-level');
+            
+            for (let level of levels) {
+                level.classList.remove('selected');
+            }
+            
+            element.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
