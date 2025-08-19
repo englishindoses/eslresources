@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Your Modals: English Practice Quiz</title>
+    <style>
+        :root {
+            --white: #ffffff;
+            --dark-grey: #333333;
+            --dark-navy: #1b263b;
+            --light-blue: #3498db;
+            --orange: #f07d3e;
+            --light-grey: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+            line-height: 1.5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 0 20px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        header {
+            background-color: var(--dark-navy);
+            color: var(--white);
+            width: 100%;
+            padding: clamp(0.8rem, 2vh, 1.5rem) 1rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 0.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        .timer-container {
+            position: absolute;
+            top: clamp(8px, 1.5vh, 15px);
+            right: 60px;
+            background-color: var(--orange);
+            color: var(--white);
+            padding: clamp(6px, 1vh, 10px) clamp(8px, 1.5vh, 12px);
+            border-radius: 15px;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .sound-toggle {
+            position: absolute;
+            top: clamp(8px, 1.5vh, 15px);
+            right: 15px;
+            background-color: var(--light-blue);
+            color: var(--white);
+            border: none;
+            padding: clamp(6px, 1vh, 10px) clamp(8px, 1.5vh, 12px);
+            border-radius: 15px;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+        
+        .sound-toggle:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+        
+        .sound-toggle.muted {
+            background-color: var(--dark-grey);
+        }
+        
+        .progress-container {
+            margin: clamp(0.5rem, 1.5vh, 1rem) 0;
+            background: var(--white);
+            height: clamp(4px, 0.8vh, 8px);
+            border-radius: 4px;
+            width: 100%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--light-blue), var(--orange));
+            transition: width 0.5s ease;
+        }
+        
+        .section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: clamp(15px, 3vh, 25px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        
+        .section.active {
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .section h2 {
+            color: var(--dark-navy);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            margin-bottom: clamp(0.4rem, 1vh, 0.8rem);
+            padding-bottom: clamp(0.2rem, 0.5vh, 0.5rem);
+            border-bottom: 2px solid var(--light-blue);
+            display: inline-block;
+            font-weight: 800;
+        }
+        
+        .section-instructions {
+            margin-bottom: clamp(0.6rem, 1.5vh, 1rem);
+            color: var(--dark-grey);
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            font-weight: 600;
+        }
+        
+        .question-counter {
+            background-color: var(--dark-navy);
+            color: var(--white);
+            display: inline-block;
+            padding: clamp(6px, 1vh, 10px) clamp(10px, 2vh, 16px);
+            border-radius: 20px;
+            margin-bottom: clamp(8px, 1.5vh, 15px);
+            font-weight: bold;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+        }
+        
+        .phase-indicator {
+            background-color: var(--orange);
+            color: var(--white);
+            display: inline-block;
+            padding: clamp(6px, 1vh, 10px) clamp(10px, 2vh, 16px);
+            border-radius: 20px;
+            margin-bottom: clamp(8px, 1.5vh, 15px);
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: clamp(0.8rem, 1.8vw, 1.1rem);
+        }
+        
+        .question {
+            display: none;
+        }
+        
+        .question.active {
+            display: block;
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        .sentence {
+            background: var(--light-grey);
+            padding: clamp(12px, 3vh, 25px);
+            border-radius: 10px;
+            font-size: clamp(1.1rem, 2.8vw, 1.6rem);
+            text-align: center;
+            margin-bottom: clamp(12px, 2.5vh, 20px);
+            line-height: 1.6;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .drop-zone {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: clamp(100px, 20vw, 140px);
+            min-height: clamp(35px, 6vh, 50px);
+            border: 2px dashed var(--light-blue);
+            border-radius: 6px;
+            padding: clamp(4px, 1vh, 8px) clamp(6px, 1.5vh, 12px);
+            vertical-align: middle;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin: 0 clamp(2px, 0.5vw, 6px);
+            font-weight: 600;
+        }
+        
+        .drop-zone.highlight {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-color: var(--light-blue);
+            transform: scale(1.05);
+        }
+        
+        .drop-zone.filled {
+            border-style: solid;
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .drop-zone.correct {
+            border-color: #28a745;
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        
+        .drop-zone.incorrect {
+            border-color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: clamp(10px, 2vw, 18px);
+            margin-bottom: clamp(12px, 2.5vh, 20px);
+            flex-wrap: wrap;
+        }
+        
+        .option {
+            background: var(--dark-navy);
+            color: var(--white);
+            padding: clamp(8px, 1.5vh, 14px) clamp(16px, 3vw, 28px);
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            font-size: clamp(1rem, 2.2vw, 1.4rem);
+            border: 2px solid transparent;
+            touch-action: none;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+        
+        .option.dragging {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+        
+        .option.hidden {
+            display: none;
+        }
+        
+        .option.selected {
+            background-color: var(--light-blue);
+            border-color: #2980b9;
+        }
+        
+        .feedback {
+            margin-top: clamp(8px, 1.5vh, 12px);
+            padding: clamp(10px, 2vh, 16px);
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+        }
+        
+        .feedback.correct {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            display: block;
+        }
+        
+        .score-panel {
+            background: var(--dark-navy);
+            color: var(--white);
+            padding: clamp(15px, 4vh, 30px);
+            border-radius: 15px;
+            text-align: center;
+            margin-top: clamp(10px, 2vh, 20px);
+        }
+        
+        .score-title {
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+            margin-bottom: clamp(8px, 2vh, 15px);
+            font-weight: 800;
+        }
+        
+        .score-value {
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            color: var(--orange);
+            font-weight: bold;
+            margin-bottom: clamp(8px, 2vh, 15px);
+        }
+        
+        .time-taken {
+            font-size: clamp(1.1rem, 2.8vw, 1.6rem);
+            margin-bottom: clamp(8px, 2vh, 15px);
+            color: var(--light-blue);
+        }
+        
+        .score-message {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            margin-bottom: clamp(15px, 3vh, 25px);
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: clamp(10px, 2vh, 16px) clamp(20px, 4vw, 32px);
+            border: none;
+            border-radius: 10px;
+            font-size: clamp(1rem, 2.2vw, 1.4rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            background-color: var(--light-blue);
+            color: var(--white);
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .mobile-instructions {
+            display: none;
+            margin-bottom: clamp(8px, 1.5vh, 12px);
+            padding: clamp(6px, 1.2vh, 10px);
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-instructions {
+                display: block;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .timer-container {
+                right: 55px;
+            }
+            
+            .sound-toggle {
+                right: 15px;
+            }
+            
+            .options-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .option {
+                width: 90%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .sentence {
+                font-size: clamp(1rem, 4vw, 1.2rem);
+            }
+            
+            .drop-zone {
+                min-width: clamp(80px, 25vw, 120px);
+                min-height: clamp(30px, 8vw, 45px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            header {
+                padding: clamp(0.6rem, 2vh, 1rem) 0.8rem;
+            }
+            
+            .timer-container {
+                top: 5px;
+                right: 50px;
+                padding: 4px 8px;
+                font-size: 0.85rem;
+            }
+            
+            .sound-toggle {
+                top: 5px;
+                right: 10px;
+                padding: 4px 8px;
+                font-size: 0.85rem;
+            }
+            
+            .section {
+                padding: 12px;
+            }
+            
+            .question-counter, .phase-indicator {
+                font-size: 0.85rem;
+                padding: 5px 10px;
+            }
+        }
+        
+        /* Large screens optimization */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+            
+            .section {
+                padding: 30px;
+            }
+            
+            .sentence {
+                max-width: 80%;
+                margin: 0 auto clamp(15px, 3vh, 25px);
+            }
+        }
+        
+        /* Height-based adjustments for very short screens */
+        @media (max-height: 600px) {
+            header {
+                padding: 0.6rem 1rem;
+            }
+            
+            .timer-container {
+                top: 5px;
+                right: 50px;
+                padding: 4px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .sound-toggle {
+                top: 5px;
+                right: 10px;
+                padding: 4px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .section {
+                padding: 12px;
+            }
+            
+            .progress-container {
+                margin: 0.4rem 0;
+            }
+            
+            .question-counter, .phase-indicator {
+                margin-bottom: 8px;
+                padding: 5px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mind Your Modals <span style="font-size: 1.4em; margin: 0 5px;">💭</span></h1>
+        <div class="subtitle">Drag and drop the correct modal verb for each sentence</div>
+        <div class="timer-container" id="timer">00:00</div>
+        <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Toggle sound effects">🔊</button>
+    </header>
+
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Main quiz section -->
+        <div class="section active" id="mainSection">
+            <h2>Master Your Modal Verbs</h2>
+            <p class="section-instructions">Drag the correct modal verb to complete each sentence.</p>
+            
+            <div class="mobile-instructions">
+                Tap an option, then tap the blank space to place it.
+            </div>
+            
+            <div class="question-counter">Question <span id="questionCounter">1</span> of <span id="totalQuestions">15</span></div>
+            <div class="phase-indicator" id="phaseIndicator">First Attempt</div>
+            
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be populated by JavaScript -->
+            </div>
+            
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="section" id="resultsSection">
+            <h2>Your Results</h2>
+            
+            <div class="score-panel">
+                <div class="score-title">Your Final Score</div>
+                <div class="score-value" id="scoreValue">0/15</div>
+                <div class="time-taken" id="timeTaken">Time: 00:00</div>
+                <div class="score-message" id="scoreMessage">Keep practicing!</div>
+                
+                <button class="btn" id="restartBtn">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const quizData = [
+            {
+                sentence: "I <span class=\"drop-zone\" data-correct=\"can't\"></span> speak English well.",
+                options: ["don't can", "can't"],
+                explanation: "Modal verbs form negatives by adding 'not' directly after them. 'Can't' is the correct negative form of 'can', not 'don't can'."
+            },
+            {
+                sentence: "<span class=\"drop-zone\" data-correct=\"Can\"></span> you help me with this task?",
+                options: ["Do can", "Can"],
+                explanation: "Modal verbs like 'can' make questions by being placed before the subject. We don't use 'do' with modal verbs."
+            },
+          {
+                sentence: "She <span class=\"drop-zone\" data-correct=\"couldn't\"></span> come to the party yesterday.",
+                options: ["didn't could", "couldn't"],
+                explanation: "The past form of 'can' is 'could', and its negative is 'couldn't'. We don't use 'did' with modal verbs."
+            },
+            {
+                sentence: "I <span class=\"drop-zone\" data-correct=\"must\"></span> study more for my English test.",
+                options: ["have must", "must"],
+                explanation: "The modal verb 'must' is used alone without any auxiliary verb. We don't say 'have must'."
+            },
+            {
+                sentence: "You <span class=\"drop-zone\" data-correct=\"shouldn't\"></span> eat fast food every day.",
+                options: ["don't should", "shouldn't"],
+                explanation: "Modal verbs form negatives with 'not'. The correct negative form of 'should' is 'shouldn't', not 'don't should'."
+            },
+            {
+                sentence: "We <span class=\"drop-zone\" data-correct=\"will\"></span> travel to Paris next summer.",
+                options: ["will", "are will"],
+                explanation: "The modal verb 'will' is used alone to express future plans, not with 'are' or other auxiliary verbs."
+            },
+            {
+                sentence: "They <span class=\"drop-zone\" data-correct=\"won't\"></span> attend the meeting tomorrow.",
+                options: ["don't will", "won't"],
+                explanation: "The negative form of 'will' is 'will not' or 'won't'. We don't use 'don't' with modal verbs."
+            },
+            {
+                sentence: "<span class=\"drop-zone\" data-correct=\"Would\"></span> you like some coffee?",
+                options: ["Do would", "Would"],
+                explanation: "Modal verbs form questions by inversion. We say 'Would you...?' not 'Do would you...?'"
+            },
+            {
+                sentence: "He <span class=\"drop-zone\" data-correct=\"might\"></span> come to the party tonight.",
+                options: ["is might", "might"],
+                explanation: "Modal verbs like 'might' stand alone in sentences. We don't say 'is might'."
+            },
+            {
+                sentence: "I <span class=\"drop-zone\" data-correct=\"may not\"></span> be available this weekend.",
+                options: ["don't may", "may not"],
+                explanation: "Modal verbs take 'not' directly after them to form negatives. The correct form is 'may not', not 'don't may'."
+            },
+            {
+                sentence: "She <span class=\"drop-zone\" data-correct=\"could\"></span> speak three languages when she was ten.",
+                options: ["was could", "could"],
+                explanation: "The modal verb 'could' doesn't need 'was' or any other auxiliary verb before it."
+            },
+            {
+                sentence: "<span class=\"drop-zone\" data-correct=\"Must\"></span> I finish all this work today?",
+                options: ["Do must", "Must"],
+                explanation: "Modal verbs form questions by inversion. We say 'Must I...?' not 'Do must I...?'"
+            },
+            {
+                sentence: "I <span class=\"drop-zone\" data-correct=\"don't have to\"></span> work on weekends.",
+                options: ["don't have to", "mustn't"],
+                explanation: "'Don't have to' means something is not necessary. 'Mustn't' means it's prohibited or not allowed."
+            },
+            {
+                sentence: "You <span class=\"drop-zone\" data-correct=\"should have\"></span> told me about the party earlier.",
+                options: ["should had", "should have"],
+                explanation: "After modal verbs, we use the base form of the verb. 'Should have' is correct, not 'should had'."
+            },
+            {
+                sentence: "We <span class=\"drop-zone\" data-correct=\"will be able to\"></span> finish the project by Friday.",
+                options: ["will can", "will be able to"],
+                explanation: "To express future ability, we use 'will be able to', not 'will can'."
+            }
+        ];
+      // Game state
+        let currentQuestion = 0;
+        let score = 0;
+        let currentQuestions = [...quizData];
+        let incorrectQuestions = [];
+        let answered = [];
+        let currentDraggedElement = null;
+        let autoAdvanceTimer = null;
+        let isSecondRound = false;
+        
+        // Timer variables
+        let startTime = null;
+        let timerInterval = null;
+        let totalTime = 0;
+
+        // Audio context for sound effects
+        let audioContext = null;
+        let soundEnabled = true;
+
+        // Initialize audio context
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                console.log('Audio context initialized');
+            } catch (error) {
+                console.log('Audio not supported:', error);
+                soundEnabled = false;
+            }
+        }
+
+        // Sound effect functions
+        function playClickSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            try {
+                // Create a finger tapping on table sound - simplified version
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                const filter = audioContext.createBiquadFilter();
+                
+                oscillator.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Low frequency for wood table sound
+                oscillator.frequency.setValueAtTime(120, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(80, audioContext.currentTime + 0.05);
+                oscillator.type = 'triangle';
+                
+                // Low-pass filter for muffled table sound
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(400, audioContext.currentTime);
+                filter.Q.setValueAtTime(1, audioContext.currentTime);
+                
+                // Sharp attack, quick decay
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.005);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.08);
+                
+                console.log('Playing click sound');
+            } catch (error) {
+                console.log('Error playing click sound:', error);
+            }
+        }
+
+        async function playDragSound() {
+            if (!soundEnabled) return;
+            if (!audioContext) initAudio();
+            if (!audioContext) return;
+            
+            // Ensure audio context is running before playing sound
+            if (audioContext.state === 'suspended') {
+                try {
+                    await audioContext.resume();
+                    console.log('Audio context resumed for drag sound');
+                } catch (error) {
+                    console.log('Failed to resume audio context:', error);
+                    return;
+                }
+            }
+            
+            try {
+                // Create pencil scratching on paper sound
+                const bufferSize = audioContext.sampleRate * 0.4;
+                const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                
+                // Generate filtered noise for paper texture
+                for (let i = 0; i < bufferSize; i++) {
+                    // Create irregular scratchy texture like pencil on paper
+                    const noise = Math.random() * 2 - 1;
+                    const texture = Math.sin(i * 0.01) * 0.3; // Add some periodic texture
+                    output[i] = (noise * 0.6 + texture * 0.4) * 0.3;
+                }
+                
+                const noiseSource = audioContext.createBufferSource();
+                const gainNode = audioContext.createGain();
+                const filter1 = audioContext.createBiquadFilter();
+                const filter2 = audioContext.createBiquadFilter();
+                
+                noiseSource.buffer = noiseBuffer;
+                noiseSource.connect(filter1);
+                filter1.connect(filter2);
+                filter2.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // First filter: High-pass to remove low rumble
+                filter1.type = 'highpass';
+                filter1.frequency.setValueAtTime(600, audioContext.currentTime);
+                filter1.Q.setValueAtTime(1, audioContext.currentTime);
+                
+                // Second filter: Bandpass for pencil-on-paper frequency range
+                filter2.type = 'bandpass';
+                filter2.frequency.setValueAtTime(1200, audioContext.currentTime);
+                filter2.frequency.linearRampToValueAtTime(1800, audioContext.currentTime + 0.2);
+                filter2.frequency.linearRampToValueAtTime(1000, audioContext.currentTime + 0.4);
+                filter2.Q.setValueAtTime(4, audioContext.currentTime);
+                
+                // Gentle envelope for natural pencil stroke
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.28, audioContext.currentTime + 0.06);
+                gainNode.gain.linearRampToValueAtTime(0.25, audioContext.currentTime + 0.3);
+                gainNode.gain.linearRampToValueAtTime(0.0, audioContext.currentTime + 0.4);
+                
+                noiseSource.start(audioContext.currentTime);
+                noiseSource.stop(audioContext.currentTime + 0.4);
+                
+                console.log('Playing pencil-on-paper drag sound');
+            } catch (error) {
+                console.log('Error playing drag sound:', error);
+            }
+        }
+
+        function playCorrectSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            // Create a pleasant major chord
+            const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5
+            
+            frequencies.forEach((freq, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                const startTime = audioContext.currentTime + (index * 0.05);
+                const endTime = startTime + 0.6;
+                
+                gainNode.gain.setValueAtTime(0, startTime);
+                gainNode.gain.linearRampToValueAtTime(0.01, startTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                
+                oscillator.start(startTime);
+                oscillator.stop(endTime);
+            });
+        }
+
+        function playIncorrectSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Gentle descending tone
+            oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.4);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.4);
+        }
+
+        function playDropSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(500, audioContext.currentTime + 0.1);
+            oscillator.type = 'square';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        // Initialize the quiz
+        function initQuiz() {
+            answered = Array(currentQuestions.length).fill(false);
+            currentQuestion = 0;
+            loadQuestion(currentQuestion);
+            updateProgress();
+            updateQuestionCounter();
+        }
+
+        // Start timer
+        function startTimer() {
+            if (!startTime) {
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        // Update timer display
+        function updateTimer() {
+            if (startTime) {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // Stop timer
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                totalTime = Math.floor((Date.now() - startTime) / 1000);
+            }
+        }
+
+        // Format time for display
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Load a question
+        function loadQuestion(index) {
+            const questionData = currentQuestions[index];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="question active" data-index="${index}">
+                    <div class="sentence">${questionData.sentence}</div>
+                    <div class="options-container">
+                        ${questionData.options.map(option => 
+                            `<div class="option" draggable="true" data-text="${option}">${option}</div>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+            
+            setupDragAndDrop();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const totalQs = currentQuestions.length;
+            const progressPercentage = ((currentQuestion + 1) / totalQs) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+        }
+
+        // Update question counter
+        function updateQuestionCounter() {
+            document.getElementById('questionCounter').textContent = currentQuestion + 1;
+            document.getElementById('totalQuestions').textContent = currentQuestions.length;
+            
+            const phaseIndicator = document.getElementById('phaseIndicator');
+            phaseIndicator.textContent = isSecondRound ? 'Second Chance' : 'First Attempt';
+        }
+
+        // Setup drag and drop functionality
+        function setupDragAndDrop() {
+            document.querySelectorAll('.option').forEach(option => {
+                // Pre-drag sound for touch/pen devices
+                option.addEventListener('pointerdown', (e) => {
+                    // On touch/pen, start the scratch right away so users hear feedback before dragstart
+                    if (e.pointerType !== 'mouse') {
+                        startTimer();
+                        playDragSound();
+                    }
+                });
+                
+                // Desktop drag and drop
+                option.addEventListener('dragstart', function(e) {
+                    console.log('Drag started');
+                    startTimer(); // Start timer on first interaction
+                    playDragSound(); // Play drag sound
+                    this.classList.add('dragging', 'selected');
+                    currentDraggedElement = this;
+                    e.dataTransfer.setData('text/plain', this.dataset.text);
+                });
+                
+                option.addEventListener('dragend', function() {
+                    this.classList.remove('dragging', 'selected');
+                    currentDraggedElement = null;
+                });
+                
+                // Mobile/click support
+                option.addEventListener('click', function() {
+                    console.log('Option clicked');
+                    startTimer(); // Start timer on first interaction
+                    playClickSound(); // Play click sound
+                    
+                    document.querySelectorAll('.option').forEach(opt => {
+                        if (opt !== this) opt.classList.remove('selected');
+                    });
+                    
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        currentDraggedElement = null;
+                    } else {
+                        this.classList.add('selected');
+                        currentDraggedElement = this;
+                    }
+                });
+            });
+
+            const dropZone = document.querySelector('.drop-zone');
+            if (dropZone) {
+                dropZone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('highlight');
+                });
+                
+                dropZone.addEventListener('dragleave', function() {
+                    this.classList.remove('highlight');
+                });
+                
+                dropZone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('highlight');
+                    const data = e.dataTransfer.getData('text/plain');
+                    console.log('Item dropped');
+                    playDropSound(); // Play drop sound
+                    handleDrop(this, data);
+                });
+                
+                dropZone.addEventListener('click', function() {
+                    if (currentDraggedElement && !this.classList.contains('filled')) {
+                        console.log('Drop zone clicked');
+                        playDropSound(); // Play drop sound
+                        handleDrop(this, currentDraggedElement.dataset.text);
+                        currentDraggedElement.classList.remove('selected');
+                        currentDraggedElement = null;
+                    }
+                });
+            }
+        }
+
+        // Handle drop/answer selection
+        function handleDrop(dropZone, data) {
+            if (dropZone.classList.contains('filled')) return;
+            
+            console.log('Handle drop called with:', data);
+            
+            const questionData = currentQuestions[currentQuestion];
+            const correctAnswer = dropZone.dataset.correct;
+            const feedback = document.getElementById('feedback');
+            
+            // Fill the drop zone
+            dropZone.textContent = data;
+            dropZone.classList.add('filled');
+            
+            // Hide options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.add('hidden');
+                option.classList.remove('selected');
+            });
+            
+            // Check if correct
+            const isCorrect = data === correctAnswer;
+            
+            if (isCorrect) {
+                console.log('Answer is correct, playing success sound');
+                dropZone.classList.add('correct');
+                feedback.textContent = "Correct! " + questionData.explanation;
+                feedback.className = 'feedback correct';
+                playCorrectSound(); // Play success sound
+                
+                if (!answered[currentQuestion]) {
+                    score++;
+                    answered[currentQuestion] = true;
+                }
+            } else {
+                console.log('Answer is incorrect, playing error sound');
+                dropZone.classList.add('incorrect');
+                feedback.textContent = "Incorrect. " + questionData.explanation;
+                feedback.className = 'feedback incorrect';
+                playIncorrectSound(); // Play error sound
+                answered[currentQuestion] = true;
+                
+                // Add to incorrect questions for second round (only if first round)
+                if (!isSecondRound) {
+                    incorrectQuestions.push({
+                        ...questionData,
+                        originalIndex: currentQuestion
+                    });
+                }
+            }
+            
+            // Auto-advance after 1.5 seconds
+            autoAdvanceTimer = setTimeout(() => {
+                advanceToNextQuestion();
+            }, 1500);
+        }
+
+        // Advance to next question or phase
+        function advanceToNextQuestion() {
+            if (autoAdvanceTimer) {
+                clearTimeout(autoAdvanceTimer);
+                autoAdvanceTimer = null;
+            }
+            
+            if (currentQuestion < currentQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+                updateProgress();
+                updateQuestionCounter();
+                document.getElementById('feedback').className = 'feedback';
+            } else {
+                // End of current round
+                if (!isSecondRound && incorrectQuestions.length > 0) {
+                    // Start second round with incorrect questions
+                    startSecondRound();
+                } else {
+                    // Show final results
+                    showResults();
+                }
+            }
+        }
+
+        // Start second round with incorrect questions
+        function startSecondRound() {
+            isSecondRound = true;
+            currentQuestions = [...incorrectQuestions];
+            incorrectQuestions = []; // Reset for potential new incorrect answers
+            answered = Array(currentQuestions.length).fill(false);
+            currentQuestion = 0;
+            
+            if (currentQuestions.length > 0) {
+                loadQuestion(currentQuestion);
+                updateProgress();
+                updateQuestionCounter();
+                document.getElementById('feedback').className = 'feedback';
+            } else {
+                showResults();
+            }
+        }
+
+        // Show final results
+        function showResults() {
+            stopTimer();
+            
+            // Calculate final score (out of original 15 questions)
+            const finalScore = Math.min(score, quizData.length);
+            
+            document.getElementById('mainSection').classList.remove('active');
+            document.getElementById('resultsSection').classList.add('active');
+            
+            document.getElementById('scoreValue').textContent = `${finalScore}/${quizData.length}`;
+            document.getElementById('timeTaken').textContent = `Time: ${formatTime(totalTime)}`;
+            
+            // Customize message based on score
+            const percentage = (finalScore / quizData.length) * 100;
+            const scoreMessage = document.getElementById('scoreMessage');
+            
+            if (percentage >= 90) {
+                scoreMessage.textContent = 'Excellent! You\'ve mastered modal verbs!';
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = 'Good job! You understand modal verbs well.';
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = 'Not bad, but more practice with modal verbs is needed.';
+            } else {
+                scoreMessage.textContent = 'Keep practicing modal verbs! You\'ll get better with time.';
+            }
+        }
+
+        // Restart the quiz
+        function restartQuiz() {
+            // Reset all variables
+            currentQuestions = [...quizData];
+            incorrectQuestions = [];
+            currentQuestion = 0;
+            score = 0;
+            answered = [];
+            isSecondRound = false;
+            startTime = null;
+            totalTime = 0;
+            
+            // Clear timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            document.getElementById('timer').textContent = '00:00';
+            
+            // Reset UI
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('mainSection').classList.add('active');
+            document.getElementById('feedback').className = 'feedback';
+            
+            // Restart quiz
+            initQuiz();
+        }
+
+        // Toggle sound effects
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const toggleBtn = document.getElementById('soundToggle');
+            
+            if (soundEnabled) {
+                toggleBtn.textContent = '🔊';
+                toggleBtn.classList.remove('muted');
+                toggleBtn.title = 'Sound ON - Click to mute';
+                
+                // Initialize audio context if not already done
+                if (!audioContext) {
+                    initAudio();
+                }
+                
+                // Resume audio context if suspended
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume().then(() => {
+                        console.log('Audio context resumed');
+                        // Play a test sound to confirm it's working
+                        playTestSound();
+                    });
+                } else if (audioContext && audioContext.state === 'running') {
+                    // Play a test sound to confirm it's working
+                    playTestSound();
+                }
+            } else {
+                toggleBtn.textContent = '🔇';
+                toggleBtn.classList.add('muted');
+                toggleBtn.title = 'Sound OFF - Click to enable';
+            }
+        }
+
+        // Test sound to verify audio is working
+        function playTestSound() {
+            if (!soundEnabled || !audioContext) return;
+            
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+                
+                console.log('Test sound played');
+            } catch (error) {
+                console.log('Error playing test sound:', error);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize audio on first user interaction
+            document.addEventListener('pointerdown', function initAudioOnce() {
+                if (!audioContext) {
+                    initAudio();
+                }
+                // Resume audio context if suspended (required by some browsers)
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume().then(() => {
+                        console.log('Audio context activated on user interaction');
+                    });
+                }
+                document.removeEventListener('pointerdown', initAudioOnce);
+            }, { once: true });
+            
+            initQuiz();
+            
+            document.getElementById('restartBtn').addEventListener('click', function() {
+                console.log('Restart button clicked');
+                playClickSound(); // Play click sound for restart
+                restartQuiz();
+            });
+        });
+    </script>
+</body>
+</html>
