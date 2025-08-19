@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mind Your Modals: English Practice Quiz</title>
     <style>
-        :root {
-            --white: #ffffff;
-            --dark-grey: #333333;
-            --dark-navy: #1b263b;
-            --light-blue: #3498db;
-            --orange: #f07d3e;
-            --light-grey: #f5f5f5;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -22,9 +13,9 @@
         }
         
         body {
-            background-color: var(--light-grey);
-            color: var(--dark-grey);
-            line-height: 1.5;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -44,8 +35,8 @@
         }
         
         header {
-            background-color: var(--dark-navy);
-            color: var(--white);
+            background-color: #1b263b;
+            color: #ffffff;
             width: 100%;
             padding: clamp(0.8rem, 2vh, 1.5rem) 1rem;
             text-align: center;
@@ -58,10 +49,6 @@
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             margin-bottom: 0.3rem;
             font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
         
         .subtitle {
@@ -70,12 +57,18 @@
             font-weight: 600;
         }
         
+        .header-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
         .timer-container {
             position: absolute;
             top: clamp(8px, 1.5vh, 15px);
             right: 60px;
-            background-color: var(--orange);
-            color: var(--white);
+            background-color: #f07d3e;
+            color: #ffffff;
             padding: clamp(6px, 1vh, 10px) clamp(8px, 1.5vh, 12px);
             border-radius: 15px;
             font-size: clamp(0.9rem, 2vw, 1.2rem);
@@ -87,8 +80,8 @@
             position: absolute;
             top: clamp(8px, 1.5vh, 15px);
             right: 15px;
-            background-color: var(--light-blue);
-            color: var(--white);
+            background-color: #3498db;
+            color: #ffffff;
             border: none;
             padding: clamp(6px, 1vh, 10px) clamp(8px, 1.5vh, 12px);
             border-radius: 15px;
@@ -104,12 +97,12 @@
         }
         
         .sound-toggle.muted {
-            background-color: var(--dark-grey);
+            background-color: #333333;
         }
         
         .progress-container {
             margin: clamp(0.5rem, 1.5vh, 1rem) 0;
-            background: var(--white);
+            background: #ffffff;
             height: clamp(4px, 0.8vh, 8px);
             border-radius: 4px;
             width: 100%;
@@ -120,12 +113,12 @@
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--light-blue), var(--orange));
+            background: linear-gradient(90deg, #3498db, #f07d3e);
             transition: width 0.5s ease;
         }
         
         .section {
-            background: var(--white);
+            background: #ffffff;
             border-radius: 12px;
             padding: clamp(15px, 3vh, 25px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.07);
@@ -142,25 +135,25 @@
         }
         
         .section h2 {
-            color: var(--dark-navy);
+            color: #1b263b;
             font-size: clamp(1.3rem, 3vw, 1.8rem);
             margin-bottom: clamp(0.4rem, 1vh, 0.8rem);
             padding-bottom: clamp(0.2rem, 0.5vh, 0.5rem);
-            border-bottom: 2px solid var(--light-blue);
+            border-bottom: 2px solid #3498db;
             display: inline-block;
             font-weight: 800;
         }
         
         .section-instructions {
             margin-bottom: clamp(0.6rem, 1.5vh, 1rem);
-            color: var(--dark-grey);
+            color: #333333;
             font-size: clamp(1rem, 2.2vw, 1.3rem);
             font-weight: 600;
         }
         
         .question-counter {
-            background-color: var(--dark-navy);
-            color: var(--white);
+            background-color: #1b263b;
+            color: #ffffff;
             display: inline-block;
             padding: clamp(6px, 1vh, 10px) clamp(10px, 2vh, 16px);
             border-radius: 20px;
@@ -170,8 +163,8 @@
         }
         
         .phase-indicator {
-            background-color: var(--orange);
-            color: var(--white);
+            background-color: #f07d3e;
+            color: #ffffff;
             display: inline-block;
             padding: clamp(6px, 1vh, 10px) clamp(10px, 2vh, 16px);
             border-radius: 20px;
@@ -191,7 +184,7 @@
         }
         
         .sentence {
-            background: var(--light-grey);
+            background: #f5f5f5;
             padding: clamp(12px, 3vh, 25px);
             border-radius: 10px;
             font-size: clamp(1.1rem, 2.8vw, 1.6rem);
@@ -208,7 +201,7 @@
             justify-content: center;
             min-width: clamp(100px, 20vw, 140px);
             min-height: clamp(35px, 6vh, 50px);
-            border: 2px dashed var(--light-blue);
+            border: 2px dashed #3498db;
             border-radius: 6px;
             padding: clamp(4px, 1vh, 8px) clamp(6px, 1.5vh, 12px);
             vertical-align: middle;
@@ -220,7 +213,7 @@
         
         .drop-zone.highlight {
             background-color: rgba(52, 152, 219, 0.1);
-            border-color: var(--light-blue);
+            border-color: #3498db;
             transform: scale(1.05);
         }
         
@@ -248,8 +241,8 @@
         }
         
         .option {
-            background: var(--dark-navy);
-            color: var(--white);
+            background: #1b263b;
+            color: #ffffff;
             padding: clamp(8px, 1.5vh, 14px) clamp(16px, 3vw, 28px);
             border-radius: 30px;
             cursor: pointer;
@@ -277,7 +270,7 @@
         }
         
         .option.selected {
-            background-color: var(--light-blue);
+            background-color: #3498db;
             border-color: #2980b9;
         }
         
@@ -303,9 +296,24 @@
             display: block;
         }
         
+        .explanation {
+            margin-top: clamp(8px, 1.5vh, 12px);
+            padding: clamp(10px, 2vh, 16px);
+            border-radius: 8px;
+            display: none;
+            text-align: left;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
         .score-panel {
-            background: var(--dark-navy);
-            color: var(--white);
+            background: #1b263b;
+            color: #ffffff;
             padding: clamp(15px, 4vh, 30px);
             border-radius: 15px;
             text-align: center;
@@ -320,7 +328,7 @@
         
         .score-value {
             font-size: clamp(2.2rem, 6vw, 4rem);
-            color: var(--orange);
+            color: #f07d3e;
             font-weight: bold;
             margin-bottom: clamp(8px, 2vh, 15px);
         }
@@ -328,7 +336,7 @@
         .time-taken {
             font-size: clamp(1.1rem, 2.8vw, 1.6rem);
             margin-bottom: clamp(8px, 2vh, 15px);
-            color: var(--light-blue);
+            color: #3498db;
         }
         
         .score-message {
@@ -346,8 +354,8 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            background-color: var(--light-blue);
-            color: var(--white);
+            background-color: #3498db;
+            color: #ffffff;
         }
         
         .btn:hover {
@@ -502,8 +510,8 @@
 </head>
 <body>
     <header>
-        <h1>Mind Your Modals <span style="font-size: 1.4em; margin: 0 5px;">💭</span></h1>
-        <div class="subtitle">Drag and drop the correct modal verb for each sentence</div>
+        <h1><span class="header-icon">💭</span> Mind Your Modals</h1>
+        <div class="subtitle">Fix common modal verb mistakes in English</div>
         <div class="timer-container" id="timer">00:00</div>
         <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Toggle sound effects">🔊</button>
     </header>
@@ -515,8 +523,8 @@
 
         <!-- Main quiz section -->
         <div class="section active" id="mainSection">
-            <h2>Master Your Modal Verbs</h2>
-            <p class="section-instructions">Drag the correct modal verb to complete each sentence.</p>
+            <h2>Modal Verb Challenge</h2>
+            <p class="section-instructions">Drag the correct option to complete each sentence.</p>
             
             <div class="mobile-instructions">
                 Tap an option, then tap the blank space to place it.
@@ -530,6 +538,7 @@
             </div>
             
             <div class="feedback" id="feedback"></div>
+            <div class="explanation" id="explanation"></div>
         </div>
 
         <!-- Results Section -->
@@ -537,7 +546,7 @@
             <h2>Your Results</h2>
             
             <div class="score-panel">
-                <div class="score-title">Your Final Score</div>
+                <div class="score-title">Your Modal Mastery Score</div>
                 <div class="score-value" id="scoreValue">0/15</div>
                 <div class="time-taken" id="timeTaken">Time: 00:00</div>
                 <div class="score-message" id="scoreMessage">Keep practicing!</div>
@@ -551,82 +560,83 @@
         // Quiz data
         const quizData = [
             {
-                sentence: "I <span class=\"drop-zone\" data-correct=\"can't\"></span> speak English well.",
+                sentence: "I <span class=\"drop-zone\" data-correct=\"can't\"></span> speak French very well.",
                 options: ["don't can", "can't"],
-                explanation: "Modal verbs form negatives by adding 'not' directly after them. 'Can't' is the correct negative form of 'can', not 'don't can'."
+                explanation: "Modal verbs like 'can' don't use 'do/does/did' to form negatives. The correct negative form is 'can't' (can + not)."
             },
             {
-                sentence: "<span class=\"drop-zone\" data-correct=\"Can\"></span> you help me with this task?",
+                sentence: "<span class=\"drop-zone\" data-correct=\"Can\"></span> you help me with this exercise?",
                 options: ["Do can", "Can"],
-                explanation: "Modal verbs like 'can' make questions by being placed before the subject. We don't use 'do' with modal verbs."
-            },
-          {
-                sentence: "She <span class=\"drop-zone\" data-correct=\"couldn't\"></span> come to the party yesterday.",
-                options: ["didn't could", "couldn't"],
-                explanation: "The past form of 'can' is 'could', and its negative is 'couldn't'. We don't use 'did' with modal verbs."
+                explanation: "For questions with modal verbs, we invert the subject and the modal verb. We don't use 'do/does/did' with modals."
             },
             {
-                sentence: "I <span class=\"drop-zone\" data-correct=\"must\"></span> study more for my English test.",
-                options: ["have must", "must"],
-                explanation: "The modal verb 'must' is used alone without any auxiliary verb. We don't say 'have must'."
-            },
-            {
-                sentence: "You <span class=\"drop-zone\" data-correct=\"shouldn't\"></span> eat fast food every day.",
-                options: ["don't should", "shouldn't"],
-                explanation: "Modal verbs form negatives with 'not'. The correct negative form of 'should' is 'shouldn't', not 'don't should'."
-            },
-            {
-                sentence: "We <span class=\"drop-zone\" data-correct=\"will\"></span> travel to Paris next summer.",
-                options: ["will", "are will"],
-                explanation: "The modal verb 'will' is used alone to express future plans, not with 'are' or other auxiliary verbs."
-            },
-            {
-                sentence: "They <span class=\"drop-zone\" data-correct=\"won't\"></span> attend the meeting tomorrow.",
+                sentence: "She <span class=\"drop-zone\" data-correct=\"won't\"></span> come to the party tomorrow.",
                 options: ["don't will", "won't"],
-                explanation: "The negative form of 'will' is 'will not' or 'won't'. We don't use 'don't' with modal verbs."
+                explanation: "The negative form of 'will' is 'will not' or 'won't'. We don't use 'do/does/did' with modal verbs."
             },
             {
-                sentence: "<span class=\"drop-zone\" data-correct=\"Would\"></span> you like some coffee?",
-                options: ["Do would", "Would"],
-                explanation: "Modal verbs form questions by inversion. We say 'Would you...?' not 'Do would you...?'"
+                sentence: "We <span class=\"drop-zone\" data-correct=\"must\"></span> finish this project today.",
+                options: ["must", "have to must"],
+                explanation: "Use 'must' alone, not 'have to must'. Both 'must' and 'have to' express obligation, but they are not used together."
             },
             {
-                sentence: "He <span class=\"drop-zone\" data-correct=\"might\"></span> come to the party tonight.",
-                options: ["is might", "might"],
-                explanation: "Modal verbs like 'might' stand alone in sentences. We don't say 'is might'."
+                sentence: "They <span class=\"drop-zone\" data-correct=\"aren't\"></span> allowed to enter the building.",
+                options: ["don't can be", "aren't"],
+                explanation: "'Be allowed to' is the correct form, not 'can be'. For its negative, we use 'aren't/isn't allowed to'."
             },
             {
-                sentence: "I <span class=\"drop-zone\" data-correct=\"may not\"></span> be available this weekend.",
-                options: ["don't may", "may not"],
-                explanation: "Modal verbs take 'not' directly after them to form negatives. The correct form is 'may not', not 'don't may'."
+                sentence: "He <span class=\"drop-zone\" data-correct=\"can't\"></span> swim very well yet.",
+                options: ["doesn't can", "can't"],
+                explanation: "The negative of 'can' is 'cannot' or 'can't'. We don't use 'do/does/did' with modals."
             },
             {
-                sentence: "She <span class=\"drop-zone\" data-correct=\"could\"></span> speak three languages when she was ten.",
-                options: ["was could", "could"],
-                explanation: "The modal verb 'could' doesn't need 'was' or any other auxiliary verb before it."
+                sentence: "<span class=\"drop-zone\" data-correct=\"Should\"></span> we go to the beach tomorrow?",
+                options: ["Do should", "Should"],
+                explanation: "For questions with modal verbs, we invert the subject and the modal. We don't use 'do/does/did' with modals."
             },
             {
-                sentence: "<span class=\"drop-zone\" data-correct=\"Must\"></span> I finish all this work today?",
-                options: ["Do must", "Must"],
-                explanation: "Modal verbs form questions by inversion. We say 'Must I...?' not 'Do must I...?'"
-            },
-            {
-                sentence: "I <span class=\"drop-zone\" data-correct=\"don't have to\"></span> work on weekends.",
-                options: ["don't have to", "mustn't"],
-                explanation: "'Don't have to' means something is not necessary. 'Mustn't' means it's prohibited or not allowed."
-            },
-            {
-                sentence: "You <span class=\"drop-zone\" data-correct=\"should have\"></span> told me about the party earlier.",
+                sentence: "You <span class=\"drop-zone\" data-correct=\"should have\"></span> submitted the form yesterday.",
                 options: ["should had", "should have"],
-                explanation: "After modal verbs, we use the base form of the verb. 'Should have' is correct, not 'should had'."
+                explanation: "For past obligation or advice not followed, use 'should have + past participle', not 'should had'."
             },
             {
-                sentence: "We <span class=\"drop-zone\" data-correct=\"will be able to\"></span> finish the project by Friday.",
-                options: ["will can", "will be able to"],
-                explanation: "To express future ability, we use 'will be able to', not 'will can'."
+                sentence: "I <span class=\"drop-zone\" data-correct=\"won't be\"></span> able to attend the meeting.",
+                options: ["don't will be", "won't be"],
+                explanation: "The negative of 'will be' is 'will not be' or 'won't be'. We don't use 'do/does/did' with modal verbs."
+            },
+            {
+                sentence: "She <span class=\"drop-zone\" data-correct=\"needs to\"></span> study more for the exam.",
+                options: ["must to", "needs to"],
+                explanation: "After 'must', we use the base form of the verb without 'to'. 'Need to' is correct."
+            },
+            {
+                sentence: "They <span class=\"drop-zone\" data-correct=\"might not\"></span> like the movie we chose.",
+                options: ["might don't", "might not"],
+                explanation: "The negative form of 'might' is 'might not'. We don't use 'do/does/did' with modal verbs."
+            },
+            {
+                sentence: "We <span class=\"drop-zone\" data-correct=\"must submit\"></span> the report by Friday.",
+                options: ["must to submit", "must submit"],
+                explanation: "After modal verbs like 'must', we use the base form of the verb without 'to'."
+            },
+            {
+                sentence: "I <span class=\"drop-zone\" data-correct=\"might be\"></span> going to the concert next week.",
+                options: ["might am", "might be"],
+                explanation: "After 'might', we use 'be' (not 'am') when talking about possibility with progressive forms."
+            },
+            {
+                sentence: "She <span class=\"drop-zone\" data-correct=\"must have\"></span> been working all day.",
+                options: ["must has", "must have"],
+                explanation: "For modal perfect forms, use 'modal + have + past participle', not 'modal + has/had'."
+            },
+            {
+                sentence: "He <span class=\"drop-zone\" data-correct=\"can\"></span> speak three languages fluently.",
+                options: ["cans", "can"],
+                explanation: "Modal verbs like 'can' don't change form with different subjects. They don't take -s in third person singular."
             }
         ];
-      // Game state
+
+        // Game state
         let currentQuestion = 0;
         let score = 0;
         let currentQuestions = [...quizData];
@@ -782,8 +792,8 @@
                 const endTime = startTime + 0.6;
                 
                 gainNode.gain.setValueAtTime(0, startTime);
-                gainNode.gain.linearRampToValueAtTime(0.01, startTime + 0.05);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, endTime);
                 
                 oscillator.start(startTime);
                 oscillator.stop(endTime);
@@ -805,8 +815,8 @@
             oscillator.type = 'sine';
             
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
             
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.4);
@@ -826,8 +836,8 @@
             oscillator.type = 'square';
             
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 0.01);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
             
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.1);
@@ -999,6 +1009,7 @@
             const questionData = currentQuestions[currentQuestion];
             const correctAnswer = dropZone.dataset.correct;
             const feedback = document.getElementById('feedback');
+            const explanation = document.getElementById('explanation');
             
             // Fill the drop zone
             dropZone.textContent = data;
@@ -1016,8 +1027,10 @@
             if (isCorrect) {
                 console.log('Answer is correct, playing success sound');
                 dropZone.classList.add('correct');
-                feedback.textContent = "Correct! " + questionData.explanation;
+                feedback.textContent = "Correct!";
                 feedback.className = 'feedback correct';
+                explanation.textContent = questionData.explanation;
+                explanation.className = 'explanation show';
                 playCorrectSound(); // Play success sound
                 
                 if (!answered[currentQuestion]) {
@@ -1027,8 +1040,10 @@
             } else {
                 console.log('Answer is incorrect, playing error sound');
                 dropZone.classList.add('incorrect');
-                feedback.textContent = "Incorrect. " + questionData.explanation;
+                feedback.textContent = "Incorrect";
                 feedback.className = 'feedback incorrect';
+                explanation.textContent = questionData.explanation;
+                explanation.className = 'explanation show';
                 playIncorrectSound(); // Play error sound
                 answered[currentQuestion] = true;
                 
@@ -1041,10 +1056,10 @@
                 }
             }
             
-            // Auto-advance after 1.5 seconds
+            // Auto-advance after 2.5 seconds (longer to allow reading explanation)
             autoAdvanceTimer = setTimeout(() => {
                 advanceToNextQuestion();
-            }, 1500);
+            }, 2500);
         }
 
         // Advance to next question or phase
@@ -1060,6 +1075,7 @@
                 updateProgress();
                 updateQuestionCounter();
                 document.getElementById('feedback').className = 'feedback';
+                document.getElementById('explanation').className = 'explanation';
             } else {
                 // End of current round
                 if (!isSecondRound && incorrectQuestions.length > 0) {
@@ -1085,6 +1101,7 @@
                 updateProgress();
                 updateQuestionCounter();
                 document.getElementById('feedback').className = 'feedback';
+                document.getElementById('explanation').className = 'explanation';
             } else {
                 showResults();
             }
@@ -1110,11 +1127,11 @@
             if (percentage >= 90) {
                 scoreMessage.textContent = 'Excellent! You\'ve mastered modal verbs!';
             } else if (percentage >= 70) {
-                scoreMessage.textContent = 'Good job! You understand modal verbs well.';
+                scoreMessage.textContent = 'Good job! You have a strong understanding of modal verbs.';
             } else if (percentage >= 50) {
-                scoreMessage.textContent = 'Not bad, but more practice with modal verbs is needed.';
+                scoreMessage.textContent = 'Not bad! Keep practicing modal verbs for more confidence.';
             } else {
-                scoreMessage.textContent = 'Keep practicing modal verbs! You\'ll get better with time.';
+                scoreMessage.textContent = 'Modal verbs can be tricky! Keep practicing and you\'ll improve.';
             }
         }
 
@@ -1141,6 +1158,7 @@
             document.getElementById('resultsSection').classList.remove('active');
             document.getElementById('mainSection').classList.add('active');
             document.getElementById('feedback').className = 'feedback';
+            document.getElementById('explanation').className = 'explanation';
             
             // Restart quiz
             initQuiz();
