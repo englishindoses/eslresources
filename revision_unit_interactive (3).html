@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive ESL Revision Unit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #1e40af;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-bottom: 100px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #10b981, #0891b2);
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .activity {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .activity.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .activity h2 {
+            color: #1e40af;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .activity-1 h2 { color: #1e40af; }
+        .activity-2 h2 { color: #0891b2; }
+        .activity-3 h2 { color: #10b981; }
+        .activity-4 h2 { color: #f97316; }
+        .activity-5 h2 { color: #7c3aed; }
+        .activity-6 h2 { color: #1e40af; }
+
+        .gap-fill {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
+            font-size: 1.2rem;
+        }
+
+        .gap {
+            min-width: 100px;
+            height: 35px;
+            border: 2px dashed #0891b2;
+            border-radius: 8px;
+            background: #f0fdff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gap.filled {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .gap.incorrect {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f1f5ff;
+            border-radius: 15px;
+            border: 2px solid #1e40af;
+        }
+
+        .word-option {
+            background: #1e40af;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .word-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .word-option.used {
+            background: #cbd5e0;
+            color: #64748b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .drag-drop-area {
+            background: #f0fdff;
+            border: 2px solid #0891b2;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            min-height: 60px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .draggable {
+            background: #0891b2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .draggable:hover {
+            transform: scale(1.05);
+        }
+
+        .sentence-builder {
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .sentence-parts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .sentence-part {
+            background: #10b981;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sentence-part:hover {
+            transform: translateY(-2px);
+        }
+
+        .sentence-part.selected {
+            background: #f97316;
+        }
+
+        .built-sentence {
+            background: white;
+            border: 2px dashed #10b981;
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 50px;
+            font-size: 1.1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .reading-text {
+            background: #faf5ff;
+            border: 2px solid #7c3aed;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .question {
+            background: white;
+            border: 2px solid #0891b2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option {
+            background: #f1f5ff;
+            border: 2px solid #1e40af;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .option:hover {
+            background: #1e40af;
+            color: white;
+        }
+
+        .option.selected {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .option.incorrect {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #10b981, #0891b2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #dcfce7;
+            color: #166534;
+            border: 2px solid #10b981;
+        }
+
+        .feedback.incorrect {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 2px solid #ef4444;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .activity-counter {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 15px auto;
+            display: inline-block;
+            font-weight: bold;
+            color: #1e40af;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #10b981, #0891b2);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .weather-matching {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .weather-words, .weather-descriptions {
+            background: #fff7ed;
+            border: 2px solid #f97316;
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .weather-item {
+            background: #f97316;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .weather-item:hover {
+            transform: scale(1.05);
+        }
+
+        .weather-item.matched {
+            background: #10b981;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #0891b2;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin: 10px 0;
+            font-family: inherit;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .persistent-navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #0891b2, #1e40af);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(8, 145, 178, 0.3);
+        }
+
+        .nav-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-btn.back {
+            background: linear-gradient(135deg, #64748b, #475569);
+        }
+
+        .nav-btn.back:hover {
+            box-shadow: 0 5px 15px rgba(100, 116, 139, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin-bottom: 100px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .weather-matching {
+                grid-template-columns: 1fr;
+            }
+            
+            .gap-fill {
+                font-size: 1rem;
+            }
+
+            .persistent-navigation {
+                bottom: 10px;
+                padding: 10px 20px;
+            }
+
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 English Revision Time! 🌟</h1>
+            <p>Let's review what you've learned! Complete each activity to continue.</p>
+            <div class="activity-counter">
+                Activity <span id="current-activity">1</span> of <span id="total-activities">6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Activity 1: Greetings Gap Fill -->
+        <div class="activity activity-1 active">
+            <h2>👋 Activity 1: Complete the Greetings</h2>
+            <p>Fill in the gaps with the correct greetings. Click on a word from the word bank, then click on a gap!</p>
+            
+            <div class="gap-fill">
+                <span>Good</span> <span class="gap" data-answer="morning"></span><span>, teacher!</span>
+            </div>
+            
+            <div class="gap-fill">
+                <span>Nice to</span> <span class="gap" data-answer="meet"></span> <span>you!</span>
+            </div>
+            
+            <div class="gap-fill">
+                <span><span class="gap" data-answer="Hello"></span>, how are you?</span>
+            </div>
+            
+            <div class="gap-fill">
+                <span>See you</span> <span class="gap" data-answer="later"></span><span>!</span>
+            </div>
+
+            <div class="word-bank">
+                <div class="word-option">morning</div>
+                <div class="word-option">meet</div>
+                <div class="word-option">Hello</div>
+                <div class="word-option">later</div>
+            </div>
+
+            <div class="feedback" id="feedback-1"></div>
+            <div class="navigation">
+                <button class="btn" onclick="checkActivity1()" id="check-btn-1">Check Answers</button>
+                <button class="btn" onclick="nextActivity()" id="next-btn-1" style="display: none;">Next Activity →</button>
+            </div>
+        </div>
+
+        <!-- Activity 2: Politeness Drag and Drop -->
+        <div class="activity activity-2">
+            <h2>🙏 Activity 2: Put the Words in Order</h2>
+            <p>Drag the words to make polite sentences. Click and drag each word to the correct position!</p>
+            
+            <div class="sentence-builder">
+                <p><strong>Make this sentence:</strong> "Thank you!"</p>
+                <div class="sentence-parts" id="words-1">
+                    <div class="draggable" draggable="true">you!</div>
+                    <div class="draggable" draggable="true">Thank</div>
+                </div>
+                <div class="built-sentence" id="sentence-1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    Drop words here...
+                </div>
+            </div>
+
+            <div class="sentence-builder">
+                <p><strong>Make this sentence:</strong> "Please help!"</p>
+                <div class="sentence-parts" id="words-2">
+                    <div class="draggable" draggable="true">help!</div>
+                    <div class="draggable" draggable="true">Please</div>
+                </div>
+                <div class="built-sentence" id="sentence-2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    Drop words here...
+                </div>
+            </div>
+
+            <div class="feedback" id="feedback-2"></div>
+            <div class="navigation">
+                <button class="btn" onclick="checkActivity2()" id="check-btn-2">Check Sentences</button>
+                <button class="btn" onclick="nextActivity()" id="next-btn-2" style="display: none;">Next Activity →</button>
+            </div>
+        </div>
+
+        <!-- Activity 3: Self Introduction -->
+        <div class="activity activity-3">
+            <h2>🙋‍♂️ Activity 3: Build Sentences About Yourself</h2>
+            <p>Click on the words to build sentences using "I am" and "I have". Click on each part in order!</p>
+            
+            <div class="sentence-builder">
+                <p><strong>Build a sentence with "I am":</strong></p>
+                <div class="sentence-parts">
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-1')">I am</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-1')">eleven</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-1')">twelve</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-1')">years old.</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-1')">happy.</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-1')">from Brazil.</div>
+                </div>
+                <div class="built-sentence" id="sentence-result-1">Your sentence will appear here...</div>
+                <button class="btn" onclick="clearSentence('sentence-result-1')" style="background: #ef4444;">Clear</button>
+            </div>
+
+            <div class="sentence-builder">
+                <p><strong>Build a sentence with "I have":</strong></p>
+                <div class="sentence-parts">
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-2')">I have</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-2')">brown</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-2')">black</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-2')">hair.</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-2')">a pet.</div>
+                    <div class="sentence-part" onclick="selectPart(this, 'sentence-result-2')">two brothers.</div>
+                </div>
+                <div class="built-sentence" id="sentence-result-2">Your sentence will appear here...</div>
+                <button class="btn" onclick="clearSentence('sentence-result-2')" style="background: #ef4444;">Clear</button>
+            </div>
+
+            <div class="navigation">
+                <button class="btn" onclick="nextActivity()">Next Activity →</button>
+            </div>
+        </div>
+
+        <!-- Activity 4: Weather Vocabulary -->
+        <div class="activity activity-4">
+            <h2>🌤️ Activity 4: Weather Sentences</h2>
+            <p>Match the weather sentences with the correct emojis. Click one from each side to make a match!</p>
+            
+            <div class="weather-matching">
+                <div class="weather-words">
+                    <h4>Weather Sentences:</h4>
+                    <div class="weather-item" data-match="1" onclick="selectWeather(this)">It's sunny today</div>
+                    <div class="weather-item" data-match="2" onclick="selectWeather(this)">It's raining now</div>
+                    <div class="weather-item" data-match="3" onclick="selectWeather(this)">I like warm weather</div>
+                    <div class="weather-item" data-match="4" onclick="selectWeather(this)">I don't like cold weather</div>
+                </div>
+                <div class="weather-descriptions">
+                    <h4>Match the Emojis:</h4>
+                    <div class="weather-item" data-match="3" onclick="selectWeather(this)">😊🌞</div>
+                    <div class="weather-item" data-match="1" onclick="selectWeather(this)">☀️</div>
+                    <div class="weather-item" data-match="4" onclick="selectWeather(this)">😞❄️</div>
+                    <div class="weather-item" data-match="2" onclick="selectWeather(this)">🌧️</div>
+                </div>
+            </div>
+
+            <div class="feedback" id="feedback-4"></div>
+            <div class="navigation">
+                <button class="btn" onclick="checkActivity4()" id="check-btn-4">Check Matches</button>
+                <button class="btn" onclick="nextActivity()" id="next-btn-4" style="display: none;">Next Activity →</button>
+            </div>
+        </div>
+
+        <!-- Activity 5: Reading Comprehension -->
+        <div class="activity activity-5">
+            <h2>📖 Activity 5: Read About Tom</h2>
+            <p>Read the text about Tom, then answer the questions!</p>
+            
+            <div class="reading-text">
+                <p><strong>Meet Tom</strong></p>
+                <p>Hello! My name is Tom. I am twelve years old and I am from Canada. I have brown hair and blue eyes. I am tall for my age. I have one sister. She is ten years old and her name is Emma.</p>
+                <p>Today the weather is sunny and warm. I like sunny days because I can play outside. When it's rainy, I stay inside and read books. I have many books in my room.</p>
+                <p>My family is very nice. My father is a teacher and my mother is a doctor. We have a dog named Max. He is very friendly and loves to play.</p>
+            </div>
+
+            <div class="question">
+                <p><strong>1. How old is Tom?</strong></p>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, '1', 'b')">a) Ten years old</div>
+                    <div class="option" onclick="selectOption(this, '1', 'b')">b) Twelve years old</div>
+                    <div class="option" onclick="selectOption(this, '1', 'b')">c) Eleven years old</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. What color are Tom's eyes?</strong></p>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, '2', 'b')">a) Brown</div>
+                    <div class="option" onclick="selectOption(this, '2', 'b')">b) Blue</div>
+                    <div class="option" onclick="selectOption(this, '2', 'b')">c) Green</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>3. What does Tom like to do on sunny days?</strong></p>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, '3', 'a')">a) Play outside</div>
+                    <div class="option" onclick="selectOption(this, '3', 'a')">b) Read books</div>
+                    <div class="option" onclick="selectOption(this, '3', 'a')">c) Stay inside</div>
+                </div>
+            </div>
+
+            <div class="feedback" id="feedback-5"></div>
+            <div class="navigation">
+                <button class="btn" onclick="checkActivity5()" id="check-btn-5">Check Answers</button>
+                <button class="btn" onclick="nextActivity()" id="next-btn-5" style="display: none;">Next Activity →</button>
+            </div>
+        </div>
+
+        <!-- Activity 6: Sentence Formation -->
+        <div class="activity activity-6">
+            <h2>✏️ Activity 6: Write About Tom</h2>
+            <p>Write your own sentences about Tom using "He is" and "He has". Don't copy from the text - use your own words!</p>
+            
+            <div class="sentence-builder">
+                <p><strong>Complete this sentence about Tom:</strong></p>
+                <p style="font-size: 1.1rem;">He is _______________</p>
+                <input type="text" class="text-input" id="sentence-input-1" placeholder="Type your answer here..." 
+                       onkeyup="checkTyping(this, ['twelve', 'tall', 'young', 'from Canada', 'nice', 'friendly'])">
+                <div class="feedback" id="feedback-6-1"></div>
+            </div>
+
+            <div class="sentence-builder">
+                <p><strong>Complete this sentence about Tom:</strong></p>
+                <p style="font-size: 1.1rem;">He has _______________</p>
+                <input type="text" class="text-input" id="sentence-input-2" placeholder="Type your answer here..."
+                       onkeyup="checkTyping(this, ['brown hair', 'blue eyes', 'a sister', 'one sister', 'many books', 'a dog'])">
+                <div class="feedback" id="feedback-6-2"></div>
+            </div>
+
+            <div class="sentence-builder">
+                <p><strong>Write a complete sentence about Tom's family:</strong></p>
+                <input type="text" class="text-input" id="sentence-input-3" placeholder="Write about his mother, father, sister, or dog..."
+                       onkeyup="checkFreeWriting(this)">
+                <div class="feedback" id="feedback-6-3"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn" onclick="completeRevision()">Finish Revision! 🎉</button>
+            </div>
+        </div>
+
+        <!-- Completion Message -->
+        <div class="activity completion" style="display: none;">
+            <div class="completion-message">
+                <h2>🎉 Fantastic Work! 🎉</h2>
+                <p>You have completed all the revision activities!</p>
+                <p>You practiced:</p>
+                <ul style="text-align: left; margin: 20px 0; font-size: 1.1rem;">
+                    <li>✅ Greetings and polite expressions</li>
+                    <li>✅ Self-introduction with "I am" and "I have"</li>
+                    <li>✅ Weather vocabulary</li>
+                    <li>✅ Reading comprehension</li>
+                    <li>✅ Sentence formation with "He is" and "He has"</li>
+                </ul>
+                <p><strong>Great job! You're ready for new lessons! 🌟</strong></p>
+                <button class="btn" onclick="restartRevision()" style="background: #7c3aed;">Review Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Persistent Navigation -->
+    <div class="persistent-navigation">
+        <button class="nav-btn back" onclick="previousActivity()" id="back-btn">← Back</button>
+        <span style="color: #1e40af; font-weight: bold; align-self: center;">
+            <span id="nav-current">1</span> / <span id="nav-total">6</span>
+        </span>
+        <button class="nav-btn" onclick="nextActivity()" id="forward-btn">Next →</button>
+    </div>
+
+    <script>
+        let currentActivityIndex = 0;
+        let totalActivities = 6;
+        let selectedWord = null;
+        let selectedGap = null;
+        let weatherSelected = [];
+        let matchCount = 0;
+        let readingAnswers = {};
+
+        // Navigation functions
+        function updateNavigationButtons() {
+            const backBtn = document.getElementById('back-btn');
+            const forwardBtn = document.getElementById('forward-btn');
+            const navCurrent = document.getElementById('nav-current');
+            
+            // Update counter
+            navCurrent.textContent = currentActivityIndex + 1;
+            
+            // Enable/disable back button
+            backBtn.disabled = currentActivityIndex === 0;
+            
+            // Update forward button for last activity
+            if (currentActivityIndex === totalActivities - 1) {
+                forwardBtn.textContent = 'Finish! 🎉';
+                forwardBtn.onclick = completeRevision;
+            } else {
+                forwardBtn.textContent = 'Next →';
+                forwardBtn.onclick = nextActivity;
+            }
+        }
+
+        function nextActivity() {
+            const activities = document.querySelectorAll('.activity:not(.completion)');
+            if (currentActivityIndex < activities.length - 1) {
+                activities[currentActivityIndex].classList.remove('active');
+                currentActivityIndex++;
+                activities[currentActivityIndex].classList.add('active');
+                updateProgress();
+                updateNavigationButtons();
+            }
+        }
+
+        function previousActivity() {
+            const activities = document.querySelectorAll('.activity:not(.completion)');
+            if (currentActivityIndex > 0) {
+                activities[currentActivityIndex].classList.remove('active');
+                currentActivityIndex--;
+                activities[currentActivityIndex].classList.add('active');
+                updateProgress();
+                updateNavigationButtons();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentActivityIndex + 1) / totalActivities) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('current-activity').textContent = currentActivityIndex + 1;
+        }
+
+        function completeRevision() {
+            const activities = document.querySelectorAll('.activity:not(.completion)');
+            activities[currentActivityIndex].classList.remove('active');
+            document.querySelector('.activity.completion').style.display = 'block';
+            document.getElementById('progress-fill').style.width = '100%';
+            
+            // Hide persistent navigation on completion
+            document.querySelector('.persistent-navigation').style.display = 'none';
+        }
+
+        function restartRevision() {
+            location.reload();
+        }
+
+        // Activity 1: Gap Fill
+        function setupActivity1() {
+            const wordOptions = document.querySelectorAll('.word-option');
+            const gaps = document.querySelectorAll('.gap');
+
+            wordOptions.forEach(word => {
+                word.onclick = function() {
+                    if (this.classList.contains('used')) return;
+                    
+                    // Remove previous selection
+                    wordOptions.forEach(w => w.style.border = 'none');
+                    
+                    // Select this word
+                    this.style.border = '3px solid #10b981';
+                    selectedWord = this.textContent;
+                };
+            });
+
+            gaps.forEach(gap => {
+                gap.onclick = function() {
+                    if (selectedWord && !this.classList.contains('filled')) {
+                        this.textContent = selectedWord;
+                        this.classList.add('filled');
+                        
+                        // Mark word as used
+                        wordOptions.forEach(w => {
+                            if (w.textContent === selectedWord) {
+                                w.classList.add('used');
+                                w.style.border = 'none';
+                            }
+                        });
+                        
+                        selectedWord = null;
+                    }
+                };
+            });
+        }
+
+        function checkActivity1() {
+            const gaps = document.querySelectorAll('.gap');
+            let correct = 0;
+            
+            gaps.forEach(gap => {
+                const answer = gap.dataset.answer;
+                if (gap.textContent.toLowerCase().trim() === answer.toLowerCase()) {
+                    gap.classList.remove('incorrect');
+                    correct++;
+                } else {
+                    gap.classList.add('incorrect');
+                }
+            });
+
+            const feedback = document.getElementById('feedback-1');
+            if (correct === gaps.length) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '🎉 Perfect! All greetings are correct!';
+                feedback.style.display = 'block';
+                document.getElementById('next-btn-1').style.display = 'inline-block';
+                document.getElementById('check-btn-1').style.display = 'none';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `Good try! You got ${correct} out of ${gaps.length} correct. Try again!`;
+                feedback.style.display = 'block';
+            }
+        }
+
+        // Activity 2: Drag and Drop
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.textContent);
+            ev.dataTransfer.setData("element", ev.target.outerHTML);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const element = ev.dataTransfer.getData("element");
+            
+            if (ev.target.classList.contains('built-sentence')) {
+                const span = document.createElement('span');
+                span.textContent = data + ' ';
+                span.style.background = '#10b981';
+                span.style.color = 'white';
+                span.style.padding = '5px 10px';
+                span.style.borderRadius = '15px';
+                span.style.margin = '2px';
+                span.style.display = 'inline-block';
+                
+                if (ev.target.textContent === 'Drop words here...') {
+                    ev.target.textContent = '';
+                }
+                ev.target.appendChild(span);
+            }
+        }
+
+        function checkActivity2() {
+            const sentence1 = document.getElementById('sentence-1').textContent.trim();
+            const sentence2 = document.getElementById('sentence-2').textContent.trim();
+            
+            const correct1 = sentence1.includes('Thank') && sentence1.includes('you');
+            const correct2 = sentence2.includes('Please') && sentence2.includes('help');
+            
+            const feedback = document.getElementById('feedback-2');
+            if (correct1 && correct2) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '🎉 Excellent! Both sentences are correct!';
+                feedback.style.display = 'block';
+                document.getElementById('next-btn-2').style.display = 'inline-block';
+                document.getElementById('check-btn-2').style.display = 'none';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = 'Good try! Check the word order in your sentences.';
+                feedback.style.display = 'block';
+            }
+        }
+
+        // Activity 3: Sentence Building
+        function selectPart(element, targetId) {
+            element.classList.toggle('selected');
+            
+            const target = document.getElementById(targetId);
+            const text = element.textContent;
+            
+            if (element.classList.contains('selected')) {
+                if (target.textContent === 'Your sentence will appear here...') {
+                    target.textContent = text;
+                } else {
+                    target.textContent += ' ' + text;
+                }
+            } else {
+                target.textContent = target.textContent.replace(text, '').trim();
+                if (target.textContent === '') {
+                    target.textContent = 'Your sentence will appear here...';
+                }
+            }
+        }
+
+        function clearSentence(targetId) {
+            document.getElementById(targetId).textContent = 'Your sentence will appear here...';
+            document.querySelectorAll('.sentence-part').forEach(part => {
+                part.classList.remove('selected');
+            });
+        }
+
+        // Activity 4: Weather Matching
+        function selectWeather(element) {
+            if (element.classList.contains('matched')) return;
+            
+            element.classList.toggle('selected');
+            
+            if (weatherSelected.length === 2) {
+                weatherSelected.forEach(item => item.classList.remove('selected'));
+                weatherSelected = [];
+            }
+            
+            if (element.classList.contains('selected')) {
+                weatherSelected.push(element);
+            } else {
+                weatherSelected = weatherSelected.filter(item => item !== element);
+            }
+            
+            if (weatherSelected.length === 2) {
+                const match1 = weatherSelected[0].dataset.match;
+                const match2 = weatherSelected[1].dataset.match;
+                
+                if (match1 === match2) {
+                    weatherSelected.forEach(item => {
+                        item.classList.add('matched');
+                        item.classList.remove('selected');
+                    });
+                    matchCount++;
+                    weatherSelected = [];
+                    
+                    if (matchCount === 4) {
+                        setTimeout(() => {
+                            const feedback = document.getElementById('feedback-4');
+                            feedback.className = 'feedback correct';
+                            feedback.textContent = '🎉 Perfect! All weather words matched correctly!';
+                            feedback.style.display = 'block';
+                            document.getElementById('next-btn-4').style.display = 'inline-block';
+                            document.getElementById('check-btn-4').style.display = 'none';
+                        }, 500);
+                    }
+                }
+            }
+        }
+
+        function checkActivity4() {
+            if (matchCount === 4) {
+                const feedback = document.getElementById('feedback-4');
+                feedback.className = 'feedback correct';
+                feedback.textContent = '🎉 Perfect! All weather words matched correctly!';
+                feedback.style.display = 'block';
+                document.getElementById('next-btn-4').style.display = 'inline-block';
+                document.getElementById('check-btn-4').style.display = 'none';
+            } else {
+                const feedback = document.getElementById('feedback-4');
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `Good try! You matched ${matchCount} out of 4. Keep trying!`;
+                feedback.style.display = 'block';
+            }
+        }
+
+        // Activity 5: Reading Comprehension
+        function selectOption(element, questionNum, correctAnswer) {
+            // Remove selection from other options in the same question
+            const questionDiv = element.parentNode;
+            questionDiv.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select this option
+            element.classList.add('selected');
+            readingAnswers[questionNum] = element.textContent.charAt(0);
+        }
+
+        function checkActivity5() {
+            const correctAnswers = {'1': 'b', '2': 'b', '3': 'a'};
+            let correct = 0;
+            
+            Object.keys(correctAnswers).forEach(questionNum => {
+                const questionDiv = document.querySelector(`.question:nth-of-type(${questionNum})`);
+                const selectedOption = questionDiv.querySelector('.option.selected');
+                
+                if (selectedOption) {
+                    const userAnswer = selectedOption.textContent.charAt(0);
+                    if (userAnswer === correctAnswers[questionNum]) {
+                        correct++;
+                        selectedOption.classList.add('selected'); // Keep green
+                    } else {
+                        selectedOption.classList.add('incorrect');
+                        // Show correct answer
+                        questionDiv.querySelectorAll('.option').forEach(opt => {
+                            if (opt.textContent.charAt(0) === correctAnswers[questionNum]) {
+                                opt.style.background = '#10b981';
+                                opt.style.color = 'white';
+                            }
+                        });
+                    }
+                }
+            });
+            
+            const feedback = document.getElementById('feedback-5');
+            if (correct === 3) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '🎉 Excellent reading! All answers correct!';
+                feedback.style.display = 'block';
+                document.getElementById('next-btn-5').style.display = 'inline-block';
+                document.getElementById('check-btn-5').style.display = 'none';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `Good reading! You got ${correct} out of 3 correct. Read the text again!`;
+                feedback.style.display = 'block';
+            }
+        }
+
+        // Activity 6: Sentence Formation
+        function checkTyping(input, acceptableAnswers) {
+            const userInput = input.value.toLowerCase().trim();
+            const feedbackId = input.id.replace('sentence-input', 'feedback-6');
+            const feedback = document.getElementById(feedbackId);
+            
+            let isCorrect = false;
+            acceptableAnswers.forEach(answer => {
+                if (userInput.includes(answer.toLowerCase())) {
+                    isCorrect = true;
+                }
+            });
+            
+            if (userInput.length > 3) {
+                if (isCorrect) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✅ Great sentence!';
+                    feedback.style.display = 'block';
+                } else if (userInput.length > 5) {
+                    feedback.className = 'feedback incorrect';
+                    feedback.textContent = 'Good try! Think about what you read about Tom.';
+                    feedback.style.display = 'block';
+                }
+            } else {
+                feedback.style.display = 'none';
+            }
+        }
+
+        function checkFreeWriting(input) {
+            const userInput = input.value.toLowerCase().trim();
+            const feedback = document.getElementById('feedback-6-3');
+            
+            const familyWords = ['mother', 'father', 'sister', 'dog', 'family', 'emma', 'max', 'doctor', 'teacher'];
+            let hasFamilyWord = false;
+            
+            familyWords.forEach(word => {
+                if (userInput.includes(word)) {
+                    hasFamilyWord = true;
+                }
+            });
+            
+            if (userInput.length > 10) {
+                if (hasFamilyWord) {
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '✅ Excellent sentence about Tom\'s family!';
+                    feedback.style.display = 'block';
+                } else {
+                    feedback.className = 'feedback incorrect';
+                    feedback.textContent = 'Good writing! Try to include a family member.';
+                    feedback.style.display = 'block';
+                }
+            } else {
+                feedback.style.display = 'none';
+            }
+        }
+
+        // Initialize drag and drop for activity 2
+        document.addEventListener('DOMContentLoaded', function() {
+            setupActivity1();
+            updateNavigationButtons(); // Initialize navigation buttons
+            
+            // Setup drag and drop
+            const draggables = document.querySelectorAll('.draggable');
+            draggables.forEach(item => {
+                item.addEventListener('dragstart', drag);
+            });
+        });
+    </script>
+</body>
+</html>
