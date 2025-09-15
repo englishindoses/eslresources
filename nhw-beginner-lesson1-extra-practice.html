@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Beginner Worksheet: Greetings & Introductions</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #1B263B;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #f07d3e;
+            padding-bottom: 5px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .beginner-section {
+            border-left: 5px solid #2ecc71;
+        }
+        .conversation-section {
+            border-left: 5px solid #26A69A;
+        }
+        .exercise {
+            margin-bottom: 25px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px 0;
+            width: 150px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .option {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option:hover {
+            background-color: #e9ecef;
+        }
+        .option.selected {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        .option.correct {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        .option.incorrect {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        .matching-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .matching-item span {
+            width: 200px;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #28a745;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #dc3545;
+            border: 1px solid #f5c6cb;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+            transition: width 0.5s;
+        }
+        .dialog-bubble {
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            padding: 15px;
+            margin: 10px 0;
+            position: relative;
+            display: inline-block;
+            max-width: 80%;
+        }
+        .dialog-bubble.left {
+            border-bottom-left-radius: 0;
+            background-color: #e3f2fd;
+            margin-right: auto;
+        }
+        .dialog-bubble.right {
+            border-bottom-right-radius: 0;
+            background-color: #f07d3e;
+            color: white;
+            margin-left: auto;
+        }
+        .dialog-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .hidden {
+            display: none;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .completed-item {
+            text-decoration: line-through;
+            color: #28a745;
+        }
+        
+        /* Drag and Drop Styles */
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            min-height: 40px;
+        }
+        .draggable-word {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.3s;
+        }
+        .draggable-word:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .draggable-word.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-zone {
+            min-height: 40px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+            display: inline-block;
+            min-width: 100px;
+            text-align: center;
+            background-color: white;
+        }
+        .drop-zone.occupied {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        .drop-zone.drag-over {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        .sentence-builder {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .example-box {
+            background-color: #e8f4f8;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .pronoun-hint {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-left: 10px;
+        }
+        
+        /* Number Game Styles */
+        .number-game {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .number-section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .number-section h3 {
+            margin-top: 0;
+            color: #3498db;
+            text-align: center;
+        }
+        .number-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            min-height: 60px;
+            justify-content: center;
+        }
+        .word-matches {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .match-pair {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .word-label {
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 80px;
+            text-align: right;
+        }
+        .number-drop-zone {
+            min-height: 40px;
+            min-width: 50px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .number-drop-zone.occupied {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        .number-drop-zone.drag-over {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        .number-drop-zone.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        .number-drop-zone.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Greetings & Introductions</h1>
+        <p>Basic expressions for beginner ESL students</p>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <div class="section beginner-section">
+        <h2>Checklist for Today's Lesson</h2>
+        <p>Let's check these items as we complete them:</p>
+        <ul id="checklist">
+            <li>Practice using <strong>am/is/are</strong> ⬜</li>
+            <li>Learn about <strong>my/your</strong> ⬜</li>
+            <li>Practice introductions ⬜</li> 
+            <li>Build sentences with <strong>"This is..."</strong> ⬜</li>
+            <li>Practice <strong>"How are you?"</strong> conversation ⬜</li>
+            <li>Match <strong>numbers 1-20</strong> ⬜</li>
+        </ul>
+    </div>
+
+    <div class="section beginner-section">
+        <h2>1. Am / Is / Are Practice</h2>
+        <div class="exercise">
+            <p>Fill in the blanks with <span class="highlight">am</span>, <span class="highlight">is</span>, or <span class="highlight">are</span>:</p>
+            
+            <div>
+                <p>1. I <input type="text" class="am-is-are" data-correct="am"> a student.</p>
+                <p>2. You <input type="text" class="am-is-are" data-correct="are"> my teacher.</p>
+                <p>3. He <input type="text" class="am-is-are" data-correct="is"> from Spain.</p>
+                <p>4. They <input type="text" class="am-is-are" data-correct="are"> friends.</p>
+                <p>5. She <input type="text" class="am-is-are" data-correct="is"> happy.</p>
+                <p>6. We <input type="text" class="am-is-are" data-correct="are"> in class.</p>
+            </div>
+            
+            <button id="checkAmIsAre">Check Answers</button>
+            <div id="amIsAreFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section conversation-section">
+        <h2>2. My / Your Practice</h2>
+        <div class="exercise">
+            <p><strong>Remember:</strong> Use <span class="highlight">"my"</span> when talking about yourself, and <span class="highlight">"your"</span> when talking to someone else.</p>
+            
+            <div class="example-box">
+                <strong>Examples:</strong><br>
+                • <strong>My</strong> name is Sarah. (I am talking about myself)<br>
+                • What is <strong>your</strong> name? (I am asking you about yourself)
+            </div>
+            
+            <p>Choose the correct word (<span class="highlight">my</span> or <span class="highlight">your</span>) for each sentence:</p>
+            
+            <div class="matching-item">
+                <span>1. What is _____ name? <span class="pronoun-hint">(I am asking you)</span></span>
+                <div class="options" data-question="1">
+                    <div class="option" data-value="my">my</div>
+                    <div class="option" data-value="your">your</div>
+                </div>
+            </div>
+            
+            <div class="matching-item">
+                <span>2. _____ name is John. <span class="pronoun-hint">(I am talking about myself)</span></span>
+                <div class="options" data-question="2">
+                    <div class="option" data-value="My">My</div>
+                    <div class="option" data-value="Your">Your</div>
+                </div>
+            </div>
+            
+            <div class="matching-item">
+                <span>3. Is this _____ book? <span class="pronoun-hint">(I am asking you)</span></span>
+                <div class="options" data-question="3">
+                    <div class="option" data-value="my">my</div>
+                    <div class="option" data-value="your">your</div>
+                </div>
+            </div>
+            
+            <div class="matching-item">
+                <span>4. This is _____ friend. <span class="pronoun-hint">(I am talking about myself)</span></span>
+                <div class="options" data-question="4">
+                    <div class="option" data-value="my">my</div>
+                    <div class="option" data-value="your">your</div>
+                </div>
+            </div>
+            
+            <button id="checkMyYour">Check Answers</button>
+            <div id="myYourFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section beginner-section">
+        <h2>3. Introductions Practice</h2>
+        <div class="exercise">
+            <p>Match the questions with the correct responses:</p>
+            
+            <div class="matching-item">
+                <span>1. What's your name?</span>
+                <select data-correct="B">
+                    <option value="">Choose the answer...</option>
+                    <option value="A">I'm fine, thanks.</option>
+                    <option value="B">I'm Sandra.</option>
+                    <option value="C">This is a book.</option>
+                    <option value="D">He is John.</option>
+                </select>
+            </div>
+            
+            <div class="matching-item">
+                <span>2. Are you a student?</span>
+                <select data-correct="C">
+                    <option value="">Choose the answer...</option>
+                    <option value="A">My name is David.</option>
+                    <option value="B">This is my sister.</option>
+                    <option value="C">Yes, I am.</option>
+                    <option value="D">He is from Spain.</option>
+                </select>
+            </div>
+            
+            <div class="matching-item">
+                <span>3. Who is she?</span>
+                <select data-correct="D">
+                    <option value="">Choose the answer...</option>
+                    <option value="A">I'm 25 years old.</option>
+                    <option value="B">We are friends.</option>
+                    <option value="C">Nice to meet you.</option>
+                    <option value="D">She's my teacher.</option>
+                </select>
+            </div>
+            
+            <button id="checkIntroductions">Check Answers</button>
+            <div id="introductionsFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section conversation-section">
+        <h2>4. Sentence Building with "This is..."</h2>
+        <div class="exercise">
+            <p><strong>Instructions:</strong> Drag words to build complete sentences. Put the words in the correct order!</p>
+            
+            <div class="sentence-builder">
+                <p><strong>1. Use these words to build a sentence:</strong></p>
+                <div class="word-bank" id="wordBank1">
+                    <div class="draggable-word" draggable="true">friend</div>
+                    <div class="draggable-word" draggable="true">This</div>
+                    <div class="draggable-word" draggable="true">my</div>
+                    <div class="draggable-word" draggable="true">is</div>
+                </div>
+                <div class="sentence-area" id="sentence1">
+                    <div class="drop-zone" data-position="1"></div>
+                    <div class="drop-zone" data-position="2"></div>
+                    <div class="drop-zone" data-position="3"></div>
+                    <div class="drop-zone" data-position="4"></div>
+                </div>
+                <button class="clear-sentence" data-sentence="1">Clear Sentence</button>
+            </div>
+            
+            <div class="sentence-builder">
+                <p><strong>2. Use these words to build a sentence:</strong></p>
+                <div class="word-bank" id="wordBank2">
+                    <div class="draggable-word" draggable="true">book</div>
+                    <div class="draggable-word" draggable="true">a</div>
+                    <div class="draggable-word" draggable="true">This</div>
+                    <div class="draggable-word" draggable="true">is</div>
+                </div>
+                <div class="sentence-area" id="sentence2">
+                    <div class="drop-zone" data-position="1"></div>
+                    <div class="drop-zone" data-position="2"></div>
+                    <div class="drop-zone" data-position="3"></div>
+                    <div class="drop-zone" data-position="4"></div>
+                </div>
+                <button class="clear-sentence" data-sentence="2">Clear Sentence</button>
+            </div>
+            
+            <button id="checkSentences">Check Sentences</button>
+            <div id="sentencesFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section beginner-section">
+        <h2>5. "How are you?" Conversation Practice</h2>
+        <div class="exercise">
+            <p><strong>Instructions:</strong> Have a conversation! Choose the correct response. If you choose incorrectly, try again.</p>
+            
+            <div class="dialog-container" id="dialogContainer">
+                <div class="dialog-bubble left">Hello! I'm Maria. What's your name?</div>
+                
+                <div class="options" data-step="1" data-correct="0">
+                    <div class="option" data-value="Hi! My name is Alex.">Hi! My name is Alex.</div>
+                    <div class="option" data-value="I'm fine, thank you.">I'm fine, thank you.</div>
+                    <div class="option" data-value="This is my book.">This is my book.</div>
+                </div>
+                
+                <div class="dialog-bubble left hidden" data-step="2">Nice to meet you, Alex! How are you today?</div>
+                <div class="options hidden" data-step="2" data-correct="0">
+                    <div class="option" data-value="I'm fine, thank you. How are you?">I'm fine, thank you. How are you?</div>
+                    <div class="option" data-value="Yes, I am a student.">Yes, I am a student.</div>
+                    <div class="option" data-value="My name is Alex.">My name is Alex.</div>
+                </div>
+                
+                <div class="dialog-bubble left hidden" data-step="3">I'm good, thanks! Are you a student?</div>
+                <div class="options hidden" data-step="3" data-correct="1">
+                    <div class="option" data-value="I'm from Canada.">I'm from Canada.</div>
+                    <div class="option" data-value="Yes, I am. I'm a student.">Yes, I am. I'm a student.</div>
+                    <div class="option" data-value="How are you?">How are you?</div>
+                </div>
+                
+                <div class="dialog-bubble left hidden" data-step="4">That's great! This is my friend, Anna.</div>
+                <div class="options hidden" data-step="4" data-correct="0">
+                    <div class="option" data-value="Nice to meet you, Anna!">Nice to meet you, Anna!</div>
+                    <div class="option" data-value="How old are you?">How old are you?</div>
+                    <div class="option" data-value="Where is she from?">Where is she from?</div>
+                </div>
+                
+                <div class="dialog-bubble left hidden" data-step="5">Perfect! You've completed the conversation practice!</div>
+            </div>
+            
+            <div id="conversationFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="section conversation-section">
+        <h2>6. Number Matching Game (1-20)</h2>
+        <div class="exercise">
+            <p><strong>Instructions:</strong> Drag each written word to match it with the correct number!</p>
+            
+            <div class="number-game">
+                <div class="number-section">
+                    <h3>Numbers 1-10</h3>
+                    <div class="number-bank" id="numberBank1">
+                        <div class="draggable-word" draggable="true" data-value="seven">seven</div>
+                        <div class="draggable-word" draggable="true" data-value="three">three</div>
+                        <div class="draggable-word" draggable="true" data-value="one">one</div>
+                        <div class="draggable-word" draggable="true" data-value="nine">nine</div>
+                        <div class="draggable-word" draggable="true" data-value="five">five</div>
+                        <div class="draggable-word" draggable="true" data-value="ten">ten</div>
+                        <div class="draggable-word" draggable="true" data-value="two">two</div>
+                        <div class="draggable-word" draggable="true" data-value="eight">eight</div>
+                        <div class="draggable-word" draggable="true" data-value="four">four</div>
+                        <div class="draggable-word" draggable="true" data-value="six">six</div>
+                    </div>
+                    
+                    <div class="word-matches">
+                        <div class="match-pair">
+                            <span class="word-label">1</span>
+                            <div class="number-drop-zone" data-correct="one"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">2</span>
+                            <div class="number-drop-zone" data-correct="two"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">3</span>
+                            <div class="number-drop-zone" data-correct="three"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">4</span>
+                            <div class="number-drop-zone" data-correct="four"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">5</span>
+                            <div class="number-drop-zone" data-correct="five"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">6</span>
+                            <div class="number-drop-zone" data-correct="six"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">7</span>
+                            <div class="number-drop-zone" data-correct="seven"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">8</span>
+                            <div class="number-drop-zone" data-correct="eight"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">9</span>
+                            <div class="number-drop-zone" data-correct="nine"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">10</span>
+                            <div class="number-drop-zone" data-correct="ten"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="number-section">
+                    <h3>Numbers 11-20</h3>
+                    <div class="number-bank" id="numberBank2">
+                        <div class="draggable-word" draggable="true" data-value="fourteen">fourteen</div>
+                        <div class="draggable-word" draggable="true" data-value="eighteen">eighteen</div>
+                        <div class="draggable-word" draggable="true" data-value="eleven">eleven</div>
+                        <div class="draggable-word" draggable="true" data-value="twenty">twenty</div>
+                        <div class="draggable-word" draggable="true" data-value="sixteen">sixteen</div>
+                        <div class="draggable-word" draggable="true" data-value="twelve">twelve</div>
+                        <div class="draggable-word" draggable="true" data-value="nineteen">nineteen</div>
+                        <div class="draggable-word" draggable="true" data-value="thirteen">thirteen</div>
+                        <div class="draggable-word" draggable="true" data-value="seventeen">seventeen</div>
+                        <div class="draggable-word" draggable="true" data-value="fifteen">fifteen</div>
+                    </div>
+                    
+                    <div class="word-matches">
+                        <div class="match-pair">
+                            <span class="word-label">11</span>
+                            <div class="number-drop-zone" data-correct="eleven"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">12</span>
+                            <div class="number-drop-zone" data-correct="twelve"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">13</span>
+                            <div class="number-drop-zone" data-correct="thirteen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">14</span>
+                            <div class="number-drop-zone" data-correct="fourteen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">15</span>
+                            <div class="number-drop-zone" data-correct="fifteen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">16</span>
+                            <div class="number-drop-zone" data-correct="sixteen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">17</span>
+                            <div class="number-drop-zone" data-correct="seventeen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">18</span>
+                            <div class="number-drop-zone" data-correct="eighteen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">19</span>
+                            <div class="number-drop-zone" data-correct="nineteen"></div>
+                        </div>
+                        <div class="match-pair">
+                            <span class="word-label">20</span>
+                            <div class="number-drop-zone" data-correct="twenty"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="checkNumbers">Check Answers</button>
+            <button id="clearNumbers">Clear All</button>
+            <div id="numbersFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        let totalSections = 6;
+        let completedSections = 0;
+        
+        function updateProgress() {
+            completedSections++;
+            const percentage = Math.floor((completedSections / totalSections) * 100);
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressBar').innerText = percentage + '%';
+            
+            // Update checklist
+            if (completedSections <= 6) {
+                const checklistItem = document.querySelectorAll('#checklist li')[completedSections - 1];
+                checklistItem.innerHTML = checklistItem.innerHTML.replace('⬜', '✅');
+                checklistItem.classList.add('completed-item');
+            }
+        }
+        
+        // Am/Is/Are Exercise
+        document.getElementById('checkAmIsAre').addEventListener('click', function() {
+            let allCorrect = true;
+            const inputs = document.querySelectorAll('.am-is-are');
+            const feedback = document.getElementById('amIsAreFeedback');
+            
+            inputs.forEach(input => {
+                if (input.value.trim().toLowerCase() === input.dataset.correct) {
+                    input.style.borderColor = '#28a745';
+                } else {
+                    input.style.borderColor = '#dc3545';
+                    allCorrect = false;
+                }
+            });
+            
+            feedback.style.display = 'block';
+            if (allCorrect) {
+                feedback.className = 'feedback success';
+                feedback.innerText = 'Great job! All answers are correct!';
+                updateProgress();
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerText = 'Some answers are incorrect. Try again!';
+            }
+        });
+        
+        // My/Your Exercise
+        const options = document.querySelectorAll('.option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const questionOptions = this.parentElement.querySelectorAll('.option');
+                questionOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        document.getElementById('checkMyYour').addEventListener('click', function() {
+            let allCorrect = true;
+            const feedback = document.getElementById('myYourFeedback');
+            
+            // Question 1: your
+            if (!document.querySelector('[data-question="1"] [data-value="your"]').classList.contains('selected')) {
+                allCorrect = false;
+            }
+            
+            // Question 2: My
+            if (!document.querySelector('[data-question="2"] [data-value="My"]').classList.contains('selected')) {
+                allCorrect = false;
+            }
+            
+            // Question 3: your
+            if (!document.querySelector('[data-question="3"] [data-value="your"]').classList.contains('selected')) {
+                allCorrect = false;
+            }
+            
+            // Question 4: my
+            if (!document.querySelector('[data-question="4"] [data-value="my"]').classList.contains('selected')) {
+                allCorrect = false;
+            }
+            
+            feedback.style.display = 'block';
+            if (allCorrect) {
+                feedback.className = 'feedback success';
+                feedback.innerText = 'Excellent! You understand my/your perfectly!';
+                updateProgress();
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerText = 'Some answers are not correct. Remember: "my" is for the speaker, "your" is for the listener.';
+            }
+        });
+        
+        // Introductions Practice
+        document.getElementById('checkIntroductions').addEventListener('click', function() {
+            let allCorrect = true;
+            const selects = document.querySelectorAll('select');
+            const feedback = document.getElementById('introductionsFeedback');
+            
+            selects.forEach(select => {
+                if (select.value === select.dataset.correct) {
+                    select.style.borderColor = '#28a745';
+                } else {
+                    select.style.borderColor = '#dc3545';
+                    allCorrect = false;
+                }
+            });
+            
+            feedback.style.display = 'block';
+            if (allCorrect) {
+                feedback.className = 'feedback success';
+                feedback.innerText = 'Perfect! You know how to respond to introduction questions!';
+                updateProgress();
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerText = 'Some matches are incorrect. Try again!';
+            }
+        });
+        
+        // Drag and Drop functionality for Activity 4 (sentence building)
+        let draggedElement = null;
+        let originalWordBank = null;
+        
+        // Add event listeners to draggable words for sentence building
+        const sentenceDraggableWords = document.querySelectorAll('#wordBank1 .draggable-word, #wordBank2 .draggable-word');
+        sentenceDraggableWords.forEach(word => {
+            word.addEventListener('dragstart', function(e) {
+                draggedElement = this;
+                originalWordBank = this.parentElement;
+                this.classList.add('dragging');
+            });
+            
+            word.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+            });
+        });
+        
+        // Add event listeners to drop zones for sentence building
+        const dropZones = document.querySelectorAll('.drop-zone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            zone.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+            
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                if (draggedElement) {
+                    // If zone is occupied, return existing word to its original bank
+                    if (this.children.length > 0) {
+                        const existingWord = this.children[0];
+                        const existingWordBank = existingWord.dataset.originalBank;
+                        if (existingWordBank) {
+                            document.getElementById(existingWordBank).appendChild(existingWord);
+                        }
+                    }
+                    
+                    // Store reference to original word bank
+                    draggedElement.dataset.originalBank = originalWordBank.id;
+                    
+                    // Add new word to zone
+                    this.appendChild(draggedElement);
+                    this.classList.add('occupied');
+                    draggedElement = null;
+                    originalWordBank = null;
+                }
+            });
+        });
+        
+        // Clear sentence buttons
+        const clearButtons = document.querySelectorAll('.clear-sentence');
+        clearButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const sentenceId = this.dataset.sentence;
+                const sentence = document.getElementById('sentence' + sentenceId);
+                const wordBank = document.getElementById('wordBank' + sentenceId);
+                const zones = sentence.querySelectorAll('.drop-zone');
+                
+                zones.forEach(zone => {
+                    if (zone.children.length > 0) {
+                        const word = zone.children[0];
+                        wordBank.appendChild(word);
+                        zone.classList.remove('occupied');
+                    }
+                });
+            });
+        });
+        
+        // Check sentences
+        document.getElementById('checkSentences').addEventListener('click', function() {
+            const feedback = document.getElementById('sentencesFeedback');
+            let correctSentences = 0;
+            
+            // Check sentence 1: "This is my friend"
+            const sentence1 = document.getElementById('sentence1');
+            const words1 = Array.from(sentence1.querySelectorAll('.drop-zone')).map(zone => 
+                zone.children.length > 0 ? zone.children[0].textContent : ''
+            );
+            if (words1.join(' ') === 'This is my friend') {
+                correctSentences++;
+            }
+            
+            // Check sentence 2: "This is a book"
+            const sentence2 = document.getElementById('sentence2');
+            const words2 = Array.from(sentence2.querySelectorAll('.drop-zone')).map(zone => 
+                zone.children.length > 0 ? zone.children[0].textContent : ''
+            );
+            if (words2.join(' ') === 'This is a book') {
+                correctSentences++;
+            }
+            
+            feedback.style.display = 'block';
+            if (correctSentences === 2) {
+                feedback.className = 'feedback success';
+                feedback.innerText = 'Excellent! Both sentences are correct!';
+                updateProgress();
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerText = `You got ${correctSentences} out of 2 sentences correct. Try again!`;
+            }
+        });
+        
+        // Conversation Practice with proper validation
+        let conversationStep = 1;
+        
+        document.getElementById('dialogContainer').addEventListener('click', function(e) {
+            if (e.target.classList.contains('option')) {
+                const currentStepOptions = document.querySelector(`.options[data-step="${conversationStep}"]`);
+                const correctIndex = parseInt(currentStepOptions.dataset.correct);
+                const allOptions = currentStepOptions.querySelectorAll('.option');
+                const clickedIndex = Array.from(allOptions).indexOf(e.target);
+                
+                // Reset all option colors
+                allOptions.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                if (clickedIndex === correctIndex) {
+                    // Correct answer
+                    e.target.classList.add('correct');
+                    
+                    // Add user response bubble
+                    const userResponse = document.createElement('div');
+                    userResponse.className = 'dialog-bubble right';
+                    userResponse.innerText = e.target.dataset.value;
+                    
+                    // Insert after current options
+                    currentStepOptions.parentNode.insertBefore(userResponse, currentStepOptions.nextSibling);
+                    
+                    // Hide current options
+                    currentStepOptions.classList.add('hidden');
+                    
+                    conversationStep++;
+                    
+                    // Show next step
+                    const nextStep = document.querySelectorAll(`[data-step="${conversationStep}"]`);
+                    nextStep.forEach(el => el.classList.remove('hidden'));
+                    
+                    // If conversation completed
+                    if (conversationStep > 4) {
+                        const feedback = document.getElementById('conversationFeedback');
+                        feedback.className = 'feedback success';
+                        feedback.style.display = 'block';
+                        feedback.innerText = 'Congratulations! You completed the entire conversation correctly!';
+                        updateProgress();
+                    }
+                } else {
+                    // Incorrect answer
+                    e.target.classList.add('incorrect');
+                    // Don't advance conversation
+                }
+            }
+        });
+        
+        // Number Matching Game functionality (Activity 6)
+        let draggedNumberWord = null;
+        let originalNumberWordBank = null;
+        
+        // Add event listeners to draggable number words
+        const numberDraggableWords = document.querySelectorAll('#numberBank1 .draggable-word, #numberBank2 .draggable-word');
+        numberDraggableWords.forEach(word => {
+            word.addEventListener('dragstart', function(e) {
+                draggedNumberWord = this;
+                originalNumberWordBank = this.parentElement;
+                this.classList.add('dragging');
+            });
+            
+            word.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+            });
+        });
+        
+        // Add event listeners to number drop zones
+        const numberDropZones = document.querySelectorAll('.number-drop-zone');
+        numberDropZones.forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            zone.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+            
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                if (draggedNumberWord) {
+                    // If zone is occupied, return existing word to its original bank
+                    if (this.children.length > 0) {
+                        const existingWord = this.children[0];
+                        const existingWordBank = existingWord.dataset.originalBank;
+                        if (existingWordBank) {
+                            document.getElementById(existingWordBank).appendChild(existingWord);
+                        }
+                    }
+                    
+                    // Store reference to original word bank
+                    draggedNumberWord.dataset.originalBank = originalNumberWordBank.id;
+                    
+                    // Add new word to zone
+                    this.appendChild(draggedNumberWord);
+                    this.classList.add('occupied');
+                    draggedNumberWord = null;
+                    originalNumberWordBank = null;
+                }
+            });
+        });
+        
+        // Check numbers functionality
+        document.getElementById('checkNumbers').addEventListener('click', function() {
+            const feedback = document.getElementById('numbersFeedback');
+            let correctMatches = 0;
+            let totalMatches = 0;
+            
+            numberDropZones.forEach(zone => {
+                // Reset previous styling
+                zone.classList.remove('correct', 'incorrect');
+                
+                if (zone.children.length > 0) {
+                    totalMatches++;
+                    const wordElement = zone.children[0];
+                    const wordValue = wordElement.dataset.value;
+                    const correctValue = zone.dataset.correct;
+                    
+                    if (wordValue === correctValue) {
+                        correctMatches++;
+                        zone.classList.add('correct');
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            feedback.style.display = 'block';
+            if (correctMatches === 20 && totalMatches === 20) {
+                feedback.className = 'feedback success';
+                feedback.innerText = 'Perfect! You matched all numbers correctly!';
+                updateProgress();
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerText = `You got ${correctMatches} out of 20 matches correct. Keep trying!`;
+            }
+        });
+        
+        // Clear numbers functionality
+        document.getElementById('clearNumbers').addEventListener('click', function() {
+            numberDropZones.forEach(zone => {
+                if (zone.children.length > 0) {
+                    const wordElement = zone.children[0];
+                    const originalBank = wordElement.dataset.originalBank;
+                    if (originalBank) {
+                        document.getElementById(originalBank).appendChild(wordElement);
+                    }
+                    zone.classList.remove('occupied', 'correct', 'incorrect');
+                }
+            });
+            
+            // Hide feedback
+            document.getElementById('numbersFeedback').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
