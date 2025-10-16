@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Flashcards - Gapfill Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333333;
+        }
+
+        header {
+            background-color: #1B263B;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #f07d3e;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #28a745);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .flashcard-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .flashcard.slide-out-left {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .flashcard.slide-in-right {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .flashcard.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .question-section, .response-section {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .question-label {
+            color: #3498db;
+        }
+
+        .response-label {
+            color: #26A69A;
+        }
+
+        .sentence-text {
+            font-size: 1.3em;
+            word-wrap: break-word;
+        }
+
+        .feedback-section {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-correct {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+        }
+
+        .feedback-incorrect {
+            background-color: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+
+        .feedback-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .feedback-message {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feedback-detail {
+            font-size: 1em;
+        }
+
+        .sentence-container {
+            font-size: 1.5em;
+            text-align: left;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 500;
+            width: 100%;
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+
+        .gap-input {
+            display: inline-block;
+            border: none;
+            border-bottom: 3px solid #3498db;
+            background: transparent;
+            font-size: 1em;
+            padding: 2px 5px;
+            min-width: 100px;
+            max-width: 300px;
+            text-align: center;
+            font-family: inherit;
+            color: #1B263B;
+            font-weight: bold;
+        }
+
+        .gap-input:focus {
+            outline: none;
+            border-bottom-color: #f07d3e;
+        }
+
+        .instruction {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .flip-prompt {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .flip-prompt:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .flip-prompt:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #95a5a6;
+        }
+
+        .next-card-button {
+            padding: 15px 40px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            margin-top: 30px;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .next-card-button:hover:not(:disabled) {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .next-card-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .completion-message {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+
+        .completion-message h2 {
+            color: #2ecc71;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .completion-message .score {
+            font-size: 2em;
+            color: #3498db;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-button {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .restart-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .sentence-container {
+                font-size: 1.1em;
+            }
+
+            .flashcard {
+                padding: 25px;
+                min-height: 350px;
+            }
+
+            .gap-input {
+                min-width: 80px;
+                max-width: 200px;
+                font-size: 0.9em;
+            }
+
+            .feedback-section {
+                font-size: 0.9em;
+            }
+
+            .next-card-button {
+                font-size: 1em;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💬 Conversation Practice</h1>
+        <p class="subtitle">Complete the phrases and check your answers!</p>
+    </header>
+
+    <div class="progress-container">
+        <div>Card <span id="currentCard">1</span> of <span id="totalCards">4</span></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill">0%</div>
+        </div>
+    </div>
+
+    <div class="flashcard-container" id="flashcardContainer">
+        <div class="flashcard active" id="flashcard">
+            <div class="card-number" id="cardNumber">1/4</div>
+            <p class="instruction">Type the missing words in the conversation:</p>
+            <div class="sentence-container" id="sentenceContainer"></div>
+            <div class="feedback-section" id="feedbackSection"></div>
+            <button class="flip-prompt" id="checkButton">Check Answers</button>
+        </div>
+    </div>
+
+    <button class="next-card-button" id="nextButton" style="display: none;">Next Card →</button>
+
+    <div class="completion-message" id="completionMessage">
+        <h2>🎉 Excellent Work!</h2>
+        <p style="font-size: 1.3em; color: #333;">You've completed all the flashcards!</p>
+        <div class="score" id="finalScore"></div>
+        <p style="font-size: 1.1em; color: #666;">Keep practicing to improve your conversation skills!</p>
+        <button class="restart-button" id="restartButton">Start Over</button>
+    </div>
+
+    <script>
+        const conversations = [
+            {
+                lines: [
+                    { speaker: "Ana", phrases: [{ before: "Hello, how ", answer: "are", after: " you?" }] },
+                    { speaker: "Ben", phrases: [{ before: "I'm fine, ", answer: "thanks", after: "." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "Sarah", phrases: [{ before: "I'm good, thanks. And ", answer: "you", after: "?" }] },
+                    { speaker: "Tom", phrases: [{ before: "I'm fine, ", answer: "thanks", after: "." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "Lisa", phrases: [{ before: "What's your ", answer: "name", after: "?" }] },
+                    { speaker: "Mark", phrases: [{ before: "My ", answer: "name's", after: " Tom." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "Ana", phrases: [{ before: "My name's ", answer: "Ana", after: "." }] },
+                    { speaker: "Ben", phrases: [{ before: "Nice to ", answer: "meet", after: " you." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "David", phrases: [{ before: "Where are you ", answer: "from", after: "?" }] },
+                    { speaker: "Maria", phrases: [{ before: "I'm ", answer: "from", after: " Canada." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "Sarah", phrases: [{ before: "What's his ", answer: "name", after: "?" }] },
+                    { speaker: "Tom", phrases: [{ before: "His ", answer: "name's", after: " David." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "Lisa", phrases: [{ before: "Where is he ", answer: "from", after: "?" }] },
+                    { speaker: "Mark", phrases: [{ before: "He's ", answer: "from", after: " Spain." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "Ana", phrases: [{ before: "What's her ", answer: "name", after: "?" }] },
+                    { speaker: "Ben", phrases: [{ before: "Her ", answer: "name's", after: " Maria." }] }
+                ]
+            },
+            {
+                lines: [
+                    { speaker: "David", phrases: [{ before: "Where is she ", answer: "from", after: "?" }] },
+                    { speaker: "Sarah", phrases: [{ before: "She's ", answer: "from", after: " Brazil." }] }
+                ]
+            }
+        ];
+
+        let currentIndex = 0;
+        let userAnswers = [];
+        let correctCount = 0;
+        let isChecked = false;
+
+        const flashcard = document.getElementById('flashcard');
+        const sentenceContainer = document.getElementById('sentenceContainer');
+        const checkButton = document.getElementById('checkButton');
+        const feedbackSection = document.getElementById('feedbackSection');
+        const currentCardSpan = document.getElementById('currentCard');
+        const totalCardsSpan = document.getElementById('totalCards');
+        const progressFill = document.getElementById('progressFill');
+        const cardNumber = document.getElementById('cardNumber');
+        const completionMessage = document.getElementById('completionMessage');
+        const finalScore = document.getElementById('finalScore');
+        const restartButton = document.getElementById('restartButton');
+        const flashcardContainer = document.getElementById('flashcardContainer');
+        const nextButton = document.getElementById('nextButton');
+
+        totalCardsSpan.textContent = conversations.length;
+
+        function displayCard() {
+            const conversation = conversations[currentIndex];
+            isChecked = false;
+            
+            // Hide feedback and next button, show check button
+            feedbackSection.classList.remove('show');
+            feedbackSection.innerHTML = '';
+            nextButton.style.display = 'none';
+            checkButton.style.display = 'block';
+            checkButton.textContent = 'Check Answers';
+
+            // Update card numbers
+            cardNumber.textContent = `${currentIndex + 1}/${conversations.length}`;
+            currentCardSpan.textContent = currentIndex + 1;
+
+            // Create conversation display with all lines
+            let conversationHTML = '';
+            let inputCounter = 0;
+            
+            conversation.lines.forEach((line, lineIndex) => {
+                conversationHTML += `<div class="conversation-line" style="margin-bottom: 15px;">`;
+                conversationHTML += `<div class="speaker-name" style="font-weight: bold; color: #3498db; margin-bottom: 5px;">${line.speaker}:</div>`;
+                conversationHTML += `<div class="sentence-text">`;
+                
+                line.phrases.forEach((phrase, phraseIndex) => {
+                    if (phraseIndex > 0) conversationHTML += ' ';
+                    conversationHTML += `${phrase.before}<input type="text" class="gap-input" id="input${inputCounter}" data-line="${lineIndex}" data-phrase="${phraseIndex}" autocomplete="off">${phrase.after}`;
+                    inputCounter++;
+                });
+                
+                conversationHTML += `</div></div>`;
+            });
+            
+            sentenceContainer.innerHTML = conversationHTML;
+
+            // Restore previous answers if exist
+            if (userAnswers[currentIndex]) {
+                Object.keys(userAnswers[currentIndex]).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        input.value = userAnswers[currentIndex][key];
+                        // Trigger resize after restoring value
+                        input.dispatchEvent(new Event('input'));
+                    }
+                });
+            }
+
+            // Focus on first input
+            const firstInput = document.getElementById('input0');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 100);
+            }
+
+            // Add Enter key navigation and auto-resize
+            const inputs = sentenceContainer.querySelectorAll('.gap-input');
+            inputs.forEach((input, index) => {
+                // Auto-resize function
+                function autoResize() {
+                    const tempSpan = document.createElement('span');
+                    tempSpan.style.visibility = 'hidden';
+                    tempSpan.style.position = 'absolute';
+                    tempSpan.style.font = window.getComputedStyle(input).font;
+                    tempSpan.style.padding = window.getComputedStyle(input).padding;
+                    tempSpan.textContent = input.value || input.placeholder || 'a';
+                    document.body.appendChild(tempSpan);
+                    
+                    const newWidth = Math.max(100, Math.min(300, tempSpan.offsetWidth + 10));
+                    input.style.width = newWidth + 'px';
+                    
+                    document.body.removeChild(tempSpan);
+                }
+                
+                // Set initial size
+                autoResize();
+                
+                // Resize on input
+                input.addEventListener('input', autoResize);
+                
+                // Enter key navigation
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        if (index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        } else {
+                            checkButton.click();
+                        }
+                    }
+                });
+            });
+
+            // Update progress
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = ((currentIndex) / conversations.length) * 100;
+            progressFill.style.width = progress + '%';
+            progressFill.textContent = Math.round(progress) + '%';
+        }
+
+        function checkAnswer() {
+            if (isChecked) return;
+            
+            const conversation = conversations[currentIndex];
+            const inputs = sentenceContainer.querySelectorAll('.gap-input');
+            
+            // Collect and check all answers
+            let allCorrect = true;
+            let correctAnswersCount = 0;
+            let totalAnswers = 0;
+            const results = [];
+            
+            // Store user's answers
+            userAnswers[currentIndex] = {};
+            
+            let inputIndex = 0;
+            conversation.lines.forEach((line, lineIndex) => {
+                line.phrases.forEach((phrase, phraseIndex) => {
+                    const input = document.getElementById(`input${inputIndex}`);
+                    const userAnswer = input.value.trim().toLowerCase();
+                    const correctAnswer = phrase.answer.toLowerCase();
+                    const isCorrect = userAnswer === correctAnswer;
+                    
+                    userAnswers[currentIndex][`input${inputIndex}`] = input.value;
+                    
+                    results.push({
+                        lineIndex,
+                        phraseIndex,
+                        speaker: line.speaker,
+                        before: phrase.before,
+                        answer: phrase.answer,
+                        after: phrase.after,
+                        isCorrect
+                    });
+                    
+                    if (isCorrect) correctAnswersCount++;
+                    else allCorrect = false;
+                    totalAnswers++;
+                    inputIndex++;
+                });
+            });
+            
+            if (allCorrect && !userAnswers[currentIndex].scored) {
+                correctCount++;
+                userAnswers[currentIndex].scored = true;
+            }
+
+            isChecked = true;
+            checkButton.style.display = 'none';
+
+            // Show next button
+            nextButton.style.display = 'block';
+            if (currentIndex < conversations.length - 1) {
+                nextButton.textContent = 'Next Card →';
+            } else {
+                nextButton.textContent = 'See Results →';
+            }
+
+            // Display feedback
+            if (allCorrect) {
+                feedbackSection.className = 'feedback-section feedback-correct show';
+                let conversationHTML = '';
+                let currentSpeaker = '';
+                
+                results.forEach((result, index) => {
+                    if (result.speaker !== currentSpeaker) {
+                        if (currentSpeaker !== '') conversationHTML += '<br>';
+                        conversationHTML += `<strong style="color: #3498db;">${result.speaker}:</strong> `;
+                        currentSpeaker = result.speaker;
+                    } else if (index > 0 && results[index-1].speaker === currentSpeaker) {
+                        conversationHTML += ' ';
+                    }
+                    conversationHTML += `${result.before}<strong style="color: #28a745;">${result.answer}</strong>${result.after}`;
+                });
+                
+                feedbackSection.innerHTML = `
+                    <div class="feedback-icon" style="color: #28a745;">✓</div>
+                    <div class="feedback-message" style="color: #28a745;">Perfect!</div>
+                    <div class="feedback-detail">All answers are correct!</div>
+                    <div style="margin-top: 15px; padding: 15px; background-color: #e8f5e9; border-radius: 8px;">
+                        <strong style="color: #26A69A;">Complete conversation:</strong><br>
+                        <div style="margin-top: 10px; font-size: 1.05em; line-height: 1.8;">
+                            ${conversationHTML}
+                        </div>
+                    </div>
+                `;
+            } else {
+                feedbackSection.className = 'feedback-section feedback-incorrect show';
+                let conversationHTML = '';
+                let currentSpeaker = '';
+                
+                results.forEach((result, index) => {
+                    if (result.speaker !== currentSpeaker) {
+                        if (currentSpeaker !== '') conversationHTML += '<br>';
+                        conversationHTML += `<strong style="color: #3498db;">${result.speaker}:</strong> `;
+                        currentSpeaker = result.speaker;
+                    } else if (index > 0 && results[index-1].speaker === currentSpeaker) {
+                        conversationHTML += ' ';
+                    }
+                    const checkMark = result.isCorrect ? '<span style="color: #28a745;">✓</span>' : '<span style="color: #dc3545;">✗</span>';
+                    conversationHTML += `${checkMark} ${result.before}<strong style="color: ${result.isCorrect ? '#28a745' : '#f07d3e'};">${result.answer}</strong>${result.after}`;
+                });
+                
+                feedbackSection.innerHTML = `
+                    <div class="feedback-icon" style="color: #dc3545;">✗</div>
+                    <div class="feedback-message" style="color: #dc3545;">Not quite right</div>
+                    <div class="feedback-detail">You got ${correctAnswersCount} out of ${totalAnswers} correct. Keep trying!</div>
+                    <div style="margin-top: 15px; padding: 15px; background-color: #fff3cd; border-radius: 8px;">
+                        <strong style="color: #856404;">Correct answers:</strong><br>
+                        <div style="margin-top: 10px; font-size: 1.05em; line-height: 1.8;">
+                            ${conversationHTML}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        checkButton.addEventListener('click', () => {
+            checkAnswer();
+        });
+
+        // Next button advances to next card with animation
+        nextButton.addEventListener('click', () => {
+            // Slide out current card
+            flashcard.classList.remove('active');
+            flashcard.classList.add('slide-out-left');
+            
+            setTimeout(() => {
+                if (currentIndex < conversations.length - 1) {
+                    currentIndex++;
+                    
+                    // Reset position off-screen to the right
+                    flashcard.classList.remove('slide-out-left', 'active');
+                    flashcard.classList.add('slide-in-right');
+                    
+                    // Update card content
+                    displayCard();
+                    
+                    // Small delay then slide in
+                    setTimeout(() => {
+                        flashcard.classList.remove('slide-in-right');
+                        flashcard.classList.add('active');
+                    }, 50);
+                } else {
+                    showCompletion();
+                }
+            }, 500);
+        });
+
+        function showCompletion() {
+            flashcardContainer.style.display = 'none';
+            nextButton.style.display = 'none';
+            completionMessage.classList.add('show');
+            
+            const percentage = Math.round((correctCount / conversations.length) * 100);
+            finalScore.innerHTML = `Your Score: <span style="color: #2ecc71;">${correctCount}</span> out of ${conversations.length} (${percentage}%)`;
+            
+            progressFill.style.width = '100%';
+            progressFill.textContent = '100%';
+        }
+
+        restartButton.addEventListener('click', () => {
+            currentIndex = 0;
+            userAnswers = [];
+            correctCount = 0;
+            flashcardContainer.style.display = 'block';
+            completionMessage.classList.remove('show');
+            flashcard.className = 'flashcard active';
+            displayCard();
+        });
+
+        // Initialize first card
+        displayCard();
+    </script>
+</body>
+</html>
