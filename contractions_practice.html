@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractions Practice</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: transparent;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: transparent;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .exercise.correct {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .exercise.incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .original {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            color: #555;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .answer-line {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+        }
+
+        .answer-line span {
+            color: #1a1a1a;
+        }
+
+        input[type="text"] {
+            font-family: inherit;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            padding: 0.5rem 0.75rem;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            min-width: 120px;
+            flex-grow: 1;
+            max-width: 200px;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        input[type="text"].correct {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        input[type="text"].incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .feedback {
+            margin-top: 0.75rem;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            font-weight: 500;
+            min-height: 1.5rem;
+        }
+
+        .feedback.correct {
+            color: #4caf50;
+        }
+
+        .feedback.incorrect {
+            color: #f44336;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-family: inherit;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .check-btn {
+            background: #2196f3;
+            color: white;
+        }
+
+        .check-btn:hover {
+            background: #1976d2;
+        }
+
+        .check-btn:active {
+            transform: scale(0.98);
+        }
+
+        .reset-btn {
+            background: #757575;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #616161;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.98);
+        }
+
+        .score {
+            text-align: center;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0;
+            }
+
+            .exercise {
+                padding: 1rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            input[type="text"] {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .answer-line {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contractions Practice</h1>
+        <p class="subtitle">Fill in the gaps with the correct contractions.</p>
+
+        <div class="exercise" data-answer="I'm">
+            <div class="original">"I am Ana."</div>
+            <div class="answer-line">
+                <span>"</span>
+                <input type="text" data-index="0" placeholder="Type here...">
+                <span>Ana."</span>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="exercise" data-answer="You're">
+            <div class="original">"You are Pedro."</div>
+            <div class="answer-line">
+                <span>"</span>
+                <input type="text" data-index="1" placeholder="Type here...">
+                <span>Pedro."</span>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="exercise" data-answer="What's">
+            <div class="original">"What is your name?"</div>
+            <div class="answer-line">
+                <span>"</span>
+                <input type="text" data-index="2" placeholder="Type here...">
+                <span>your name?"</span>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="buttons">
+            <button class="check-btn">Check Answers</button>
+            <button class="reset-btn">Reset</button>
+        </div>
+
+        <div class="score"></div>
+    </div>
+
+    <script>
+        const exercises = document.querySelectorAll('.exercise');
+        const inputs = document.querySelectorAll('input[type="text"]');
+        const checkBtn = document.querySelector('.check-btn');
+        const resetBtn = document.querySelector('.reset-btn');
+        const scoreDiv = document.querySelector('.score');
+
+        // Check answers
+        checkBtn.addEventListener('click', () => {
+            let correct = 0;
+            let total = exercises.length;
+
+            exercises.forEach((exercise) => {
+                const input = exercise.querySelector('input');
+                const feedback = exercise.querySelector('.feedback');
+                const correctAnswer = exercise.dataset.answer;
+                const userAnswer = input.value.trim();
+
+                // Case-insensitive comparison
+                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    exercise.classList.remove('incorrect');
+                    exercise.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                    feedback.classList.remove('incorrect');
+                    feedback.classList.add('correct');
+                    feedback.textContent = '✓ Correct!';
+                    correct++;
+                } else {
+                    exercise.classList.remove('correct');
+                    exercise.classList.add('incorrect');
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                    feedback.classList.remove('correct');
+                    feedback.classList.add('incorrect');
+                    if (userAnswer === '') {
+                        feedback.textContent = '✗ Please fill in the answer.';
+                    } else {
+                        feedback.textContent = `✗ Incorrect. The answer is "${correctAnswer}".`;
+                    }
+                }
+            });
+
+            scoreDiv.textContent = `Score: ${correct} out of ${total}`;
+        });
+
+        // Reset
+        resetBtn.addEventListener('click', () => {
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+
+            exercises.forEach(exercise => {
+                exercise.classList.remove('correct', 'incorrect');
+                const feedback = exercise.querySelector('.feedback');
+                feedback.textContent = '';
+                feedback.classList.remove('correct', 'incorrect');
+            });
+
+            scoreDiv.textContent = '';
+        });
+
+        // Allow Enter key to check answers
+        inputs.forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
