@@ -3,74 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson Activities</title>
+    <title>ESL Resources</title>
     <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #24292e;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            border-bottom: 1px solid #eaecef;
-            padding-bottom: 0.3em;
-        }
-        h2 {
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-            padding-bottom: 0.3em;
-            border-bottom: 1px solid #eaecef;
-        }
-        h3, h4 {
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-        }
-        a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        ul {
-            padding-left: 2em;
-        }
-        li {
-            margin: 0.5em 0;
-        }
-        hr {
-            height: 0.25em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #2d3748;
+            margin: 0;
             padding: 0;
-            margin: 24px 0;
-            background-color: #e1e4e8;
-            border: 0;
+            line-height: 1.6;
         }
-        .footer {
-            font-style: italic;
-            margin-top: 20px;
-            border-top: 1px solid #eaecef;
-            padding-top: 20px;
+
+        /* ── Header ── */
+        .site-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            color: white;
+            padding: 56px 24px 48px;
+            text-align: center;
+        }
+
+        .site-header h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin: 0 0 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .site-header p {
+            font-size: 1.1rem;
+            opacity: 0.82;
+            margin: 0;
+            max-width: 520px;
+            margin-inline: auto;
+        }
+
+        /* ── Layout ── */
+        main {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 48px 24px 72px;
+        }
+
+        /* ── Section ── */
+        .section {
+            margin-bottom: 52px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .section-marker {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .beginner .section-header { border-bottom: 2px solid #68d391; }
+        .beginner .section-header h2 { color: #276749; }
+        .beginner .section-marker { background: #68d391; }
+
+        .intermediate .section-header { border-bottom: 2px solid #63b3ed; }
+        .intermediate .section-header h2 { color: #2c5282; }
+        .intermediate .section-marker { background: #63b3ed; }
+
+        .tools .section-header { border-bottom: 2px solid #f6ad55; }
+        .tools .section-header h2 { color: #7b341e; }
+        .tools .section-marker { background: #f6ad55; }
+
+        /* ── Card Grid ── */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            overflow: hidden;
+        }
+
+        .beginner .card  { border-top: 3px solid #68d391; }
+        .intermediate .card { border-top: 3px solid #63b3ed; }
+        .tools .card    { border-top: 3px solid #f6ad55; }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.11), 0 2px 6px rgba(0,0,0,0.07);
+        }
+
+        .card a {
+            display: block;
+            padding: 20px 22px 22px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-title {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin: 0 0 8px;
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: #718096;
+            margin: 0;
+            line-height: 1.55;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            margin-bottom: 10px;
+        }
+
+        .beginner .badge    { background: #c6f6d5; color: #22543d; }
+        .intermediate .badge { background: #bee3f8; color: #2a4365; }
+        .tools .badge       { background: #feebc8; color: #7b341e; }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: #a0aec0;
+            font-size: 0.82rem;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
         }
     </style>
 </head>
 <body>
-    <h1>Lesson Activities</h1>
 
-    <h2>Beginner:</h2>
-    <ul>
-        <li><a href="beginner-greetings-basic.html">Greetings and Basic Sentences - Practice</a></li>
-         <li><a href="articles.html">Articles KFC vocab</a></li>
-    </ul>
+<header class="site-header">
+    <h1>ESL Resources</h1>
+    <p>Interactive activities and practice materials for English learners</p>
+</header>
 
-    <h2>Intermediate:</h2>
-    <ul>
-        <li><a href="present-perfect-vs-simple-past.html">Present Perfect vs Simple Past</li></a>
-    </ul>
+<main>
+
+    <!-- ── Beginner ── -->
+    <section class="section beginner">
+        <div class="section-header">
+            <span class="section-marker"></span>
+            <h2>Beginner</h2>
+        </div>
+        <div class="cards">
+
+            <div class="card">
+                <a href="beginner-greetings-basic.html">
+                    <span class="badge">Beginner</span>
+                    <p class="card-title">Greetings &amp; Basic Sentences</p>
+                    <p class="card-desc">Practice common greetings and forming simple sentences in English.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="nhw-beginner-lesson1-extra-practice.html">
+                    <span class="badge">Beginner</span>
+                    <p class="card-title">Greetings &amp; Introductions – Worksheet</p>
+                    <p class="card-desc">Extra practice worksheet covering greetings and personal introductions.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="amy-roberts.html">
+                    <span class="badge">Beginner</span>
+                    <p class="card-title">Sentence Formation Practice</p>
+                    <p class="card-desc">Build and arrange sentences using natural English word order.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="articles.html">
+                    <span class="badge">Beginner</span>
+                    <p class="card-title">Articles Practice – KFC Story</p>
+                    <p class="card-desc">Practise using <em>a</em>, <em>an</em>, and <em>the</em> through the story of KFC.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="contractions_practice.html">
+                    <span class="badge">Beginner</span>
+                    <p class="card-title">Contractions Practice</p>
+                    <p class="card-desc">Recognise and use the most common English contractions.</p>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── Intermediate ── -->
+    <section class="section intermediate">
+        <div class="section-header">
+            <span class="section-marker"></span>
+            <h2>Intermediate</h2>
+        </div>
+        <div class="cards">
+
+            <div class="card">
+                <a href="present-perfect-vs-simple-past.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Present Perfect vs. Simple Past</p>
+                    <p class="card-desc">Understand when to use each tense with interactive exercises.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="subject-object-pronouns.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Subject &amp; Object Pronouns</p>
+                    <p class="card-desc">Practise choosing the correct pronoun form in context.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="modal-verbs.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Modal Verb Usage Lesson</p>
+                    <p class="card-desc">Learn how to use modal verbs accurately in different situations.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="mind-your-modals.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Mind Your Modals – Quiz</p>
+                    <p class="card-desc">Test your knowledge of modal verbs with an interactive quiz.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="common-esl-mistakes-practice.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Common English Mistakes</p>
+                    <p class="card-desc">Identify and correct the most frequent errors made by English learners.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="flashcard-gapfill-activity.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Conversation Flashcards – Gapfill</p>
+                    <p class="card-desc">Gap-fill activity using real conversational phrases and expressions.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="ai-quiz.html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">AI Technology Quiz</p>
+                    <p class="card-desc">A vocabulary and comprehension quiz on the topic of artificial intelligence.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="revision_unit_interactive (3).html">
+                    <span class="badge">Intermediate</span>
+                    <p class="card-title">Interactive Revision Unit</p>
+                    <p class="card-desc">A mixed-skills revision unit covering key grammar and vocabulary points.</p>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── Tools & Resources ── -->
+    <section class="section tools">
+        <div class="section-header">
+            <span class="section-marker"></span>
+            <h2>Tools &amp; Resources</h2>
+        </div>
+        <div class="cards">
+
+            <div class="card">
+                <a href="esl-question-generator (1).html">
+                    <span class="badge">Tool</span>
+                    <p class="card-title">ESL Conversation Question Generator</p>
+                    <p class="card-desc">Generate discussion questions on any topic for conversation practice.</p>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="organizer.html">
+                    <span class="badge">Tool</span>
+                    <p class="card-title">ESL Lesson Holiday Organizer</p>
+                    <p class="card-desc">Plan and organise ESL lesson materials around holiday themes.</p>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>ESL Resources &mdash; Interactive English Practice Materials</p>
+</footer>
+
 </body>
 </html>
