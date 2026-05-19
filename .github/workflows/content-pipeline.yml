@@ -1,0 +1,68 @@
+name: ESL Content Pipeline
+
+on:
+  schedule:
+    # Runs daily at 09:00 UTC. Adjust to suit your audience's timezone.
+    # Converter: https://crontab.guru/
+    - cron: "0 9 * * *"
+
+  # Also allow one-click manual runs from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  post-carousel:
+    name: Research → Generate → Post
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          # ── Claude / Anthropic ──────────────────────────────────────────
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          # ── Canva Connect API ───────────────────────────────────────────
+          # Personal access token from https://www.canva.com/developers/
+          CANVA_API_TOKEN: ${{ secrets.CANVA_API_TOKEN }}
+          # Template ID from the Canva URL: /design/<TEMPLATE_ID>/edit
+          CANVA_BRAND_TEMPLATE_ID: ${{ secrets.CANVA_BRAND_TEMPLATE_ID }}
+
+          # ── Supabase Storage ────────────────────────────────────────────
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          # Name of the public Storage bucket you created in Supabase
+          SUPABASE_STORAGE_BUCKET: ${{ secrets.SUPABASE_STORAGE_BUCKET }}
+
+          # ── Instagram Graph API ─────────────────────────────────────────
+          # Numeric IG User ID (not the @handle) — find it via Graph API Explorer
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+          # Long-lived User Access Token (~60-day expiry — refresh before it expires)
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+
+          # ── Reddit API (optional — skipped if not set) ──────────────────
+          # Create a free "script" app at https://www.reddit.com/prefs/apps
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+
+        run: python -m pipeline.main
+
+      # Always upload output files so you can inspect what was posted
+      - name: Upload pipeline artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-output-${{ github.run_id }}
+          path: pipeline/output/
+          retention-days: 14

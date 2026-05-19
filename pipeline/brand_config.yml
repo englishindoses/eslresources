@@ -1,0 +1,118 @@
+# ─────────────────────────────────────────────────────────────
+#  ESL Content Pipeline — Brand & Strategy Configuration
+#  Fill in every section before running the pipeline.
+# ─────────────────────────────────────────────────────────────
+
+brand:
+  name: "English in Doses"
+  tagline: "Short, clear English lessons you can fit into your day"
+
+  tone:
+    - warm
+    - encouraging
+    - professional
+    - approachable
+
+  target_audience:
+    description: >
+      Adult learners aged 25–45 who want to improve their English for work
+      or daily life. Many are professionals, immigrants, or people who feel
+      stuck at an intermediate plateau.
+    language_levels:
+      - A2 (Elementary)
+      - B1 (Pre-Intermediate)
+      - B2 (Upper Intermediate)
+    goals:
+      - speak confidently in meetings and with colleagues
+      - reduce grammar mistakes in emails and messages
+      - understand native speakers more easily
+      - build vocabulary for professional contexts
+    pain_points:
+      - embarrassed by errors in front of colleagues or clients
+      - feel stuck at the same level despite years of study
+      - no time for long lessons — need quick, practical tips
+      - worried about forgetting new vocabulary quickly
+
+  content_pillars:
+    - Common grammar mistakes and corrections
+    - Vocabulary for daily and professional life
+    - Business English phrases and expressions
+    - Speaking confidence and fluency tips
+    - Pronunciation and word stress
+    - Tense comparisons (e.g. past simple vs present perfect)
+    - Confusing word pairs (e.g. make vs do, say vs tell)
+
+  avoid:
+    - political or divisive topics
+    - content aimed at children or teenagers
+    - overly academic or linguistic jargon
+    - trending topics unrelated to English learning
+    - content that feels condescending or preachy
+
+# ─────────────────────────────────────────────────────────────
+#  Instagram Settings
+# ─────────────────────────────────────────────────────────────
+
+instagram:
+  # Appended to every AI-generated caption
+  caption_cta: "Save this post and follow @englishindoses for a daily dose of English!"
+
+  hashtag_sets:
+    grammar:
+      - "#ESLgrammar"
+      - "#EnglishGrammar"
+      - "#LearnEnglish"
+      - "#GrammarTips"
+      - "#EnglishTips"
+    vocabulary:
+      - "#EnglishVocabulary"
+      - "#VocabTips"
+      - "#EnglishWords"
+      - "#WordOfTheDay"
+    business:
+      - "#BusinessEnglish"
+      - "#EnglishForWork"
+      - "#ProfessionalEnglish"
+    general:
+      - "#ESL"
+      - "#EnglishLearning"
+      - "#ESLTeacher"
+      - "#LearnEnglishOnline"
+      - "#EnglishForAdults"
+      - "#EnglishTeacher"
+      - "#LanguageLearning"
+
+# ─────────────────────────────────────────────────────────────
+#  Canva Settings
+# ─────────────────────────────────────────────────────────────
+#
+#  SETUP STEPS:
+#  1. Create an Instagram carousel brand template in Canva (6 pages).
+#  2. In each page, add text elements and mark them as "Brand template
+#     fields" using the field names listed below under autofill_fields.
+#     (Template editor → select element → Brand template field → name it)
+#  3. Find your template ID in the Canva URL:
+#     https://www.canva.com/design/YOUR_TEMPLATE_ID/edit
+#  4. Add CANVA_BRAND_TEMPLATE_ID as a GitHub Secret (recommended),
+#     or paste the ID directly below (not recommended for public repos).
+#
+canva:
+  brand_template_id: "YOUR_CANVA_BRAND_TEMPLATE_ID"
+
+  slides_count: 6
+
+  # Map: content key (used in topic_selector output) → Canva field name
+  # If your Canva field names differ, update the values on the right.
+  autofill_fields:
+    hook_title: "hook_title"           # Slide 1 — big hook headline
+    hook_subtitle: "hook_subtitle"     # Slide 1 — swipe-bait subtext
+    tip_1_heading: "tip_1_heading"     # Slide 2
+    tip_1_body: "tip_1_body"
+    tip_2_heading: "tip_2_heading"     # Slide 3
+    tip_2_body: "tip_2_body"
+    tip_3_heading: "tip_3_heading"     # Slide 4
+    tip_3_body: "tip_3_body"
+    tip_4_heading: "tip_4_heading"     # Slide 5
+    tip_4_body: "tip_4_body"
+    cta_heading: "cta_heading"         # Slide 6 — call to action
+    cta_body: "cta_body"

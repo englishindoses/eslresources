@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Pipeline runtime output (uploaded as GH Actions artifacts, not committed)
+pipeline/output/
+
+# macOS
+.DS_Store
